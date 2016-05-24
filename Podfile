@@ -1,8 +1,14 @@
-# Uncomment this line to define a global platform for your project
+source 'https://github.com/CocoaPods/Specs.git' # 官方仓库地址
+source 'https://github.com/tomwey/AWSpecs.git'  # 私有仓库地址
+
 platform :ios, '7.0'
 
 target 'zgnx' do
-pod 'AFNetworking'
-pod 'AWTools'
+pod 'AWMacros'
+pod 'AWGeometry'
+pod 'AWRefresh'
+pod 'AWTableView'
+pod 'AWAPIManager'
+pod 'AWUITools'
 end
 

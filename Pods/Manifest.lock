@@ -1,27 +1,50 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - AWTools (0.1.0)
+  - AWAPIManager (0.1.1):
+    - AFNetworking (~> 2.3)
+  - AWGeometry (0.1.0)
+  - AWMacros (0.1.0)
+  - AWRefresh (0.1.0)
+  - AWTableView (0.1.0)
+  - AWUITools (0.1.1)
 
 DEPENDENCIES:
-  - AFNetworking
-  - AWTools
+  - AWAPIManager
+  - AWGeometry
+  - AWMacros
+  - AWRefresh
+  - AWTableView
+  - AWUITools
 
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  AWTools: 4d2fa95c08f2bebdf0c2213e0bfc84ab773e6f0c
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  AWAPIManager: 6cfc5765a307f99ebef48d6741e4ef10e0974618
+  AWGeometry: 830766b5cec5d72a50cac248c8f1782aa4a51550
+  AWMacros: 563d972ab271292b286e1b438eb26db059524551
+  AWRefresh: 32a2acf61ea1137421a667de237f75369f00e5ac
+  AWTableView: 31b212184c4fc523cf67d20181e9a2dc7d249fb0
+  AWUITools: 68ea4e9c75bfb726c165822f5df2017c61459888
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: ff8ec4dd560d29112bbdd2636e87a71f45859158
+
+COCOAPODS: 1.0.0
