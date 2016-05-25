@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VideoStreamListViewController.h"
 
-@interface VODListViewController : UIViewController
+@interface VODListViewController : VideoStreamListViewController
 
 @end

@@ -23,7 +23,18 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    self.window.rootViewController = [[MediatorController sharedInstance] rootViewController];
+    UINavigationController* nav = [[UINavigationController alloc] init];
+    nav.navigationBarHidden = YES;
+    
+    UITabBarController* tabBarController = [[UITabBarController alloc] init];
+    tabBarController.viewControllers = @[
+                                         [[CTMediator sharedInstance] CTMediator_openVODVC],
+                                         [[CTMediator sharedInstance] CTMediator_openLiveVC],
+                                         [[CTMediator sharedInstance] CTMediator_openUserVCWithAuthToken:nil],
+                                         ];
+    [nav pushViewController:tabBarController animated:NO];
+    
+    self.window.rootViewController = nav;
     
     [self.window makeKeyAndVisible];
     

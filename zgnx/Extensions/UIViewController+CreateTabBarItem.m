@@ -22,7 +22,7 @@
         self.tabBarItem.selectedImage = nil;
         
         CGSize size = [title sizeWithAttributes:attributes];
-        self.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, - ( 49 - size.height ) / 2.0 ); // tabBar高度为49
+        self.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, - ( 49 - size.height ) / 2.0 + 3 ); // tabBar高度为49
         [self.tabBarItem setTitleTextAttributes:attributes forState:UIControlStateNormal];
     }
     

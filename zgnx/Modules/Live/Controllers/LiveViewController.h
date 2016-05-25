@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VideoStreamListViewController.h"
 
-@interface LiveViewController : UIViewController
+@interface LiveViewController : VideoStreamListViewController
 
 @end

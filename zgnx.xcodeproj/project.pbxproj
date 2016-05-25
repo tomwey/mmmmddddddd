@@ -9,16 +9,25 @@
 /* Begin PBXBuildFile section */
 		80849F351D947D8CC868E1E0 /* libPods-zgnx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8371FC10C929C93A2A303E /* libPods-zgnx.a */; };
 		974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE181CF44F81000DE692 /* UIViewController+CreateTabBarItem.m */; };
-		974EBE1C1CF4523F000DE692 /* CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE1B1CF4523F000DE692 /* CustomNavBar.m */; };
+		974EBE1F1CF54B62000DE692 /* VideoStreamListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE1E1CF54B62000DE692 /* VideoStreamListViewController.m */; };
+		974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE261CF55DE6000DE692 /* CTMediator.m */; };
+		974EBE551CF57A4D000DE692 /* UserModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE541CF57A4D000DE692 /* UserModule.m */; };
+		974EBE671CF57BC9000DE692 /* VODModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE661CF57BC9000DE692 /* VODModule.m */; };
+		974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE6C1CF57D9D000DE692 /* VideoStreamModule.m */; };
+		974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE6F1CF57DD3000DE692 /* LiveModule.m */; };
+		974EBE741CF58014000DE692 /* CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE731CF58014000DE692 /* CustomNavBar.m */; };
+		974EBE771CF580F8000DE692 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE761CF580F8000DE692 /* UserViewController.m */; };
+		974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE791CF581DB000DE692 /* LiveViewController.m */; };
+		974EBE7D1CF581FC000DE692 /* VODListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE7C1CF581FC000DE692 /* VODListViewController.m */; };
+		974EBE8F1CF582B2000DE692 /* SearchModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE831CF582B2000DE692 /* SearchModule.m */; };
+		974EBE911CF582B2000DE692 /* ViewHistoryModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE8B1CF582B2000DE692 /* ViewHistoryModule.m */; };
+		974EBE941CF582C6000DE692 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE931CF582C6000DE692 /* SearchViewController.m */; };
+		974EBE971CF582F0000DE692 /* ViewHistoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE961CF582F0000DE692 /* ViewHistoryListViewController.m */; };
 		9756E8441CE01D1E0083B90C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756E8431CE01D1E0083B90C /* main.m */; };
 		9756E8471CE01D1E0083B90C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756E8461CE01D1E0083B90C /* AppDelegate.m */; };
 		9756E8811CE04BFF0083B90C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9756E8801CE04BFF0083B90C /* AssetsLibrary.framework */; };
-		9756ED661CF430A30083B90C /* LiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED651CF430A30083B90C /* LiveViewController.m */; };
-		9756ED691CF430B40083B90C /* VODListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED681CF430B40083B90C /* VODListViewController.m */; };
-		9756ED6C1CF430DD0083B90C /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED6B1CF430DD0083B90C /* UserViewController.m */; };
 		9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED6F1CF431A40083B90C /* UIViewController+AWFactoryMethods.m */; };
 		9756ED721CF433EF0083B90C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9756ED711CF433EF0083B90C /* Default-568h@2x.png */; };
-		9756ED761CF436140083B90C /* MediatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED751CF436140083B90C /* MediatorController.m */; };
 		9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +35,34 @@
 		6F6E035A4D232A6F390C7545 /* Pods-zgnx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.release.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.release.xcconfig"; sourceTree = "<group>"; };
 		974EBE171CF44F81000DE692 /* UIViewController+CreateTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CreateTabBarItem.h"; sourceTree = "<group>"; };
 		974EBE181CF44F81000DE692 /* UIViewController+CreateTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CreateTabBarItem.m"; sourceTree = "<group>"; };
-		974EBE1A1CF4523F000DE692 /* CustomNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavBar.h; sourceTree = "<group>"; };
-		974EBE1B1CF4523F000DE692 /* CustomNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavBar.m; sourceTree = "<group>"; };
+		974EBE1D1CF54B62000DE692 /* VideoStreamListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamListViewController.h; sourceTree = "<group>"; };
+		974EBE1E1CF54B62000DE692 /* VideoStreamListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamListViewController.m; sourceTree = "<group>"; };
+		974EBE251CF55DE6000DE692 /* CTMediator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTMediator.h; sourceTree = "<group>"; };
+		974EBE261CF55DE6000DE692 /* CTMediator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMediator.m; sourceTree = "<group>"; };
+		974EBE531CF57A4D000DE692 /* UserModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModule.h; sourceTree = "<group>"; };
+		974EBE541CF57A4D000DE692 /* UserModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModule.m; sourceTree = "<group>"; };
+		974EBE651CF57BC9000DE692 /* VODModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VODModule.h; sourceTree = "<group>"; };
+		974EBE661CF57BC9000DE692 /* VODModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODModule.m; sourceTree = "<group>"; };
+		974EBE6B1CF57D9D000DE692 /* VideoStreamModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamModule.h; sourceTree = "<group>"; };
+		974EBE6C1CF57D9D000DE692 /* VideoStreamModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamModule.m; sourceTree = "<group>"; };
+		974EBE6E1CF57DD3000DE692 /* LiveModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveModule.h; sourceTree = "<group>"; };
+		974EBE6F1CF57DD3000DE692 /* LiveModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveModule.m; sourceTree = "<group>"; };
+		974EBE721CF58014000DE692 /* CustomNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavBar.h; sourceTree = "<group>"; };
+		974EBE731CF58014000DE692 /* CustomNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavBar.m; sourceTree = "<group>"; };
+		974EBE751CF580F8000DE692 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
+		974EBE761CF580F8000DE692 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		974EBE781CF581DB000DE692 /* LiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewController.h; sourceTree = "<group>"; };
+		974EBE791CF581DB000DE692 /* LiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewController.m; sourceTree = "<group>"; };
+		974EBE7B1CF581FC000DE692 /* VODListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VODListViewController.h; sourceTree = "<group>"; };
+		974EBE7C1CF581FC000DE692 /* VODListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODListViewController.m; sourceTree = "<group>"; };
+		974EBE821CF582B2000DE692 /* SearchModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchModule.h; sourceTree = "<group>"; };
+		974EBE831CF582B2000DE692 /* SearchModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchModule.m; sourceTree = "<group>"; };
+		974EBE8A1CF582B2000DE692 /* ViewHistoryModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewHistoryModule.h; sourceTree = "<group>"; };
+		974EBE8B1CF582B2000DE692 /* ViewHistoryModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistoryModule.m; sourceTree = "<group>"; };
+		974EBE921CF582C6000DE692 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		974EBE931CF582C6000DE692 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		974EBE951CF582F0000DE692 /* ViewHistoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewHistoryListViewController.h; sourceTree = "<group>"; };
+		974EBE961CF582F0000DE692 /* ViewHistoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistoryListViewController.m; sourceTree = "<group>"; };
 		9756E83F1CE01D1E0083B90C /* zgnx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zgnx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9756E8431CE01D1E0083B90C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9756E8451CE01D1E0083B90C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -35,17 +70,9 @@
 		9756E8531CE01D1E0083B90C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9756E8801CE04BFF0083B90C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		9756ED5D1CF42B520083B90C /* Defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
-		9756ED641CF430A30083B90C /* LiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewController.h; sourceTree = "<group>"; };
-		9756ED651CF430A30083B90C /* LiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewController.m; sourceTree = "<group>"; };
-		9756ED671CF430B40083B90C /* VODListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VODListViewController.h; sourceTree = "<group>"; };
-		9756ED681CF430B40083B90C /* VODListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODListViewController.m; sourceTree = "<group>"; };
-		9756ED6A1CF430DD0083B90C /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
-		9756ED6B1CF430DD0083B90C /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		9756ED6E1CF431A40083B90C /* UIViewController+AWFactoryMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AWFactoryMethods.h"; sourceTree = "<group>"; };
 		9756ED6F1CF431A40083B90C /* UIViewController+AWFactoryMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AWFactoryMethods.m"; sourceTree = "<group>"; };
 		9756ED711CF433EF0083B90C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		9756ED741CF436140083B90C /* MediatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediatorController.h; sourceTree = "<group>"; };
-		9756ED751CF436140083B90C /* MediatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediatorController.m; sourceTree = "<group>"; };
 		9756ED771CF43C750083B90C /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		9756ED791CF4473D0083B90C /* VideoStreamDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamDetailViewController.h; sourceTree = "<group>"; };
 		9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamDetailViewController.m; sourceTree = "<group>"; };
@@ -75,6 +102,245 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		974EBE201CF55DE6000DE692 /* CTMediator */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE251CF55DE6000DE692 /* CTMediator.h */,
+				974EBE261CF55DE6000DE692 /* CTMediator.m */,
+			);
+			path = CTMediator;
+			sourceTree = "<group>";
+		};
+		974EBE4E1CF57921000DE692 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE7E1CF582B2000DE692 /* Search */,
+				974EBE861CF582B2000DE692 /* ViewHistory */,
+				974EBE591CF57B54000DE692 /* Live */,
+				974EBE5A1CF57B54000DE692 /* VideoStream */,
+				974EBE5B1CF57B54000DE692 /* VOD */,
+				974EBE521CF57A4D000DE692 /* User */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		974EBE521CF57A4D000DE692 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE571CF57A70000DE692 /* Models */,
+				974EBE581CF57A70000DE692 /* Views */,
+				974EBE561CF57A70000DE692 /* Controllers */,
+				974EBE531CF57A4D000DE692 /* UserModule.h */,
+				974EBE541CF57A4D000DE692 /* UserModule.m */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		974EBE561CF57A70000DE692 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE751CF580F8000DE692 /* UserViewController.h */,
+				974EBE761CF580F8000DE692 /* UserViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		974EBE571CF57A70000DE692 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		974EBE581CF57A70000DE692 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		974EBE591CF57B54000DE692 /* Live */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE6E1CF57DD3000DE692 /* LiveModule.h */,
+				974EBE6F1CF57DD3000DE692 /* LiveModule.m */,
+				974EBE5F1CF57B96000DE692 /* Controllers */,
+				974EBE601CF57B96000DE692 /* Models */,
+				974EBE611CF57B96000DE692 /* Views */,
+			);
+			path = Live;
+			sourceTree = "<group>";
+		};
+		974EBE5A1CF57B54000DE692 /* VideoStream */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE6B1CF57D9D000DE692 /* VideoStreamModule.h */,
+				974EBE6C1CF57D9D000DE692 /* VideoStreamModule.m */,
+				974EBE5C1CF57B6F000DE692 /* Controllers */,
+				974EBE5D1CF57B6F000DE692 /* Models */,
+				974EBE5E1CF57B6F000DE692 /* Views */,
+			);
+			path = VideoStream;
+			sourceTree = "<group>";
+		};
+		974EBE5B1CF57B54000DE692 /* VOD */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE621CF57BA7000DE692 /* Controllers */,
+				974EBE631CF57BA7000DE692 /* Models */,
+				974EBE641CF57BA7000DE692 /* Views */,
+				974EBE651CF57BC9000DE692 /* VODModule.h */,
+				974EBE661CF57BC9000DE692 /* VODModule.m */,
+			);
+			path = VOD;
+			sourceTree = "<group>";
+		};
+		974EBE5C1CF57B6F000DE692 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		974EBE5D1CF57B6F000DE692 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		974EBE5E1CF57B6F000DE692 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		974EBE5F1CF57B96000DE692 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE781CF581DB000DE692 /* LiveViewController.h */,
+				974EBE791CF581DB000DE692 /* LiveViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		974EBE601CF57B96000DE692 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		974EBE611CF57B96000DE692 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		974EBE621CF57BA7000DE692 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE7B1CF581FC000DE692 /* VODListViewController.h */,
+				974EBE7C1CF581FC000DE692 /* VODListViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		974EBE631CF57BA7000DE692 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		974EBE641CF57BA7000DE692 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		974EBE711CF58008000DE692 /* CustomNavBar */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE721CF58014000DE692 /* CustomNavBar.h */,
+				974EBE731CF58014000DE692 /* CustomNavBar.m */,
+			);
+			path = CustomNavBar;
+			sourceTree = "<group>";
+		};
+		974EBE7E1CF582B2000DE692 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE7F1CF582B2000DE692 /* Controllers */,
+				974EBE821CF582B2000DE692 /* SearchModule.h */,
+				974EBE831CF582B2000DE692 /* SearchModule.m */,
+				974EBE841CF582B2000DE692 /* Models */,
+				974EBE851CF582B2000DE692 /* Views */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		974EBE7F1CF582B2000DE692 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE921CF582C6000DE692 /* SearchViewController.h */,
+				974EBE931CF582C6000DE692 /* SearchViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		974EBE841CF582B2000DE692 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		974EBE851CF582B2000DE692 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		974EBE861CF582B2000DE692 /* ViewHistory */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE871CF582B2000DE692 /* Controllers */,
+				974EBE8A1CF582B2000DE692 /* ViewHistoryModule.h */,
+				974EBE8B1CF582B2000DE692 /* ViewHistoryModule.m */,
+				974EBE8C1CF582B2000DE692 /* Models */,
+				974EBE8D1CF582B2000DE692 /* Views */,
+			);
+			path = ViewHistory;
+			sourceTree = "<group>";
+		};
+		974EBE871CF582B2000DE692 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				974EBE951CF582F0000DE692 /* ViewHistoryListViewController.h */,
+				974EBE961CF582F0000DE692 /* ViewHistoryListViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		974EBE8C1CF582B2000DE692 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		974EBE8D1CF582B2000DE692 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		9756E8361CE01D1E0083B90C = {
 			isa = PBXGroup;
 			children = (
@@ -97,10 +363,10 @@
 		9756E8411CE01D1E0083B90C /* zgnx */ = {
 			isa = PBXGroup;
 			children = (
-				9756ED731CF435FF0083B90C /* MediatorController */,
+				974EBE711CF58008000DE692 /* CustomNavBar */,
+				974EBE201CF55DE6000DE692 /* CTMediator */,
+				974EBE4E1CF57921000DE692 /* Modules */,
 				9756ED6D1CF431860083B90C /* Extensions */,
-				9756ED621CF430890083B90C /* Models */,
-				9756ED631CF430890083B90C /* Views */,
 				9756ED611CF430890083B90C /* Controllers */,
 				9756ED5D1CF42B520083B90C /* Defines.h */,
 				9756E8451CE01D1E0083B90C /* AppDelegate.h */,
@@ -122,32 +388,12 @@
 		9756ED611CF430890083B90C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9756ED641CF430A30083B90C /* LiveViewController.h */,
-				9756ED651CF430A30083B90C /* LiveViewController.m */,
-				9756ED671CF430B40083B90C /* VODListViewController.h */,
-				9756ED681CF430B40083B90C /* VODListViewController.m */,
-				9756ED6A1CF430DD0083B90C /* UserViewController.h */,
-				9756ED6B1CF430DD0083B90C /* UserViewController.m */,
+				974EBE1D1CF54B62000DE692 /* VideoStreamListViewController.h */,
+				974EBE1E1CF54B62000DE692 /* VideoStreamListViewController.m */,
 				9756ED791CF4473D0083B90C /* VideoStreamDetailViewController.h */,
 				9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		9756ED621CF430890083B90C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		9756ED631CF430890083B90C /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				974EBE1A1CF4523F000DE692 /* CustomNavBar.h */,
-				974EBE1B1CF4523F000DE692 /* CustomNavBar.m */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		9756ED6D1CF431860083B90C /* Extensions */ = {
@@ -159,15 +405,6 @@
 				974EBE181CF44F81000DE692 /* UIViewController+CreateTabBarItem.m */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		9756ED731CF435FF0083B90C /* MediatorController */ = {
-			isa = PBXGroup;
-			children = (
-				9756ED741CF436140083B90C /* MediatorController.h */,
-				9756ED751CF436140083B90C /* MediatorController.m */,
-			);
-			path = MediatorController;
 			sourceTree = "<group>";
 		};
 		DA9DB71E0B10257512B562DC /* Frameworks */ = {
@@ -299,16 +536,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9756ED661CF430A30083B90C /* LiveViewController.m in Sources */,
-				9756ED6C1CF430DD0083B90C /* UserViewController.m in Sources */,
+				974EBE671CF57BC9000DE692 /* VODModule.m in Sources */,
+				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
+				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,
-				9756ED761CF436140083B90C /* MediatorController.m in Sources */,
-				974EBE1C1CF4523F000DE692 /* CustomNavBar.m in Sources */,
+				974EBE551CF57A4D000DE692 /* UserModule.m in Sources */,
+				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
+				974EBE971CF582F0000DE692 /* ViewHistoryListViewController.m in Sources */,
+				974EBE941CF582C6000DE692 /* SearchViewController.m in Sources */,
+				974EBE8F1CF582B2000DE692 /* SearchModule.m in Sources */,
+				974EBE7D1CF581FC000DE692 /* VODListViewController.m in Sources */,
+				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,
 				9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */,
 				9756E8471CE01D1E0083B90C /* AppDelegate.m in Sources */,
-				9756ED691CF430B40083B90C /* VODListViewController.m in Sources */,
+				974EBE911CF582B2000DE692 /* ViewHistoryModule.m in Sources */,
+				974EBE741CF58014000DE692 /* CustomNavBar.m in Sources */,
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,
 				9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */,
+				974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */,
+				974EBE1F1CF54B62000DE692 /* VideoStreamListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
