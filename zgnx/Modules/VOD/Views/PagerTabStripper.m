@@ -1,245 +1,199 @@
 //
 //  PagerTabStripper.m
-//  BayLe
+//  zgnx
 //
-//  Created by tangwei1 on 15/11/20.
-//  Copyright © 2015年 tangwei1. All rights reserved.
+//  Created by tomwey on 5/25/16.
+//  Copyright © 2016 tangwei1. All rights reserved.
 //
 
 #import "PagerTabStripper.h"
 
+@interface PagerTabStripper ()
+
+@property (nonatomic, strong) UIScrollView* containerView;
+@property (nonatomic, strong) NSMutableArray* stripperArray;
+
+@property (nonatomic, strong) UIView* tabIndicator;
+
+@property (nonatomic, assign) UIView* lastItem;
+
+@end
+
 @implementation PagerTabStripper
+
+static CGFloat const kItemPadding = 6.0;
+static CGFloat const kItemSpacing = 6.0;
+
+- (instancetype)initWithTitles:(NSArray *)titles
 {
-    UIScrollView* _scrollView;
-    UIView*       _indicator;
-    
-    id  _target;
-    SEL _action;
+    return [self initWithFrame:CGRectZero withTitles:titles];
 }
 
-#define kTitleLabelTag 100
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    return [self initWithFrame:frame withTitles:nil];
+}
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithFrame:(CGRect)frame withTitles:(NSArray *)titles
+{
+    if ( self = [super initWithFrame:frame] ) {
+        [self setup];
+        self.titles = titles;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     if ( self = [super initWithCoder:aDecoder] ) {
         [self setup];
     }
-    
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    if ( self = [super initWithFrame:frame] ) {
-        [self setup];
-    }
-    
     return self;
 }
 
 - (void)setup
 {
-    _selectedIndex = 0;
-    _allowShowIndicator = YES;
-    _selectedIndicatorColor = [UIColor blackColor];
-    _selectedIndicatorSize = 2;
+    self.bounds = CGRectMake(0, 0, CGRectGetWidth([[UIScreen mainScreen] bounds]),
+                             40);
     
-    _titleFont = [UIFont systemFontOfSize:15];
-    _titleColor = [UIColor blackColor];
-    _selectedTitleColor = [UIColor redColor];
+    self.containerView = [[UIScrollView alloc] init];
+    [self addSubview:self.containerView];
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self addSubview:_scrollView];
+    self.containerView.frame = self.bounds;
     
-    _scrollView.showsHorizontalScrollIndicator = _scrollView.showsVerticalScrollIndicator = NO;
+    self.containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    self.containerView.showsVerticalScrollIndicator =
+    self.containerView.showsHorizontalScrollIndicator = NO;
+    
+    self.titleAttributes = @{ NSFontAttributeName: [UIFont systemFontOfSize:16],
+                              NSForegroundColorAttributeName : [UIColor blackColor]
+                              };
+    self.selectedColor = [UIColor redColor];
+    
+    self.stripperArray = [NSMutableArray array];
 }
 
 - (void)dealloc
 {
-    _selectedTitleColor = nil;
-    _selectedIndicatorColor = nil;
+    self.containerView = nil;
+    self.stripperArray = nil;
     
-    _titleFont = nil;
-    _titleColor = nil;
+    self.tabIndicator = nil;
+    
+    _titles = nil;
+    
+    self.didSelectBlock = nil;
+    
 }
 
-- (void)layoutSubviews
+- (void)reloadData
 {
-    [super layoutSubviews];
-    
-    _scrollView.frame = self.bounds;
-    
-    CGFloat cellWidth = 0.0;
-    if ( [_titles count] <= 2 ) {
-        cellWidth = CGRectGetWidth(self.bounds) / 2;
-    } else {
-        cellWidth = CGRectGetWidth(self.bounds) * 0.382;
+    for (UIView* item in self.stripperArray) {
+        [item removeFromSuperview];
     }
     
-    // 设置每个tab的frame
-    NSInteger count = [[_scrollView subviews] count];
-    CGFloat originX = 0;
-    for (int i=0; i<count; i++) {
-        UIView* view = [_scrollView viewWithTag:1000 + i];
+    [self.stripperArray removeAllObjects];
+    
+    NSUInteger i = 0;
+    CGSize contentSize = CGSizeMake(0, CGRectGetHeight(self.containerView.frame));
+    for (NSString* title in self.titles) {
         
-        UILabel* titleLabel = (UILabel *)[view viewWithTag:kTitleLabelTag];
-        titleLabel.font = _titleFont;
+        CGSize size = [title sizeWithAttributes:self.titleAttributes];
         
-        CGSize size = [titleLabel.text sizeWithFont:titleLabel.font
-                                  constrainedToSize:CGSizeMake(5000, 1000)];
-        CGFloat width = size.width + 10;
-        view.frame = CGRectMake(originX, 0, width,
-                                CGRectGetHeight(_scrollView.frame));
+        UIView* view = [[UIView alloc] initWithFrame:
+                        CGRectMake(0, 0, size.width + kItemPadding * 2, 40)]; // 内间距是6
+        [self.containerView addSubview:view];
         
-        [[view viewWithTag:kTitleLabelTag] setFrame:view.bounds];
-        originX += width + 8;
+        UILabel* titleLabel = [[UILabel alloc] init];
+        titleLabel.frame = view.bounds;
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        [view addSubview:titleLabel];
+        titleLabel.text = title;
         
-        if ( i == 0 ) {
-            // 默认宽度为容器的宽度，高度为2
-            
-            _indicator.frame = CGRectMake(0,
-                                          CGRectGetHeight(_scrollView.frame) - _selectedIndicatorSize,
-                                          width,_selectedIndicatorSize);
-        }
+        titleLabel.tag = 111;
+        
+        titleLabel.font = self.titleAttributes[NSFontAttributeName];
+        titleLabel.textColor = self.titleAttributes[NSForegroundColorAttributeName];
+        
+        view.center = CGPointMake(kItemSpacing + CGRectGetWidth(view.frame) / 2 +
+                                  (kItemSpacing + CGRectGetWidth(view.frame)) * i,
+                                  CGRectGetHeight(view.frame) / 2);
+        
+        contentSize.width = CGRectGetMaxX(view.frame) + kItemSpacing;
+        
+        [self.stripperArray addObject:view];
+        
+        view.tag = i;
+        
+        [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+        
+        i++;
     }
     
-    _scrollView.contentSize = CGSizeMake(originX - 8, CGRectGetHeight(_scrollView.frame));
-}
-
-- (void)scrollTo:(CGFloat)dt
-{
-//    CGRect frame = _indicator.frame;
-//    frame.origin.x = dt * _scrollView.contentSize.width;
-//    _indicator.frame = frame;
-}
-
-- (void)bindTarget:(id)target forAction:(SEL)action;
-{
-    _target = target;
-    _action = action;
-}
-
-- (void)setTitleFont:(UIFont *)titleFont
-{
-    if ( _titleFont != titleFont ) {
-        _titleFont = titleFont;
-        
-        [self setNeedsLayout];
+    if ( !self.tabIndicator ) {
+        self.tabIndicator = [[UIView alloc] init];
+        [self.containerView addSubview:self.tabIndicator];
     }
+    
+    self.containerView.contentSize = contentSize;
+    
+    self.selectedIndex = 0;
 }
 
 - (void)setTitles:(NSArray *)titles
 {
-    if ( _titles != titles ) {
-        _titles = [titles copy];
-        
-        [self updateContents];
-    }
+    if ( _titles == titles ) return;
+    
+    _titles = [titles copy];
+    
+    [self reloadData];
 }
 
-- (void)setSelectedIndex:(NSInteger)selectedIndex
+- (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
-    if ( _selectedIndex == selectedIndex ) {
-        return;
-    }
-    
-    [self resetCurrentTab];
-    
     _selectedIndex = selectedIndex;
     
-    [self updateCurrentTab];
+    [self setSelectedIndex:selectedIndex animated:NO];
 }
 
-- (void)resetCurrentTab
+- (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
 {
-    UIView* view = [_scrollView viewWithTag:1000 + _selectedIndex];
+    if ( selectedIndex > [self.titles count] ) return;
     
-    UILabel* titleLabel = (UILabel *)[view viewWithTag:kTitleLabelTag];
-    titleLabel.font = _titleFont;
-    titleLabel.textColor = _titleColor;
-}
+    UIView* view = self.stripperArray[selectedIndex];
+    
+    CGRect frame = view.frame;
+    frame.size.height = 2;
+    frame.origin.y = CGRectGetHeight(self.containerView.frame) - frame.size.height;
+    
+    UILabel* label = (UILabel *)[view viewWithTag:111];
+    
+    [UIView beginAnimations:@"scroll.animation" context:NULL];
 
-- (void)updateCurrentTab
-{
-    UIView* view = [_scrollView viewWithTag:1000 + _selectedIndex];
+    self.tabIndicator.frame = frame;
+    self.tabIndicator.backgroundColor = self.selectedColor;
     
-    UILabel* titleLabel = (UILabel *)[view viewWithTag:kTitleLabelTag];
-    titleLabel.font = _titleFont;
-    titleLabel.textColor = _selectedTitleColor;
+    label.textColor = self.selectedColor;
     
-    _indicator.backgroundColor = _selectedIndicatorColor;
+    UILabel* label2 = (UILabel *)[self.lastItem viewWithTag:111];
+    label2.textColor = self.titleAttributes[NSForegroundColorAttributeName];
     
-    CGRect frame = _indicator.frame;
-    frame.origin.x = view.frame.origin.x;
-    frame.size.width = view.frame.size.width;
+    [self.containerView scrollRectToVisible:view.frame animated:NO];
     
-    [UIView animateWithDuration:.3 animations:^{
-        _indicator.frame = frame;
-        [_scrollView scrollRectToVisible:view.frame animated:NO];
-    }];
-}
-
-- (void)updateContents
-{
-    for (UIView* view in [_scrollView subviews]) {
-        [view removeFromSuperview];
+    if ( animated ) {
+        [UIView commitAnimations];
     }
     
-    // 添加数据
-    for (int i=0; i<[_titles count]; i++) {
-        NSString* title = _titles[i];
-        
-        UIView* container = [[UIView alloc] initWithFrame:CGRectZero];
-        [_scrollView addSubview:container];
-        
-        container.tag = 1000 + i;
-        
-        // 添加标题
-        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.font = _titleFont;
-        titleLabel.textColor = _titleColor;
-        [container addSubview:titleLabel];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.adjustsFontSizeToFitWidth = YES;
-        
-        titleLabel.tag = kTitleLabelTag;
-        
-        titleLabel.text = title;
-        
-        // 添加点击按钮
-        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = container.bounds;
-        [container addSubview:btn];
-        
-        btn.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        
-        [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
-        // 默认第一个选中
-        if ( _selectedIndex == 0 && _selectedIndex == i ) {
-            titleLabel.textColor      = _selectedTitleColor;
-        }
-    }
-    
-    _indicator = [[UIView alloc] initWithFrame:CGRectZero];
-    [_scrollView addSubview:_indicator];
-    _indicator = nil;
-    
-    _indicator.backgroundColor = _selectedIndicatorColor;
-    
-    [self setNeedsLayout];
+    self.lastItem = view;
 }
 
-- (void)btnClicked:(UIButton *)sender
+- (void)tap:(UIGestureRecognizer *)gesture
 {
-    int index = sender.superview.tag - 1000;
-    
-    self.selectedIndex = index;
-    
-    if ( [_target respondsToSelector:_action] ) {
-        [_target performSelector:_action withObject:self];
+    [self setSelectedIndex:gesture.view.tag animated:YES];
+    if ( self.didSelectBlock ) {
+        self.didSelectBlock(self, gesture.view.tag);
+        self.didSelectBlock = nil;
     }
 }
 

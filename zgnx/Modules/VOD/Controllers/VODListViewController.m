@@ -33,15 +33,8 @@
     
     PagerTabStripper* stripper = [[PagerTabStripper alloc] init];
     [self.contentView addSubview:stripper];
-    stripper.frame = CGRectMake(0, 0, AWFullScreenWidth(), 44);
-    stripper.backgroundColor = AWColorFromRGB(227, 227, 227);
-    
-    stripper.titleColor = [UIColor blackColor];
-    stripper.titleFont  = AWSystemFontWithSize(15, NO);
-    
-    stripper.selectedIndicatorSize = 1.1;
-    stripper.selectedTitleColor = stripper.selectedIndicatorColor = [UIColor redColor];
-    
+    stripper.center = CGPointMake(CGRectGetWidth(stripper.bounds) / 2,
+                                  CGRectGetHeight(stripper.bounds) / 2);
     
     [[CatalogService sharedInstance] loadCatalogsWithCompletion:^(id results, NSError *error) {
         NSLog(@"%@ -> %@", results, error);

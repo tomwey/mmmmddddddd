@@ -306,13 +306,13 @@ static CGFloat const kContentViewTag  = 1011014;
         // 设置默认属性
         navBar.backgroundColor = [UIColor whiteColor];
         
-        navBar.layer.shadowColor = [[UIColor colorWithRed:51 / 255.0
-                                                    green:51 / 255.0
-                                                     blue:51 / 255.0
-                                                    alpha:1.0] CGColor];
-        navBar.layer.shadowOffset = CGSizeMake(0, 0.5);
-        navBar.layer.shadowOpacity = 0.6;
-        navBar.layer.shadowRadius = 0.5;
+//        navBar.layer.shadowColor = [[UIColor colorWithRed:51 / 255.0
+//                                                    green:51 / 255.0
+//                                                     blue:51 / 255.0
+//                                                    alpha:1.0] CGColor];
+//        navBar.layer.shadowOffset = CGSizeMake(0, 0.5);
+//        navBar.layer.shadowOpacity = 0.6;
+//        navBar.layer.shadowRadius = 0.5;
         
         navBar.tag = kCustomNavBarTag;
         

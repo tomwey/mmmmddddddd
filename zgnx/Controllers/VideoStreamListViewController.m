@@ -15,22 +15,22 @@
 {
     [super viewDidLoad];
     
-//    self.navBar.backgroundColor = AWColorFromRGB(224, 224, 224);
+    self.navBar.backgroundColor = AWColorFromRGB(40, 182, 238);
     self.navBar.leftItem = AWCreateLabel(CGRectMake(0, 0, 100, 37),
                                          @"中国旅游",
                                          NSTextAlignmentLeft,
                                          AWSystemFontWithSize(16, YES),
-                                         [UIColor blackColor]);
+                                         [UIColor whiteColor]);
     
     [self.navBar addFluidBarItem:AWCreateTextButton(CGRectMake(0, 0, 44, 44),
                                                     @"搜索",
-                                                    [UIColor redColor],
+                                                    [UIColor whiteColor],
                                                     self,
                                                     @selector(gotoSearch))
                       atPosition:FluidBarItemPositionTitleRight];
     [self.navBar addFluidBarItem:AWCreateTextButton(CGRectMake(0, 0, 44, 44),
                                                     @"历史",
-                                                    [UIColor redColor],
+                                                    [UIColor whiteColor],
                                                     self,
                                                     @selector(gotoHistory))
                       atPosition:FluidBarItemPositionTitleRight];
