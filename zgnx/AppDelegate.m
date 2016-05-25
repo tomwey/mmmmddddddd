@@ -15,6 +15,11 @@
 
 @implementation AppDelegate
 
++ (void)load
+{
+    [[APIConfig sharedInstance] setProductionServer:API_HOST];
+    [[APIConfig sharedInstance] setDebugMode:NO];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     

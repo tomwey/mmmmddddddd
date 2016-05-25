@@ -310,8 +310,8 @@ static CGFloat const kContentViewTag  = 1011014;
                                                     green:51 / 255.0
                                                      blue:51 / 255.0
                                                     alpha:1.0] CGColor];
-        navBar.layer.shadowOffset = CGSizeMake(0, 0);
-        navBar.layer.shadowOpacity = 1.0;
+        navBar.layer.shadowOffset = CGSizeMake(0, 0.5);
+        navBar.layer.shadowOpacity = 0.6;
         navBar.layer.shadowRadius = 0.5;
         
         navBar.tag = kCustomNavBarTag;

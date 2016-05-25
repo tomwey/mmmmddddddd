@@ -34,12 +34,6 @@
                                                     self,
                                                     @selector(gotoHistory))
                       atPosition:FluidBarItemPositionTitleRight];
-    
-    [self.contentView addSubview:AWCreateLabel(CGRectMake(15, 10, 100, 30),
-                                               @"test",
-                                               0,
-                                               nil,
-                                               nil)];
 }
 
 - (void)gotoSearch

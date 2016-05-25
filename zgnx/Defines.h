@@ -9,11 +9,16 @@
 #ifndef Defines_h
 #define Defines_h
 
+#define API_HOST @"http://123.59.129.197/api/v1/"
+#define API_VOD_TYPES @"/types"
+#define API_VOD_LIST @""
+
 // 外部组件
 #import <AWMacros/AWMacros.h>
 #import <AWUITools/AWUITools.h>
 #import <AWAPIManager/AWAPIManager.h>
 //#import <AWTableView/*.h>
+#import <AWGeometry/UIView+AWGeometry.h>
 
 // 扩展
 #import "UIViewController+AWFactoryMethods.h"
@@ -21,12 +26,6 @@
 #import "CustomNavBar.h"
 
 #import "CTMediator.h"
-
-// 搜索模块
-//#import "SearchModule.h"
-
-// 历史记录模块
-//#import "ViewHistoryModule.h"
 
 // 用户模块
 #import "UserModule.h"
