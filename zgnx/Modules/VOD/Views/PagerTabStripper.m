@@ -97,6 +97,7 @@ static CGFloat const kItemSpacing = 6.0;
     
     NSUInteger i = 0;
     CGSize contentSize = CGSizeMake(0, CGRectGetHeight(self.containerView.frame));
+    CGFloat posX = 0;
     for (NSString* title in self.titles) {
         
         CGSize size = [title sizeWithAttributes:self.titleAttributes];
@@ -116,9 +117,11 @@ static CGFloat const kItemSpacing = 6.0;
         titleLabel.font = self.titleAttributes[NSFontAttributeName];
         titleLabel.textColor = self.titleAttributes[NSForegroundColorAttributeName];
         
-        view.center = CGPointMake(kItemSpacing + CGRectGetWidth(view.frame) / 2 +
-                                  (kItemSpacing + CGRectGetWidth(view.frame)) * i,
-                                  CGRectGetHeight(view.frame) / 2);
+        CGRect frame = view.frame;
+        frame.origin = CGPointMake(kItemSpacing + posX, 0);
+        view.frame = frame;
+        
+        posX = CGRectGetMaxX(view.frame);
         
         contentSize.width = CGRectGetMaxX(view.frame) + kItemSpacing;
         
@@ -171,6 +174,8 @@ static CGFloat const kItemSpacing = 6.0;
     
     [UIView beginAnimations:@"scroll.animation" context:NULL];
 
+    [UIView setAnimationDuration:.35];
+    
     self.tabIndicator.frame = frame;
     self.tabIndicator.backgroundColor = self.selectedColor;
     
@@ -179,7 +184,9 @@ static CGFloat const kItemSpacing = 6.0;
     UILabel* label2 = (UILabel *)[self.lastItem viewWithTag:111];
     label2.textColor = self.titleAttributes[NSForegroundColorAttributeName];
     
-    [self.containerView scrollRectToVisible:view.frame animated:NO];
+    frame = view.frame;
+//    frame.origin.x += kItemSpacing;
+    [self.containerView scrollRectToVisible:frame animated:NO];
     
     if ( animated ) {
         [UIView commitAnimations];
