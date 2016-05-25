@@ -7,7 +7,16 @@
 //
 
 #import "SearchViewController.h"
+#import "Defines.h"
 
 @implementation SearchViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.navBar.title = @"搜索";
+    
+}
 
 @end

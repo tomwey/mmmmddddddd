@@ -6,9 +6,9 @@
 //  Copyright © 2016年 tangwei1. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface ViewHistoryListViewController : UIViewController
+@interface ViewHistoryListViewController : BaseViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken;
 

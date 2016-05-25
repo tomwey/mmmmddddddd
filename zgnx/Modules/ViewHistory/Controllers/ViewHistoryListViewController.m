@@ -7,6 +7,7 @@
 //
 
 #import "ViewHistoryListViewController.h"
+#import "Defines.h"
 
 @implementation ViewHistoryListViewController
 
@@ -16,6 +17,14 @@
         
     }
     return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.navBar.title = @"历史记录";
+    
 }
 
 @end

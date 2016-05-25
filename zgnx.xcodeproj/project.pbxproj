@@ -23,6 +23,7 @@
 		974EBE911CF582B2000DE692 /* ViewHistoryModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE8B1CF582B2000DE692 /* ViewHistoryModule.m */; };
 		974EBE941CF582C6000DE692 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE931CF582C6000DE692 /* SearchViewController.m */; };
 		974EBE971CF582F0000DE692 /* ViewHistoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE961CF582F0000DE692 /* ViewHistoryListViewController.m */; };
+		974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE991CF588C4000DE692 /* BaseViewController.m */; };
 		9756E8441CE01D1E0083B90C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756E8431CE01D1E0083B90C /* main.m */; };
 		9756E8471CE01D1E0083B90C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756E8461CE01D1E0083B90C /* AppDelegate.m */; };
 		9756E8811CE04BFF0083B90C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9756E8801CE04BFF0083B90C /* AssetsLibrary.framework */; };
@@ -63,6 +64,8 @@
 		974EBE931CF582C6000DE692 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		974EBE951CF582F0000DE692 /* ViewHistoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewHistoryListViewController.h; sourceTree = "<group>"; };
 		974EBE961CF582F0000DE692 /* ViewHistoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistoryListViewController.m; sourceTree = "<group>"; };
+		974EBE981CF588C4000DE692 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		974EBE991CF588C4000DE692 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		9756E83F1CE01D1E0083B90C /* zgnx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zgnx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9756E8431CE01D1E0083B90C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9756E8451CE01D1E0083B90C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -388,6 +391,8 @@
 		9756ED611CF430890083B90C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				974EBE981CF588C4000DE692 /* BaseViewController.h */,
+				974EBE991CF588C4000DE692 /* BaseViewController.m */,
 				974EBE1D1CF54B62000DE692 /* VideoStreamListViewController.h */,
 				974EBE1E1CF54B62000DE692 /* VideoStreamListViewController.m */,
 				9756ED791CF4473D0083B90C /* VideoStreamDetailViewController.h */,
@@ -537,6 +542,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				974EBE671CF57BC9000DE692 /* VODModule.m in Sources */,
+				974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */,
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,

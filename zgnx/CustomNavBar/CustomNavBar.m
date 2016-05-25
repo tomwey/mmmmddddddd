@@ -87,7 +87,7 @@ static CGFloat const kFluidItemSpacing     = 10.0;
     }
     
     if ( self.inTitleLabel ) {
-        self.inTitleLabel.frame  = CGRectMake(0, 0, CGRectGetWidth(self.bounds) * 0.618, CGRectGetHeight(self.bounds));
+        self.inTitleLabel.frame  = CGRectMake(0, 0, CGRectGetWidth(self.bounds) * 0.618, 40);
         self.inTitleLabel.center = CGPointMake(CGRectGetWidth(self.bounds) / 2,
                                                CGRectGetHeight(self.bounds) / 2 + [self statusBarHeight]/2);
     }
@@ -203,10 +203,11 @@ static CGFloat const kFluidItemSpacing     = 10.0;
         if ( !self.inTitleLabel ) {
             self.inTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,
                                                                       CGRectGetWidth(self.bounds) * 0.618,
-                                                                      CGRectGetHeight(self.bounds))];
+                                                                      44)];
             
-            self.inTitleLabel.backgroundColor = self.backgroundView.backgroundColor ?: self.backgroundColor;
+            self.inTitleLabel.backgroundColor = [UIColor clearColor];
             self.inTitleLabel.textAlignment = NSTextAlignmentCenter;
+            [self.backgroundView addSubview:self.inTitleLabel];
         }
         self.inTitleLabel.text = title;
     }
