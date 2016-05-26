@@ -13,6 +13,8 @@
 #define API_VOD_TYPES @"/types"
 #define API_VOD_LIST @""
 
+#define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
+
 // 外部组件
 #import <AWMacros/AWMacros.h>
 #import <AWUITools/AWUITools.h>

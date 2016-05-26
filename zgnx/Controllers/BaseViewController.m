@@ -17,6 +17,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+    self.navBar.backgroundColor = NAV_BAR_BG_COLOR;
     self.navBar.leftItem = AWCreateTextButton(CGRectMake(0, 0, 44, 44),
                                               @"返回",
                                               [UIColor redColor],

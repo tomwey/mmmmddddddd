@@ -164,35 +164,36 @@ static CGFloat const kItemSpacing = 6.0;
 {
     if ( selectedIndex > [self.titles count] ) return;
     
-    UIView* view = self.stripperArray[selectedIndex];
+    UIView* currentItem = self.stripperArray[selectedIndex];
     
-    CGRect frame = view.frame;
+    CGRect frame = currentItem.frame;
     frame.size.height = 2;
     frame.origin.y = CGRectGetHeight(self.containerView.frame) - frame.size.height;
     
-    UILabel* label = (UILabel *)[view viewWithTag:111];
+    UILabel* labelFromCurrentItem = (UILabel *)[currentItem viewWithTag:111];
+    UILabel* labelFromLastItem = (UILabel *)[self.lastItem viewWithTag:111];
     
-    [UIView beginAnimations:@"scroll.animation" context:NULL];
-
-    [UIView setAnimationDuration:.35];
-    
-    self.tabIndicator.frame = frame;
-    self.tabIndicator.backgroundColor = self.selectedColor;
-    
-    label.textColor = self.selectedColor;
-    
-    UILabel* label2 = (UILabel *)[self.lastItem viewWithTag:111];
-    label2.textColor = self.titleAttributes[NSForegroundColorAttributeName];
-    
-    frame = view.frame;
-//    frame.origin.x += kItemSpacing;
-    [self.containerView scrollRectToVisible:frame animated:NO];
-    
-    if ( animated ) {
-        [UIView commitAnimations];
+    if ( !animated ) {
+        self.tabIndicator.frame = frame;
+        self.tabIndicator.backgroundColor = self.selectedColor;
+        
+        labelFromCurrentItem.textColor = self.selectedColor;
+        labelFromLastItem.textColor    = self.titleAttributes[NSForegroundColorAttributeName];
+        
+        [self.containerView scrollRectToVisible:currentItem.frame animated:NO];
+    } else {
+        [UIView animateWithDuration:.3 animations:^{
+            self.tabIndicator.frame = frame;
+            self.tabIndicator.backgroundColor = self.selectedColor;
+            
+            labelFromCurrentItem.textColor = self.selectedColor;
+            labelFromLastItem.textColor    = self.titleAttributes[NSForegroundColorAttributeName];
+            
+            [self.containerView scrollRectToVisible:currentItem.frame animated:NO];
+        }];
     }
     
-    self.lastItem = view;
+    self.lastItem = currentItem;
 }
 
 - (void)tap:(UIGestureRecognizer *)gesture
