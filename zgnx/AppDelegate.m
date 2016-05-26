@@ -19,6 +19,11 @@
 {
     [[APIConfig sharedInstance] setProductionServer:API_HOST];
     [[APIConfig sharedInstance] setDebugMode:NO];
+    
+    NSURLCache* urlCache = [[NSURLCache alloc] initWithMemoryCapacity:10 * 1024 * 1024
+                                                         diskCapacity:100 * 1024 * 1024
+                                                             diskPath:@"zgnx-assets"];
+    [NSURLCache setSharedURLCache:urlCache];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

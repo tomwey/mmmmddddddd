@@ -32,6 +32,9 @@
 		9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED6F1CF431A40083B90C /* UIViewController+AWFactoryMethods.m */; };
 		9756ED721CF433EF0083B90C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9756ED711CF433EF0083B90C /* Default-568h@2x.png */; };
 		9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */; };
+		97A4A7D21CF684100045A69B /* VideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A7D11CF684100045A69B /* VideoListViewController.m */; };
+		97A4A8041CF69F080045A69B /* VODService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8031CF69F080045A69B /* VODService.m */; };
+		97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8061CF6A1C80045A69B /* VideoCell.m */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +89,12 @@
 		9756ED771CF43C750083B90C /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		9756ED791CF4473D0083B90C /* VideoStreamDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamDetailViewController.h; sourceTree = "<group>"; };
 		9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamDetailViewController.m; sourceTree = "<group>"; };
+		97A4A7D01CF684100045A69B /* VideoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoListViewController.h; sourceTree = "<group>"; };
+		97A4A7D11CF684100045A69B /* VideoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoListViewController.m; sourceTree = "<group>"; };
+		97A4A8021CF69F080045A69B /* VODService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VODService.h; sourceTree = "<group>"; };
+		97A4A8031CF69F080045A69B /* VODService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODService.m; sourceTree = "<group>"; };
+		97A4A8051CF6A1C80045A69B /* VideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCell.h; sourceTree = "<group>"; };
+		97A4A8061CF6A1C80045A69B /* VideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCell.m; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A6DFD8E4B4253B95566AC7C8 /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
@@ -203,6 +212,8 @@
 				974EBE641CF57BA7000DE692 /* Views */,
 				974EBE651CF57BC9000DE692 /* VODModule.h */,
 				974EBE661CF57BC9000DE692 /* VODModule.m */,
+				97A4A8021CF69F080045A69B /* VODService.h */,
+				97A4A8031CF69F080045A69B /* VODService.m */,
 				974EBEA11CF59F7F000DE692 /* CatalogService.h */,
 				974EBEA21CF59F7F000DE692 /* CatalogService.m */,
 			);
@@ -258,6 +269,8 @@
 			children = (
 				974EBE7B1CF581FC000DE692 /* VODListViewController.h */,
 				974EBE7C1CF581FC000DE692 /* VODListViewController.m */,
+				97A4A7D01CF684100045A69B /* VideoListViewController.h */,
+				97A4A7D11CF684100045A69B /* VideoListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -276,6 +289,8 @@
 			children = (
 				99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */,
 				99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */,
+				97A4A8051CF6A1C80045A69B /* VideoCell.h */,
+				97A4A8061CF6A1C80045A69B /* VideoCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -585,6 +600,7 @@
 				974EBE8F1CF582B2000DE692 /* SearchModule.m in Sources */,
 				974EBE7D1CF581FC000DE692 /* VODListViewController.m in Sources */,
 				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,
+				97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */,
 				9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */,
 				9756E8471CE01D1E0083B90C /* AppDelegate.m in Sources */,
 				974EBE911CF582B2000DE692 /* ViewHistoryModule.m in Sources */,
@@ -593,7 +609,9 @@
 				974EBEA01CF5946E000DE692 /* Catalog.m in Sources */,
 				9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */,
 				974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */,
+				97A4A8041CF69F080045A69B /* VODService.m in Sources */,
 				99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */,
+				97A4A7D21CF684100045A69B /* VideoListViewController.m in Sources */,
 				974EBE1F1CF54B62000DE692 /* VideoStreamListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

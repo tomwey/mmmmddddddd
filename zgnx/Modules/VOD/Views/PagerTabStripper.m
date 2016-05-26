@@ -162,9 +162,14 @@ static CGFloat const kItemSpacing = 6.0;
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
 {
+    
     if ( selectedIndex > [self.titles count] ) return;
     
     UIView* currentItem = self.stripperArray[selectedIndex];
+    
+    if ( self.lastItem == currentItem ) {
+        return;
+    }
     
     CGRect frame = currentItem.frame;
     frame.size.height = 2;
@@ -201,7 +206,6 @@ static CGFloat const kItemSpacing = 6.0;
     [self setSelectedIndex:gesture.view.tag animated:YES];
     if ( self.didSelectBlock ) {
         self.didSelectBlock(self, gesture.view.tag);
-        self.didSelectBlock = nil;
     }
 }
 
