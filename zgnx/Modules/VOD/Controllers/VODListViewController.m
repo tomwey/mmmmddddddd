@@ -10,9 +10,9 @@
 #import "Defines.h"
 #import "CatalogService.h"
 #import "PagerTabStripper.h"
-#import "VideoListViewController.h"
 #import "SwipeView.h"
 #import "VODListView.h"
+#import "VideoCell.h"
 
 @interface VODListViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
@@ -92,6 +92,38 @@
     [self.contentView addSubview:self.spinner];
     
     self.spinner.center = self.swipeView.center;
+    
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(cellDidSelect:)
+                                                 name:kVideoCellDidSelectNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kVideoCellDidSelectNotification
+                                                  object:nil];
+}
+
+- (void)cellDidSelect:(NSNotification *)noti
+{
+    id cellData = [noti.object cellData];
+    
+    UIViewController* vc =
+    [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData];
+//    UINavigationController* nav = (UINavigationController*)[AWAppWindow() rootViewController];
+//    [nav pushViewController:vc animated:YES];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)swipeStartLoad

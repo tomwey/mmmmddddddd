@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <AWTableView/AWTableDataConfig.h>
 
+FOUNDATION_EXTERN NSString * const kVideoCellDidSelectNotification;
+
 @interface VideoCell : UITableViewCell <AWTableDataConfig>
 
-
+@property (nonatomic, strong, readonly) id cellData;
 
 @end

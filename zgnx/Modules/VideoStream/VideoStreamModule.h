@@ -11,6 +11,6 @@
 
 @interface CTMediator (VideoStreamModule)
 
-- (UIViewController *)CTMediator_openVideoStreamVCWithType:(NSInteger)type streamID:(NSString *)streamID;
+- (UIViewController *)CTMediator_openVideoStreamVCWithData:(id)data;
 
 @end

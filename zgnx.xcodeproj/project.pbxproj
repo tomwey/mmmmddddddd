@@ -32,7 +32,6 @@
 		9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED6F1CF431A40083B90C /* UIViewController+AWFactoryMethods.m */; };
 		9756ED721CF433EF0083B90C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9756ED711CF433EF0083B90C /* Default-568h@2x.png */; };
 		9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */; };
-		97A4A7D21CF684100045A69B /* VideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A7D11CF684100045A69B /* VideoListViewController.m */; };
 		97A4A8041CF69F080045A69B /* VODService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8031CF69F080045A69B /* VODService.m */; };
 		97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8061CF6A1C80045A69B /* VideoCell.m */; };
 		97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8091CF6D0E10045A69B /* SwipeView.m */; };
@@ -91,8 +90,6 @@
 		9756ED771CF43C750083B90C /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		9756ED791CF4473D0083B90C /* VideoStreamDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamDetailViewController.h; sourceTree = "<group>"; };
 		9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamDetailViewController.m; sourceTree = "<group>"; };
-		97A4A7D01CF684100045A69B /* VideoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoListViewController.h; sourceTree = "<group>"; };
-		97A4A7D11CF684100045A69B /* VideoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoListViewController.m; sourceTree = "<group>"; };
 		97A4A8021CF69F080045A69B /* VODService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VODService.h; sourceTree = "<group>"; };
 		97A4A8031CF69F080045A69B /* VODService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODService.m; sourceTree = "<group>"; };
 		97A4A8051CF6A1C80045A69B /* VideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCell.h; sourceTree = "<group>"; };
@@ -275,8 +272,6 @@
 			children = (
 				974EBE7B1CF581FC000DE692 /* VODListViewController.h */,
 				974EBE7C1CF581FC000DE692 /* VODListViewController.m */,
-				97A4A7D01CF684100045A69B /* VideoListViewController.h */,
-				97A4A7D11CF684100045A69B /* VideoListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -623,7 +618,6 @@
 				974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */,
 				97A4A8041CF69F080045A69B /* VODService.m in Sources */,
 				99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */,
-				97A4A7D21CF684100045A69B /* VideoListViewController.m in Sources */,
 				974EBE1F1CF54B62000DE692 /* VideoStreamListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,12 +10,16 @@
 #import "Defines.h"
 #import <UIImageView+AFNetworking.h>
 
+NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
+
 @interface VideoCell ()
 
 @property (nonatomic, strong, readonly) UILabel* titleLabel;
 @property (nonatomic, strong, readonly) UILabel* viewCountLabel;
 @property (nonatomic, strong, readonly) UIImageView* coverImageView;
 @property (nonatomic, strong, readonly) UILabel* dateLabel;
+
+@property (nonatomic, strong, readwrite) id cellData;
 
 @end
 
@@ -36,13 +40,26 @@
 
 - (void)configData:(id)data
 {
+    self.cellData = data;
+    
     self.titleLabel.text = data[@"title"];
     self.viewCountLabel.text = [data[@"view_count"] description];
     self.dateLabel.text = data[@"created_on"];
     
     self.coverImageView.image = nil;
+    self.coverImageView.userInteractionEnabled = NO;
     self.coverImageView.backgroundColor = [UIColor lightTextColor];
-    [self.coverImageView setImageWithURL:[NSURL URLWithString:data[@"cover_image"]]];
+//    [self.coverImageView setImageWithURL:[NSURL URLWithString:data[@"cover_image"]]];
+    __weak typeof(self) weakSelf = self;
+    [self.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:
+                                                 [NSURL URLWithString:data[@"cover_image"]]]
+                               placeholderImage:nil
+                                        success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+                                            weakSelf.coverImageView.image = image;
+                                            weakSelf.coverImageView.userInteractionEnabled = YES;
+                                        } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+                                            
+                                        }];
 }
 
 - (void)dealloc
@@ -51,6 +68,8 @@
     _viewCountLabel = nil;
     _coverImageView = nil;
     _dateLabel      = nil;
+    
+    self.cellData   = nil;
 }
 
 - (void)layoutSubviews
@@ -104,9 +123,16 @@
 {
     if ( !_coverImageView ) {
         _coverImageView = AWCreateImageView(nil);
+        _coverImageView.userInteractionEnabled = NO;
+        [_coverImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
         [self.contentView addSubview:_coverImageView];
     }
     return _coverImageView;
+}
+
+- (void)tap
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kVideoCellDidSelectNotification object:self];
 }
 
 @end

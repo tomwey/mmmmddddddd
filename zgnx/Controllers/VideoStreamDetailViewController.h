@@ -10,7 +10,6 @@
 
 @interface VideoStreamDetailViewController : UIViewController
 
-- (instancetype)initWithStreamType:(NSUInteger)streamType
-                          streamID:(NSString *)streamID;
+- (instancetype)initWithStreamData:(id)streamData;
 
 @end
