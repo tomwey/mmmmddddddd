@@ -35,6 +35,8 @@
 		97A4A7D21CF684100045A69B /* VideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A7D11CF684100045A69B /* VideoListViewController.m */; };
 		97A4A8041CF69F080045A69B /* VODService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8031CF69F080045A69B /* VODService.m */; };
 		97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8061CF6A1C80045A69B /* VideoCell.m */; };
+		97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8091CF6D0E10045A69B /* SwipeView.m */; };
+		97A4A80D1CF6DBE70045A69B /* VODListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A80C1CF6DBE70045A69B /* VODListView.m */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +97,10 @@
 		97A4A8031CF69F080045A69B /* VODService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODService.m; sourceTree = "<group>"; };
 		97A4A8051CF6A1C80045A69B /* VideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCell.h; sourceTree = "<group>"; };
 		97A4A8061CF6A1C80045A69B /* VideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCell.m; sourceTree = "<group>"; };
+		97A4A8081CF6D0E10045A69B /* SwipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeView.h; sourceTree = "<group>"; };
+		97A4A8091CF6D0E10045A69B /* SwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeView.m; sourceTree = "<group>"; };
+		97A4A80B1CF6DBE70045A69B /* VODListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VODListView.h; sourceTree = "<group>"; };
+		97A4A80C1CF6DBE70045A69B /* VODListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODListView.m; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A6DFD8E4B4253B95566AC7C8 /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
@@ -287,10 +293,14 @@
 		974EBE641CF57BA7000DE692 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				97A4A8081CF6D0E10045A69B /* SwipeView.h */,
+				97A4A8091CF6D0E10045A69B /* SwipeView.m */,
 				99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */,
 				99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */,
 				97A4A8051CF6A1C80045A69B /* VideoCell.h */,
 				97A4A8061CF6A1C80045A69B /* VideoCell.m */,
+				97A4A80B1CF6DBE70045A69B /* VODListView.h */,
+				97A4A80C1CF6DBE70045A69B /* VODListView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -593,6 +603,7 @@
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,
 				974EBEA31CF59F7F000DE692 /* CatalogService.m in Sources */,
+				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,
 				974EBE551CF57A4D000DE692 /* UserModule.m in Sources */,
 				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
 				974EBE971CF582F0000DE692 /* ViewHistoryListViewController.m in Sources */,
@@ -602,6 +613,7 @@
 				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,
 				97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */,
 				9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */,
+				97A4A80D1CF6DBE70045A69B /* VODListView.m in Sources */,
 				9756E8471CE01D1E0083B90C /* AppDelegate.m in Sources */,
 				974EBE911CF582B2000DE692 /* ViewHistoryModule.m in Sources */,
 				974EBE741CF58014000DE692 /* CustomNavBar.m in Sources */,

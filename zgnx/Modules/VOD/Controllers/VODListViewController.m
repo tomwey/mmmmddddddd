@@ -11,8 +11,10 @@
 #import "CatalogService.h"
 #import "PagerTabStripper.h"
 #import "VideoListViewController.h"
+#import "SwipeView.h"
+#import "VODListView.h"
 
-@interface VODListViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
+@interface VODListViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, SwipeViewDataSource, SwipeViewDelegate>
 
 @property (nonatomic, copy) NSArray* catalogs;
 
@@ -20,6 +22,8 @@
 @property (nonatomic, weak) PagerTabStripper* tabStripper;
 
 @property (nonatomic, assign) NSInteger currentPageIndex;
+
+@property (nonatomic, strong) SwipeView* swipeView;
 
 @end
 @implementation VODListViewController
@@ -48,7 +52,7 @@
     
     __weak typeof(self) weakSelf = self;
     self.tabStripper.didSelectBlock = ^(PagerTabStripper* stripper, NSUInteger index) {
-        [weakSelf setPageIndex:index animated:YES];
+        weakSelf.swipeView.currentPage = index;
     };
     
     [[CatalogService sharedInstance] loadCatalogsWithCompletion:^(id results, NSError *error) {
@@ -61,103 +65,51 @@
         
         self.catalogs = results[@"data"];
         
+//        [self.swipeView]
         [self addVideoListForPages];
     }];
 }
 
 - (void)addVideoListForPages
 {
-    self.pageViewController =
-    [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
-                                    navigationOrientation:0
-                                                  options:nil];
-    [self addChildViewController:self.pageViewController];
-    self.pageViewController.dataSource = self;
-    self.pageViewController.delegate   = self;
     
-    CGRect frame = self.contentView.bounds;
-    frame.origin.y = 40;
-    frame.size.height = self.contentView.height - self.tabStripper.height - 49;
-    self.pageViewController.view.frame = frame;
-    
-    [self.contentView addSubview:self.pageViewController.view];
-    
-    [self setPageIndex:0 animated:NO];
-}
-
-- (void)setPageIndex:(NSUInteger)index animated:(BOOL)animated
-{
-    if ( index >= self.catalogs.count ) {
-        return;
+    if ( !self.swipeView ) {
+        self.swipeView = [[SwipeView alloc] init];
+        [self.contentView addSubview:self.swipeView];
+        self.swipeView.frame = CGRectMake(0, self.tabStripper.bottom,
+                                          self.tabStripper.width,
+                                          self.contentView.height - self.tabStripper.height - 49);
     }
     
-    self.currentPageIndex = index;
+    self.swipeView.dataSource = self;
+    self.swipeView.delegate   = self;
     
-    NSString* catalogID = [[self.catalogs objectAtIndex:index] objectForKey:@"id"];
-    [self.pageViewController setViewControllers:@[[VideoListViewController videoListVCForPageIndex:index forCatalogID:catalogID]]
-                                      direction:UIPageViewControllerNavigationDirectionForward
-                                       animated:animated
-                                     completion:nil];
+//    [self.swipeView reloadData];
 }
 
-- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+- (NSInteger)numberOfItemsInSwipeView:(SwipeView *)swipeView
 {
-  
-    VideoListViewController* vlvc = (VideoListViewController *)viewController;
-//    NSInteger index = vlvc.pageIndex - 1;
-//    if ( index < 0 ) {
-//        return nil;
-//    }
-//    
-//    NSLog(@"before pageIndex: %d", vlvc.pageIndex);
-//    self.currentPageIndex = index;
-//
-    NSInteger index = vlvc.pageIndex - 1;
-    if ( index < 0 ) {
-        return nil;
-    }
-    
-    NSString* catalogID = [[[self.catalogs objectAtIndex:index] objectForKey:@"id"] description];
-//
-//    NSLog(@"catalogID: %@", catalogID);
-    
-    VideoListViewController* newVC = [VideoListViewController videoListVCForPageIndex:index
-                                                                         forCatalogID:catalogID];
-    newVC.view.frame = pageViewController.view.bounds;
-    return newVC;
+    return [self.catalogs count];
 }
 
-- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
+- (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
 {
-    VideoListViewController* vlvc = (VideoListViewController *)viewController;
-    
-    NSInteger index = vlvc.pageIndex + 1;
-    if ( index > self.catalogs.count - 1 ) {
-        return nil;
+    VODListView* listView = nil;
+    if ( view == nil ) {
+        listView = [[VODListView alloc] init];
+        listView.frame = swipeView.bounds;
+    } else {
+        listView = (VODListView *)view;
     }
     
-//
-//    NSLog(@"after pageIndex: %d",index);
-//    
-////    self.currentPageIndex = index;
-//    
-    NSString* catalogID = [[[self.catalogs objectAtIndex:index] objectForKey:@"id"] description];
-////    NSLog(@"%@ -> vlvc.pageIndex: %d", viewController, vlvc.pageIndex);
-//    NSLog(@"catalogID: %@", catalogID);
+    listView.catalogID = [[[self.catalogs objectAtIndex:index] objectForKey:@"id"] description];
     
-    VideoListViewController* newVC = [VideoListViewController videoListVCForPageIndex:vlvc.pageIndex + 1
-                                                                         forCatalogID:catalogID];
-    newVC.view.frame = pageViewController.view.bounds;
-    return newVC;//[VideoListViewController videoListVCForPageIndex:index forCatalogID:catalogID];
+    return listView;
 }
 
-// Sent when a gesture-initiated transition ends. The 'finished' parameter indicates whether the animation finished, while the 'completed' parameter indicates whether the transition completed or bailed out (if the user let go early).
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
+- (void)swipeViewCurrentItemIndexDidChange:(SwipeView *)swipeView
 {
-    if ( completed ) {
-        VideoListViewController* currentVC = (VideoListViewController *)[[pageViewController viewControllers] firstObject];
-        [self.tabStripper setSelectedIndex:currentVC.pageIndex animated:YES];
-    }
+    [self.tabStripper setSelectedIndex:swipeView.currentPage animated:YES];
 }
 
 @end

@@ -65,18 +65,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
     
-//    NSLog(@"pageIndex: %@ -> %d:%@", self, self.pageIndex, self.catalogID);
-//    
-//    UILabel* label = AWCreateLabel(CGRectMake(30, 30, 50, 30),
-//                                   [@(self.pageIndex) description],
-//                                   0,
-//                                   nil,
-//                                   nil);
-//    [self.view addSubview:label];
-    
     [[VODService sharedInstance] loadWithCatalogID:self.catalogID completion:^(id results, NSError *error) {
-//        NSLog(@"%@, %@", results, error);
-//
+
         if ( [results[@"data"] count] > 0 ) {
             self.dataSource = AWTableViewDataSourceCreate(results[@"data"], @"VideoCell", @"video.cell.id");
             

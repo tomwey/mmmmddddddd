@@ -15,6 +15,8 @@
 
 @property (nonatomic, copy) void (^callback)(id result, NSError *error);
 
+@property (nonatomic, assign) BOOL loading;
+
 @end
 
 @implementation VODService
@@ -33,6 +35,12 @@
 
 - (void)loadWithCatalogID:(NSString *)catalogID completion:(void (^)(id results, NSError* error))completion
 {
+    if ( self.loading ) {
+        return;
+    }
+    
+    self.loading = YES;
+    
     if ( !self.apiManager ) {
         self.apiManager = [[APIManager alloc] initWithDelegate:self];
     }
@@ -45,6 +53,7 @@
 
 - (void)apiManagerDidFailure:(APIManager *)manager
 {
+    self.loading = NO;
     if ( manager == self.apiManager ) {
         if ( self.callback ) {
             self.callback(nil, [NSError errorWithDomain:manager.apiError.message
@@ -57,6 +66,8 @@
 
 - (void)apiManagerDidSuccess:(APIManager *)manager
 {
+    self.loading = NO;
+    
     if ( manager == self.apiManager ) {
         if ( self.callback ) {
             self.callback([manager fetchDataWithReformer:nil], nil);
