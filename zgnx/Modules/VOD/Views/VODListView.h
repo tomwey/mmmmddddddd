@@ -12,6 +12,8 @@
 
 @property (nonatomic, copy) NSString* catalogID;
 
-- (void)startLoad;
+@property (nonatomic, copy) void (^reloadBlock)(BOOL succeed);
+
+- (void)startLoad:( void (^)(BOOL succeed) )completion;
 
 @end

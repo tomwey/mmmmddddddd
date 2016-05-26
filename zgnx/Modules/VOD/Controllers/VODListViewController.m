@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) SwipeView* swipeView;
 
+@property (nonatomic, strong) UIActivityIndicatorView* spinner;
+
 @end
 @implementation VODListViewController
 
@@ -55,6 +57,16 @@
         weakSelf.swipeView.currentPage = index;
     };
     
+    if ( !self.swipeView ) {
+        self.swipeView = [[SwipeView alloc] init];
+        [self.contentView addSubview:self.swipeView];
+        self.swipeView.frame = CGRectMake(0, self.tabStripper.bottom,
+                                          self.tabStripper.width,
+                                          self.contentView.height - self.tabStripper.height - 49);
+        
+        self.swipeView.delegate = self;
+    }
+    
     [[CatalogService sharedInstance] loadCatalogsWithCompletion:^(id results, NSError *error) {
 //        NSLog(@"%@ -> %@", results, error);
         NSMutableArray* temp = [NSMutableArray array];
@@ -68,22 +80,35 @@
         [self addVideoListForPages];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            VODListView* listView = (VODListView *)[self.swipeView currentItemView];
-            [listView startLoad];
+            
+            [self swipeStartLoad];
         });
+    }];
+    
+    // 进度
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.spinner.color = NAV_BAR_BG_COLOR;
+    self.spinner.hidesWhenStopped = YES;
+    [self.contentView addSubview:self.spinner];
+    
+    self.spinner.center = self.swipeView.center;
+}
+
+- (void)swipeStartLoad
+{
+    VODListView* listView = (VODListView *)[self.swipeView currentItemView];
+    
+    if ( [self.spinner isAnimating] == NO ) {
+        [self.spinner startAnimating];
+    }
+    
+    [listView startLoad:^(BOOL succeed) {
+        [self.spinner stopAnimating];
     }];
 }
 
 - (void)addVideoListForPages
 {
-    
-    if ( !self.swipeView ) {
-        self.swipeView = [[SwipeView alloc] init];
-        [self.contentView addSubview:self.swipeView];
-        self.swipeView.frame = CGRectMake(0, self.tabStripper.bottom,
-                                          self.tabStripper.width,
-                                          self.contentView.height - self.tabStripper.height - 49);
-    }
     
     self.swipeView.dataSource = self;
     self.swipeView.delegate   = self;
@@ -106,6 +131,16 @@
     
     listView.catalogID = [[[self.catalogs objectAtIndex:index] objectForKey:@"id"] description];
     
+//    __weak typeof(self)weakSelf = self;
+    listView.reloadBlock = ^(BOOL succeed) {
+        if ( succeed ) {
+            [self.spinner stopAnimating];
+        } else {
+            [self.spinner startAnimating];
+        }
+        
+    };
+    
     return listView;
 }
 
@@ -113,9 +148,10 @@
 {
     [self.tabStripper setSelectedIndex:swipeView.currentPage animated:YES];
     
-    VODListView* listView = (VODListView*)[swipeView currentItemView];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [listView startLoad];
+//    VODListView* listView = (VODListView*)[swipeView currentItemView];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [listView startLoad];
+        [self swipeStartLoad];
     });
     
 }

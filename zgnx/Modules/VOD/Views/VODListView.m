@@ -10,9 +10,10 @@
 #import <AWTableView/AWTableViewDataSource.h>
 #import "VODService.h"
 #import <AWTableView/UITableView+RemoveBlankCells.h>
+#import <AWTableView/UITableView+LoadEmptyOrErrorHandle.h>
 #import "Defines.h"
 
-@interface VODListView ()
+@interface VODListView () <ReloadDelegate>
 
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) AWTableViewDataSource* dataSource;
@@ -66,14 +67,39 @@
         [self.refreshControl beginRefreshing];
     }
     
+    [self startLoad:^(BOOL succeed) {
+        [self.refreshControl endRefreshing];
+    }];
+}
+
+- (void)startLoad:(void (^)(BOOL))completion
+{
+    [self.tableView removeErrorOrEmptyTips];
+    
     [[VODService sharedInstance] loadWithCatalogID:_catalogID completion:^(id results, NSError *error) {
         if ( [results[@"data"] count] > 0 ) {
             self.dataSource.dataSource = results[@"data"];
             
             [self.tableView reloadData];
+        } else {
+            [self.tableView showErrorOrEmptyMessage:@"点击重试" reloadDelegate:self];
         }
         
-        [self.refreshControl endRefreshing];
+        if ( completion ) {
+            completion(!error);
+        }
+    }];
+}
+
+- (void)reloadDataForErrorOrEmpty
+{
+    if ( self.reloadBlock ) {
+        self.reloadBlock(NO);
+    }
+    [self startLoad:^(BOOL succeed) {
+        if ( self.reloadBlock ) {
+            self.reloadBlock(succeed);
+        }
     }];
 }
 
