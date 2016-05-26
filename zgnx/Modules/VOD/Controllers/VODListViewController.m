@@ -14,7 +14,7 @@
 #import "SwipeView.h"
 #import "VODListView.h"
 
-@interface VODListViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, SwipeViewDataSource, SwipeViewDelegate>
+@interface VODListViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
 @property (nonatomic, copy) NSArray* catalogs;
 
@@ -64,9 +64,13 @@
         stripper.titles = temp;
         
         self.catalogs = results[@"data"];
-        
-//        [self.swipeView]
+
         [self addVideoListForPages];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            VODListView* listView = (VODListView *)[self.swipeView currentItemView];
+            [listView startLoad];
+        });
     }];
 }
 
@@ -83,8 +87,6 @@
     
     self.swipeView.dataSource = self;
     self.swipeView.delegate   = self;
-    
-//    [self.swipeView reloadData];
 }
 
 - (NSInteger)numberOfItemsInSwipeView:(SwipeView *)swipeView
@@ -95,12 +97,12 @@
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
 {
     VODListView* listView = nil;
-    if ( view == nil ) {
+//    if ( view == nil ) {
         listView = [[VODListView alloc] init];
         listView.frame = swipeView.bounds;
-    } else {
-        listView = (VODListView *)view;
-    }
+//    } else {
+//        listView = (VODListView *)view;
+//    }
     
     listView.catalogID = [[[self.catalogs objectAtIndex:index] objectForKey:@"id"] description];
     
@@ -110,6 +112,12 @@
 - (void)swipeViewCurrentItemIndexDidChange:(SwipeView *)swipeView
 {
     [self.tabStripper setSelectedIndex:swipeView.currentPage animated:YES];
+    
+    VODListView* listView = (VODListView*)[swipeView currentItemView];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [listView startLoad];
+    });
+    
 }
 
 @end
