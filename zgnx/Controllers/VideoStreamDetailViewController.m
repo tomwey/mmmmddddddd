@@ -40,15 +40,13 @@
     [self.view addSubview:self.player.view];
     
     [self.player prepareToPlay];
+    self.player.shouldAutoplay = NO;
     
-//    UIButton* playBtn = AWCreateTextButton(CGRectMake(0, 0, 44, 44),
-//                                           @"Play",
-//                                           [UIColor redColor],
-//                                           self.player,
-//                                           @selector(player)
-//                                           );
-//    [self.view addSubview:playBtn];
-//    playBtn.center = self.player.view.center;
+    self.player.scalingMode = MPMovieScalingModeAspectFit;
+    
+    self.player.fullscreen = NO;
+    
+//    self.player.controlStyle = MPMovieControlStyleFullscreen;
     
     UIButton* backBtn = AWCreateTextButton(CGRectMake(10, 30, 44, 44),
                                            @"返回",
@@ -58,35 +56,76 @@
     [self.view addSubview:backBtn];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(loadStateDidChange:)
-                                                 name:
-     MPMoviePlayerWillEnterFullscreenNotification
+                                             selector:@selector(willEnterFullscreen)
+                                                 name:MPMoviePlayerWillEnterFullscreenNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willExitFullscreen)
+                                                 name:MPMoviePlayerWillExitFullscreenNotification
+                                               object:nil];
+    
 }
+
+- (void)willEnterFullscreen
+{
+    NSLog(@"willEnterFullscreen");
+    self.player.fullscreen = NO;
+    [self back];
+}
+//
+//- (void)willExitFullscreen
+//{
+//    NSLog(@"willExitFullscreen");
+//    [self back];
+//}
 
 - (BOOL)shouldAutorotate
 {
     return YES;
 }
 
-//- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-//{
-//    return UIInterfaceOrientationMaskAllButUpsideDown;
-//}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-//{
-//    return UIInterfaceOrientationPortraitUpsideDown;
-//}
-
-- (void)loadStateDidChange:(NSNotification *)noti
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    NSLog(@"%@", noti.userInfo);
+    return UIInterfaceOrientationPortrait;
+}
+
+// ios7
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    NSLog(@"willRotateToInterfaceOrientation: %d, %f", toInterfaceOrientation, self.view.width);
+    CGRect frame = UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ?
+    CGRectMake(0, 0, self.view.height, self.view.width) :
+    CGRectMake(0, 0, self.view.width, self.view.width * 0.618);
+    
+    [UIView animateWithDuration:duration animations:^{
+        self.player.view.frame = frame;
+    }];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    NSLog(@"didRotateFromInterfaceOrientation: %d", fromInterfaceOrientation);
+}
+
+// ios8以上
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    CGRect frame = size.width > size.height ? CGRectMake(0, 0, size.width, size.height)
+    : CGRectMake(0, 0, size.width, size.width * 0.618);
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        //
+        self.player.view.frame = frame;
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        //
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -103,10 +142,11 @@
 
 - (void)back
 {
-//    [self.navigationController popViewControllerAnimated:YES];
-//    [self.player setFullscreen:YES animated:YES];
-    
-    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
+    if ( UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]) ) {
+        [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
+    } else {
+        [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
+    }
 }
 
 @end

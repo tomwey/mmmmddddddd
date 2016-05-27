@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface UserViewController : UIViewController
+@interface UserViewController : BaseViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken;
 

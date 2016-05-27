@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface VideoStreamListViewController : UIViewController
+@interface VideoStreamListViewController : BaseViewController
 
 @end

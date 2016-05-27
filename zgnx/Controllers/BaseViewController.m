@@ -17,21 +17,16 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navBar.backgroundColor = NAV_BAR_BG_COLOR;
-    self.navBar.leftItem = AWCreateTextButton(CGRectMake(0, 0, 44, 44),
-                                              @"返回",
-                                              [UIColor redColor],
-                                              self,
-                                              @selector(back));
 }
 
-- (void)back
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    if ( self.navigationController ) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 @end

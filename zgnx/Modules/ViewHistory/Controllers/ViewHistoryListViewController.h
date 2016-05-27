@@ -6,9 +6,9 @@
 //  Copyright © 2016年 tangwei1. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "BaseNavBarViewController.h"
 
-@interface ViewHistoryListViewController : BaseViewController
+@interface ViewHistoryListViewController : BaseNavBarViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken;
 

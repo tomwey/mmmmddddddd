@@ -6,8 +6,8 @@
 //  Copyright © 2016年 tangwei1. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "BaseNavBarViewController.h"
 
-@interface SearchViewController : BaseViewController
+@interface SearchViewController : BaseNavBarViewController
 
 @end

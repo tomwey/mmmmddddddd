@@ -36,6 +36,10 @@
 		97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8061CF6A1C80045A69B /* VideoCell.m */; };
 		97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A8091CF6D0E10045A69B /* SwipeView.m */; };
 		97A4A80D1CF6DBE70045A69B /* VODListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A80C1CF6DBE70045A69B /* VODListView.m */; };
+		97A4A9F11CF7D5110045A69B /* BaseNavBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A9F01CF7D5110045A69B /* BaseNavBarViewController.m */; };
+		97A4A9F81CF80F160045A69B /* Default-375w-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A4A9F51CF80F160045A69B /* Default-375w-667h@2x.png */; };
+		97A4A9F91CF80F160045A69B /* Default-414w-736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A4A9F61CF80F160045A69B /* Default-414w-736@3x.png */; };
+		97A4A9FA1CF80F160045A69B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A4A9F71CF80F160045A69B /* Default@2x.png */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +102,11 @@
 		97A4A8091CF6D0E10045A69B /* SwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeView.m; sourceTree = "<group>"; };
 		97A4A80B1CF6DBE70045A69B /* VODListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VODListView.h; sourceTree = "<group>"; };
 		97A4A80C1CF6DBE70045A69B /* VODListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VODListView.m; sourceTree = "<group>"; };
+		97A4A9EF1CF7D5110045A69B /* BaseNavBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavBarViewController.h; sourceTree = "<group>"; };
+		97A4A9F01CF7D5110045A69B /* BaseNavBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavBarViewController.m; sourceTree = "<group>"; };
+		97A4A9F51CF80F160045A69B /* Default-375w-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-375w-667h@2x.png"; sourceTree = "<group>"; };
+		97A4A9F61CF80F160045A69B /* Default-414w-736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-414w-736@3x.png"; sourceTree = "<group>"; };
+		97A4A9F71CF80F160045A69B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A6DFD8E4B4253B95566AC7C8 /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
@@ -383,6 +392,9 @@
 			isa = PBXGroup;
 			children = (
 				9756ED711CF433EF0083B90C /* Default-568h@2x.png */,
+				97A4A9F51CF80F160045A69B /* Default-375w-667h@2x.png */,
+				97A4A9F61CF80F160045A69B /* Default-414w-736@3x.png */,
+				97A4A9F71CF80F160045A69B /* Default@2x.png */,
 				9756E8411CE01D1E0083B90C /* zgnx */,
 				9756E8401CE01D1E0083B90C /* Products */,
 				DA9DB71E0B10257512B562DC /* Frameworks */,
@@ -432,6 +444,8 @@
 				974EBE1E1CF54B62000DE692 /* VideoStreamListViewController.m */,
 				9756ED791CF4473D0083B90C /* VideoStreamDetailViewController.h */,
 				9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */,
+				97A4A9EF1CF7D5110045A69B /* BaseNavBarViewController.h */,
+				97A4A9F01CF7D5110045A69B /* BaseNavBarViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -518,7 +532,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97A4A9FA1CF80F160045A69B /* Default@2x.png in Resources */,
 				9756ED721CF433EF0083B90C /* Default-568h@2x.png in Resources */,
+				97A4A9F91CF80F160045A69B /* Default-414w-736@3x.png in Resources */,
+				97A4A9F81CF80F160045A69B /* Default-375w-667h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +618,7 @@
 				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,
 				974EBE551CF57A4D000DE692 /* UserModule.m in Sources */,
 				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
+				97A4A9F11CF7D5110045A69B /* BaseNavBarViewController.m in Sources */,
 				974EBE971CF582F0000DE692 /* ViewHistoryListViewController.m in Sources */,
 				974EBE941CF582C6000DE692 /* SearchViewController.m in Sources */,
 				974EBE8F1CF582B2000DE692 /* SearchModule.m in Sources */,

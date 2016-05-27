@@ -49,6 +49,7 @@
     [self.contentView addSubview:stripper];
     stripper.center = CGPointMake(CGRectGetWidth(stripper.bounds) / 2,
                                   CGRectGetHeight(stripper.bounds) / 2);
+    stripper.backgroundColor = AWColorFromRGB(251, 251, 251);
 
     self.tabStripper = stripper;
     
