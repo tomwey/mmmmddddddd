@@ -175,6 +175,8 @@
                                 CGRectGetHeight(self.bounds) - dty);
         [self addSubview:view];
         
+        view.backgroundColor = [UIColor whiteColor];
+        
         [self.reusableViews setObject:view forKey:[@(selectedIndex) description]];
     } else {
         [self bringSubviewToFront:view];

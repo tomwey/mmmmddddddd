@@ -170,6 +170,12 @@
     [UIView animateWithDuration:duration animations:^{
         self.player.view.frame = frame;
     }];
+    
+    if ( UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ) {
+        self.tabsControl.hidden = YES;
+    } else {
+        self.tabsControl.hidden = NO;
+    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -184,6 +190,9 @@
     
     CGRect frame = size.width > size.height ? CGRectMake(0, 0, size.width, size.height)
     : CGRectMake(0, 0, size.width, size.width * 0.618);
+    
+    self.tabsControl.hidden = size.width > size.height;
+    
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //
         self.player.view.frame = frame;
