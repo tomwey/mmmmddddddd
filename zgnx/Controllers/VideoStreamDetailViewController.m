@@ -9,11 +9,16 @@
 #import "VideoStreamDetailViewController.h"
 #import "Defines.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "TabsControl.h"
 
-@interface VideoStreamDetailViewController ()
+@interface VideoStreamDetailViewController () <TabsControlDataSource>
 
 @property (nonatomic, strong) MPMoviePlayerController* player;
 @property (nonatomic, strong) id streamData;
+
+@property (nonatomic, strong) TabsControl* tabsControl;
+
+@property (nonatomic, copy) NSArray* tabsDataSource;
 
 @end
 @implementation VideoStreamDetailViewController
@@ -55,15 +60,75 @@
                                            @selector(back));
     [self.view addSubview:backBtn];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(willEnterFullscreen)
-                                                 name:MPMoviePlayerWillEnterFullscreenNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(willExitFullscreen)
-                                                 name:MPMoviePlayerWillExitFullscreenNotification
-                                               object:nil];
     
+    self.tabsDataSource = @[@"弹幕",@"节目介绍",@"回看",@"打赏"];
+    
+    self.tabsControl = [[TabsControl alloc] initWithFrame:CGRectMake(0, self.player.view.bottom,
+                                                                     self.view.width,
+                                                                     self.view.height - self.player.view.bottom)
+                                             tabsPosition:TabsPositionTop];
+    [self.view addSubview:self.tabsControl];
+    
+    self.tabsControl.dataSource = self;
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(willEnterFullscreen)
+//                                                 name:MPMoviePlayerWillEnterFullscreenNotification
+//                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(willExitFullscreen)
+//                                                 name:MPMoviePlayerWillExitFullscreenNotification
+//                                               object:nil];
+    
+}
+
+- (NSUInteger)numberOfTabs:(TabsControl *)tabsControl
+{
+    return [self.tabsDataSource count];
+}
+
+- (NSString *)tabs:(TabsControl *)tabsControl titleForItemAtIndex:(NSInteger)index
+{
+    return self.tabsDataSource[index];
+}
+
+- (UIView *)tabs:(TabsControl *)tabsControl viewForItemAtIndex:(NSInteger)index
+{
+    UIView* view = [tabsControl dequeueReusableViewForIndex:index];
+    if ( !view ) {
+        view = [[UIView alloc] init];
+        
+        switch (index) {
+            case 0:
+            {
+                UITextField* biliTextField = [[UITextField alloc] init];
+                biliTextField.frame = CGRectMake(0, tabsControl.height - 44 - 44, AWFullScreenWidth(), 44);
+                [view addSubview:biliTextField];
+                biliTextField.placeholder = @"输入弹幕";
+            }
+                break;
+            case 1:
+            {
+                
+            }
+                break;
+            case 2:
+            {
+                
+            }
+                break;
+            case 3:
+            {
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    return view;
 }
 
 - (void)willEnterFullscreen

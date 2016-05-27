@@ -124,6 +124,7 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     if ( !_coverImageView ) {
         _coverImageView = AWCreateImageView(nil);
         _coverImageView.userInteractionEnabled = NO;
+        _coverImageView.backgroundColor = AWColorFromRGB(201, 201, 201);
         [_coverImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
         [self.contentView addSubview:_coverImageView];
     }

@@ -40,6 +40,7 @@
 		97A4A9F81CF80F160045A69B /* Default-375w-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A4A9F51CF80F160045A69B /* Default-375w-667h@2x.png */; };
 		97A4A9F91CF80F160045A69B /* Default-414w-736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A4A9F61CF80F160045A69B /* Default-414w-736@3x.png */; };
 		97A4A9FA1CF80F160045A69B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97A4A9F71CF80F160045A69B /* Default@2x.png */; };
+		97A4A9FF1CF824BC0045A69B /* TabsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4A9FE1CF824BC0045A69B /* TabsControl.m */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +108,8 @@
 		97A4A9F51CF80F160045A69B /* Default-375w-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-375w-667h@2x.png"; sourceTree = "<group>"; };
 		97A4A9F61CF80F160045A69B /* Default-414w-736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-414w-736@3x.png"; sourceTree = "<group>"; };
 		97A4A9F71CF80F160045A69B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		97A4A9FD1CF824BC0045A69B /* TabsControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabsControl.h; sourceTree = "<group>"; };
+		97A4A9FE1CF824BC0045A69B /* TabsControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabsControl.m; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A6DFD8E4B4253B95566AC7C8 /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 				974EBE5A1CF57B54000DE692 /* VideoStream */,
 				974EBE5B1CF57B54000DE692 /* VOD */,
 				974EBE521CF57A4D000DE692 /* User */,
+				97A4A9FD1CF824BC0045A69B /* TabsControl.h */,
+				97A4A9FE1CF824BC0045A69B /* TabsControl.m */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -613,6 +618,7 @@
 				974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */,
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
+				97A4A9FF1CF824BC0045A69B /* TabsControl.m in Sources */,
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,
 				974EBEA31CF59F7F000DE692 /* CatalogService.m in Sources */,
 				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,

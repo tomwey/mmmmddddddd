@@ -49,7 +49,7 @@
     [self.tableView removeBlankCells];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.rowHeight = 260;
+    self.tableView.rowHeight = 30 * 2 + 20 + ( AWFullScreenWidth() - 20 ) * 0.618;
     self.tableView.showsVerticalScrollIndicator = NO;
     
     UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
