@@ -22,7 +22,8 @@
 
 - (void)signupWithMobile:(NSString *)mobile
                 password:(NSString *)password
-                    code:(NSString *)code;
+                    code:(NSString *)code
+              completion:(void (^)(User* aUser, NSError* error))completion;
 
 - (void)loadUserProfileForAuthToken:(NSString *)authToken
                          completion:(void (^)(User* aUser, NSError* error))completion;

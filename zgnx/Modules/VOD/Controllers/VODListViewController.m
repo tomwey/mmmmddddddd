@@ -33,10 +33,12 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if ( self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil] ) {
+        
         [self createTabBarItemWithTitle:@"推荐"
-                                  image:nil
-                          selectedImage:nil
-                    titleTextAttributes:@{ NSFontAttributeName : AWSystemFontWithSize(16, NO) }];
+                                  image:[UIImage imageNamed:@"tab_ranked_n.png"]
+                          selectedImage:[UIImage imageNamed:@"tab_ranked_s.png"]
+           titleTextAttributesForNormal:nil
+         titleTextAttributesForSelected:@{ NSForegroundColorAttributeName: NAV_BAR_BG_COLOR }];
     }
     return self;
 }
@@ -49,9 +51,18 @@
     [self.contentView addSubview:stripper];
     stripper.center = CGPointMake(CGRectGetWidth(stripper.bounds) / 2,
                                   CGRectGetHeight(stripper.bounds) / 2);
-    stripper.backgroundColor = AWColorFromRGB(251, 251, 251);
+    stripper.backgroundColor = [UIColor whiteColor];///AWColorFromRGB(251, 251, 251);
 
     self.tabStripper = stripper;
+    
+    stripper.selectedColor = NAV_BAR_BG_COLOR;
+    stripper.titleAttributes = @{ NSForegroundColorAttributeName: AWColorFromRGB(186, 186, 186),
+                                  NSFontAttributeName: AWSystemFontWithSize(16, NO) };
+    
+//    stripper.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
+//    stripper.layer.shadowOpacity = 1.0;
+//    stripper.layer.shadowRadius = 1.0;
+//    stripper.layer.shadowOffset = CGSizeMake(0, 1);
     
     __weak typeof(self) weakSelf = self;
     self.tabStripper.didSelectBlock = ^(PagerTabStripper* stripper, NSUInteger index) {
@@ -66,6 +77,8 @@
                                           self.contentView.height - self.tabStripper.height - 49);
         
         self.swipeView.delegate = self;
+        
+        self.swipeView.backgroundColor = BG_COLOR_GRAY;
     }
     
     [[CatalogService sharedInstance] loadCatalogsWithCompletion:^(id results, NSError *error) {
@@ -156,7 +169,8 @@
 {
     VODListView* listView = nil;
 //    if ( view == nil ) {
-        listView = [[VODListView alloc] init];
+    listView = [[VODListView alloc] init];
+    listView.backgroundColor = BG_COLOR_GRAY;
         listView.frame = swipeView.bounds;
 //    } else {
 //        listView = (VODListView *)view;

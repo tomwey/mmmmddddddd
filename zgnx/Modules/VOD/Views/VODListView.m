@@ -48,6 +48,8 @@
     
     [self.tableView removeBlankCells];
     
+    self.tableView.backgroundColor = [UIColor clearColor];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.rowHeight = 30 * 2 + 20 + ( AWFullScreenWidth() - 20 ) * 0.618;
     self.tableView.showsVerticalScrollIndicator = NO;

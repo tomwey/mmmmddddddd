@@ -13,6 +13,7 @@
 - (UITabBarItem *)createTabBarItemWithTitle:(NSString *)title
                                       image:(UIImage *)image
                               selectedImage:(UIImage *)selectedImage
-                        titleTextAttributes:(NSDictionary *)attributes;
+               titleTextAttributesForNormal:(NSDictionary *)attributes
+             titleTextAttributesForSelected:(NSDictionary *)attributes;
 
 @end

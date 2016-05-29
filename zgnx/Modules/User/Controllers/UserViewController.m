@@ -30,9 +30,10 @@
         self.authToken = authToken;
         
         [self createTabBarItemWithTitle:@"我的"
-                                  image:nil
-                          selectedImage:nil
-                    titleTextAttributes:@{ NSFontAttributeName : AWSystemFontWithSize(16, NO) }];
+                                  image:[UIImage imageNamed:@"tab_me_n.png"]
+                          selectedImage:[UIImage imageNamed:@"tab_me_s.png"]
+           titleTextAttributesForNormal:nil
+         titleTextAttributesForSelected:@{ NSForegroundColorAttributeName : NAV_BAR_BG_COLOR }];
     }
     return self;
 }
@@ -41,7 +42,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = AWColorFromRGB(224, 224, 224);
+//    self.view.backgroundColor = AWColorFromRGB(224, 224, 224);
     
     self.tableView = [[UITableView alloc] initWithFrame:AWFullScreenBounds()
                                                   style:UITableViewStylePlain];

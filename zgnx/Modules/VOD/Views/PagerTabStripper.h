@@ -19,7 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor*  selectedColor;
 @property (nonatomic, assign) NSUInteger selectedIndex;
 
-@property (nullable, copy) void (^didSelectBlock)(PagerTabStripper*, NSUInteger);
+@property (nonatomic, assign) BOOL allowShowingIndicator;
+
+@property (nullable, nonatomic, copy) void (^didSelectBlock)(PagerTabStripper*, NSUInteger);
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated;
 

@@ -38,6 +38,7 @@
     nav.navigationBarHidden = YES;
     
     UITabBarController* tabBarController = [[UITabBarController alloc] init];
+    tabBarController.tabBar.barTintColor = [UIColor whiteColor];
     tabBarController.viewControllers = @[
                                          [[CTMediator sharedInstance] CTMediator_openVODVC],
                                          [[CTMediator sharedInstance] CTMediator_openLiveVC],

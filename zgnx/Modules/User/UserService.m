@@ -9,6 +9,7 @@
 #import "UserService.h"
 #import <AWAPIManager/AWAPIManager.h>
 #import "User.h"
+#import "Defines.h"
 
 @interface UserService () <APIManagerDelegate>
 
@@ -67,19 +68,37 @@
 - (void)signupWithMobile:(NSString *)mobile
                 password:(NSString *)password
                     code:(NSString *)code
+              completion:(void (^)(User* aUser, NSError* error))completion
 {
+    self.responseCallback = completion;
+    
     if ( !self.apiManager ) {
         self.apiManager = [[APIManager alloc] initWithDelegate:self];
     }
     
-    [self.apiManager sendRequest:APIRequestCreate(api_user_, @{}];
+    [self.apiManager sendRequest:
+     APIRequestCreate(API_USER_SIGNUP,
+                      RequestMethodPost,
+                      @{@"mobile" : mobile,
+                        @"password" : password,
+                        @"code" : code})];
 }
 
 - (void)loginWithMobile:(NSString *)mobile
                password:(NSString *)password
              completion:(void (^)(User* aUser, NSError* error))completion
 {
+    self.responseCallback = completion;
     
+    if ( !self.apiManager ) {
+        self.apiManager = [[APIManager alloc] initWithDelegate:self];
+    }
+    
+    [self.apiManager sendRequest:
+     APIRequestCreate(API_USER_LOGIN,
+                      RequestMethodPost,
+                      @{@"mobile" : mobile,
+                        @"password" : password})];
 }
 
 - (void)logoutWithAuthToken:(NSString *)authToken
@@ -95,21 +114,31 @@
 - (void)loadUserProfileForAuthToken:(NSString *)authToken
                          completion:(void (^)(User* aUser, NSError* error))completion
 {
+    if ( !authToken ) {
+        if ( completion ) {
+            completion(nil, nil);
+        }
+        return;
+    }
+    
     self.responseCallback = completion;
     if ( !self.apiManager ) {
         self.apiManager = [[APIManager alloc] initWithDelegate:self];
     }
     
-    if ( completion ) {
-        completion(nil, nil);
-    }
+    [self.apiManager sendRequest:APIRequestCreate(API_USER_LOAD_PROFILE, RequestMethodGet, @{ @"token" : authToken } )];
 }
 
 - (void)updateUserProfile:(User *)aUser
             withAuthToken:(NSString *)authToken
                completion:(void (^)(User* aUser, NSError* error))completion
 {
+    self.responseCallback = completion;
+    if ( !self.apiManager ) {
+        self.apiManager = [[APIManager alloc] initWithDelegate:self];
+    }
     
+    [self.apiManager sendRequest:APIRequestCreate(API_USER_UPDATE_PROFILE, RequestMethodGet, @{ @"token" : authToken } )];
 }
 
 /** 网络请求成功回调 */
@@ -118,8 +147,8 @@
     if ( self.apiManager == manager ) {
         if ( self.responseCallback ) {
             id result = [manager fetchDataWithReformer:nil];
-            User* user = [[User alloc] initWithDictionary:];
-            self.responseCallback(result, nil);
+            User* user = [[User alloc] initWithDictionary:result[@"data"]];
+            self.responseCallback(user, nil);
             self.responseCallback = nil;
         }
     }

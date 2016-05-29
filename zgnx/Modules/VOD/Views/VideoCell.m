@@ -34,6 +34,8 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 {
     if ( self = [super initWithStyle:style reuseIdentifier:reuseIdentifier] ) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }

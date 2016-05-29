@@ -13,7 +13,8 @@
 - (UITabBarItem *)createTabBarItemWithTitle:(NSString *)title
                                       image:(UIImage *)image
                               selectedImage:(UIImage *)selectedImage
-                        titleTextAttributes:(NSDictionary *)attributes
+               titleTextAttributesForNormal:(NSDictionary *)attributes
+             titleTextAttributesForSelected:(NSDictionary *)selectedAttributes
 {
     UITabBarItem* item = [[UITabBarItem alloc] initWithTitle:title image:image selectedImage:selectedImage];
     self.tabBarItem = item;
@@ -25,6 +26,9 @@
         self.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, - ( 49 - size.height ) / 2.0 + 3 ); // tabBar高度为49
         [self.tabBarItem setTitleTextAttributes:attributes forState:UIControlStateNormal];
     }
+    
+    [self.tabBarItem setTitleTextAttributes:selectedAttributes
+                                   forState:UIControlStateSelected];
     
     return item;
 }

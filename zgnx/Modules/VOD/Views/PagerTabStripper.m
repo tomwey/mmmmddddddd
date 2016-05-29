@@ -134,10 +134,13 @@ static CGFloat const kItemSpacing = 6.0;
         i++;
     }
     
-    if ( !self.tabIndicator ) {
+    if (!self.tabIndicator ) {
         self.tabIndicator = [[UIView alloc] init];
         [self.containerView addSubview:self.tabIndicator];
     }
+    
+    
+    self.tabIndicator.hidden = !self.allowShowingIndicator;
     
     self.containerView.contentSize = contentSize;
     
@@ -160,6 +163,13 @@ static CGFloat const kItemSpacing = 6.0;
     [self setSelectedIndex:selectedIndex animated:NO];
 }
 
+- (void)setAllowShowingIndicator:(BOOL)allowShowingIndicator
+{
+    _allowShowingIndicator = allowShowingIndicator;
+    
+    self.tabIndicator.hidden = !allowShowingIndicator;
+}
+
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
 {
     
@@ -179,6 +189,11 @@ static CGFloat const kItemSpacing = 6.0;
     UILabel* labelFromLastItem = (UILabel *)[self.lastItem viewWithTag:111];
     
     if ( !animated ) {
+        if ( self.allowShowingIndicator ) {
+            self.tabIndicator.frame = frame;
+            self.tabIndicator.backgroundColor = self.selectedColor;
+        }
+        
         self.tabIndicator.frame = frame;
         self.tabIndicator.backgroundColor = self.selectedColor;
         
@@ -188,8 +203,11 @@ static CGFloat const kItemSpacing = 6.0;
         [self.containerView scrollRectToVisible:currentItem.frame animated:NO];
     } else {
         [UIView animateWithDuration:.3 animations:^{
-            self.tabIndicator.frame = frame;
-            self.tabIndicator.backgroundColor = self.selectedColor;
+            
+            if (self.allowShowingIndicator) {
+                self.tabIndicator.frame = frame;
+                self.tabIndicator.backgroundColor = self.selectedColor;
+            }
             
             labelFromCurrentItem.textColor = self.selectedColor;
             labelFromLastItem.textColor    = self.titleAttributes[NSForegroundColorAttributeName];

@@ -13,8 +13,13 @@
 #define API_VOD_TYPES @"/types"
 #define API_VOD_LIST @"/videos"
 #define API_USER_SIGNUP @"/account/signup"
+#define API_USER_LOGIN @"/account/signin"
+#define API_USER_LOAD_PROFILE @"/user/me"
+#define API_USER_UPDATE_PROFILE @"/user/update_avatar"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
+#define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
+#define BG_COLOR_GRAY    AWColorFromRGB(240, 240, 240)
 
 // 外部组件
 #import <AWMacros/AWMacros.h>

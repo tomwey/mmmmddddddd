@@ -16,9 +16,10 @@
     if ( self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil] ) {
         
         [self createTabBarItemWithTitle:@"直播"
-                                  image:nil
-                          selectedImage:nil
-                    titleTextAttributes:@{ NSFontAttributeName : AWSystemFontWithSize(16, NO) }];
+                                  image:[UIImage imageNamed:@"tab_live_n.png"]
+                          selectedImage:[UIImage imageNamed:@"tab_live_s.png"]
+           titleTextAttributesForNormal:nil
+         titleTextAttributesForSelected:@{ NSForegroundColorAttributeName: NAV_BAR_BG_COLOR }];
         
     }
     return self;
