@@ -33,7 +33,7 @@
                                   image:[UIImage imageNamed:@"tab_me_n.png"]
                           selectedImage:[UIImage imageNamed:@"tab_me_s.png"]
            titleTextAttributesForNormal:nil
-         titleTextAttributesForSelected:@{ NSForegroundColorAttributeName : NAV_BAR_BG_COLOR }];
+         titleTextAttributesForSelected:@{ NSForegroundColorAttributeName : AWColorFromRGB(20, 118, 255) }];
     }
     return self;
 }

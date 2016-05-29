@@ -65,16 +65,22 @@ static CGFloat const kBlackToolbarAlpha = 0.8;
     self.coverImageView.userInteractionEnabled = NO;
     self.coverImageView.backgroundColor = [UIColor lightTextColor];
     
+    [self.coverImageView viewWithTag:100101].hidden = YES;
+    
     __weak typeof(self) weakSelf = self;
     [self.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:
                                                  [NSURL URLWithString:data[@"cover_image"]]]
                                placeholderImage:nil
-                                        success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
-                                            weakSelf.coverImageView.image = image;
-                                            weakSelf.coverImageView.userInteractionEnabled = YES;
-                                        } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+                                        success:
+     ^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+        weakSelf.coverImageView.image = image;
+        weakSelf.coverImageView.userInteractionEnabled = YES;
+        
+        [weakSelf.coverImageView viewWithTag:100101].hidden = NO;
+    } failure:
+     ^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
                                             
-                                        }];
+    }];
 }
 
 - (void)dealloc
@@ -102,6 +108,9 @@ static CGFloat const kBlackToolbarAlpha = 0.8;
     self.digitToolbar.frame = self.staticToolbar.frame =
     CGRectMake(0, self.coverImageView.height - 30,
                self.coverImageView.width, 30);
+    
+    [[self.coverImageView viewWithTag:100101] setCenter:CGPointMake(self.width/2,
+                                                                    self.height/2)];
 }
 
 - (UILabel *)titleLabel
@@ -147,6 +156,11 @@ static CGFloat const kBlackToolbarAlpha = 0.8;
         self.digitToolbar.backgroundColor = AWColorFromRGBA(0, 0, 0, kBlackToolbarAlpha);
         
         [_coverImageView addSubview:self.staticToolbar];
+        
+        UIImageView* playView = AWCreateImageView(@"btn_play.png");
+        [_coverImageView addSubview:playView];
+        playView.tag = 100101;
+//        playView.hidden = YES;
     }
     return _coverImageView;
 }
