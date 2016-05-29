@@ -33,7 +33,7 @@
                                   image:[UIImage imageNamed:@"tab_me_n.png"]
                           selectedImage:[UIImage imageNamed:@"tab_me_s.png"]
            titleTextAttributesForNormal:nil
-         titleTextAttributesForSelected:@{ NSForegroundColorAttributeName : AWColorFromRGB(20, 118, 255) }];
+         titleTextAttributesForSelected:@{ NSForegroundColorAttributeName : TABBAR_TITLE_SELECTED_COLOR }];
     }
     return self;
 }

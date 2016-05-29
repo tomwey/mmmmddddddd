@@ -36,9 +36,9 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 @synthesize dateLabel       = _dateLabel;
 @synthesize likesCountLabel = _likesCountLabel;
 
-static CGFloat const kThumbLeft = 10;
-static CGFloat const kThumbTop  = kThumbLeft;
-static CGFloat const kBlackToolbarAlpha = 0.8;
+//static CGFloat const kThumbLeft = 10;
+//static CGFloat const kThumbTop  = kThumbLeft;
+//static CGFloat const kBlackToolbarAlpha = 0.8;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

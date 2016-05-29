@@ -85,6 +85,9 @@
 		99754EC81CFAF474007FA577 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754EC41CFAF474007FA577 /* Default-568h@2x.png */; };
 		99754EC91CFAF474007FA577 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754EC51CFAF474007FA577 /* Default@2x.png */; };
 		99754ECB1CFAF499007FA577 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754ECA1CFAF499007FA577 /* Default.png */; };
+		99754ECE1CFAFC83007FA577 /* LiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754ECD1CFAFC83007FA577 /* LiveService.m */; };
+		99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754ED01CFB0350007FA577 /* LiveThumbView.m */; };
+		99754ED41CFB05E2007FA577 /* UITableView+RefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754ED31CFB05E2007FA577 /* UITableView+RefreshControl.m */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -202,6 +205,12 @@
 		99754EC41CFAF474007FA577 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		99754EC51CFAF474007FA577 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		99754ECA1CFAF499007FA577 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		99754ECC1CFAFC83007FA577 /* LiveService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveService.h; sourceTree = "<group>"; };
+		99754ECD1CFAFC83007FA577 /* LiveService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveService.m; sourceTree = "<group>"; };
+		99754ECF1CFB0350007FA577 /* LiveThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiveThumbView.h; path = zgnx/Modules/Live/LiveThumbView.h; sourceTree = SOURCE_ROOT; };
+		99754ED01CFB0350007FA577 /* LiveThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiveThumbView.m; path = zgnx/Modules/Live/LiveThumbView.m; sourceTree = SOURCE_ROOT; };
+		99754ED21CFB05E2007FA577 /* UITableView+RefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+RefreshControl.h"; sourceTree = "<group>"; };
+		99754ED31CFB05E2007FA577 /* UITableView+RefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RefreshControl.m"; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A6DFD8E4B4253B95566AC7C8 /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
@@ -303,6 +312,8 @@
 				974EBE5F1CF57B96000DE692 /* Controllers */,
 				974EBE601CF57B96000DE692 /* Models */,
 				974EBE611CF57B96000DE692 /* Views */,
+				99754ECC1CFAFC83007FA577 /* LiveService.h */,
+				99754ECD1CFAFC83007FA577 /* LiveService.m */,
 			);
 			path = Live;
 			sourceTree = "<group>";
@@ -375,6 +386,8 @@
 		974EBE611CF57B96000DE692 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				99754ECF1CFB0350007FA577 /* LiveThumbView.h */,
+				99754ED01CFB0350007FA577 /* LiveThumbView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -519,6 +532,7 @@
 				974EBE4E1CF57921000DE692 /* Modules */,
 				9756ED6D1CF431860083B90C /* Extensions */,
 				9756ED611CF430890083B90C /* Controllers */,
+				99754ED51CFB15F2007FA577 /* Views */,
 				9756ED5D1CF42B520083B90C /* Defines.h */,
 				9756E8451CE01D1E0083B90C /* AppDelegate.h */,
 				9756E8461CE01D1E0083B90C /* AppDelegate.m */,
@@ -559,6 +573,8 @@
 				9756ED6F1CF431A40083B90C /* UIViewController+AWFactoryMethods.m */,
 				974EBE171CF44F81000DE692 /* UIViewController+CreateTabBarItem.h */,
 				974EBE181CF44F81000DE692 /* UIViewController+CreateTabBarItem.m */,
+				99754ED21CFB05E2007FA577 /* UITableView+RefreshControl.h */,
+				99754ED31CFB05E2007FA577 /* UITableView+RefreshControl.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -636,6 +652,13 @@
 				99754EC51CFAF474007FA577 /* Default@2x.png */,
 			);
 			path = LaunchImages;
+			sourceTree = "<group>";
+		};
+		99754ED51CFB15F2007FA577 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		DA9DB71E0B10257512B562DC /* Frameworks */ = {
@@ -827,6 +850,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				974EBE671CF57BC9000DE692 /* VODModule.m in Sources */,
+				99754ECE1CFAFC83007FA577 /* LiveService.m in Sources */,
+				99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */,
 				974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */,
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
@@ -839,6 +864,7 @@
 				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
 				97A4A9F11CF7D5110045A69B /* BaseNavBarViewController.m in Sources */,
 				9957F3881CFAA9B3003C8B96 /* User.m in Sources */,
+				99754ED41CFB05E2007FA577 /* UITableView+RefreshControl.m in Sources */,
 				974EBE971CF582F0000DE692 /* ViewHistoryListViewController.m in Sources */,
 				974EBE941CF582C6000DE692 /* SearchViewController.m in Sources */,
 				974EBE8F1CF582B2000DE692 /* SearchModule.m in Sources */,

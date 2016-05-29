@@ -16,10 +16,17 @@
 #define API_USER_LOGIN @"/account/signin"
 #define API_USER_LOAD_PROFILE @"/user/me"
 #define API_USER_UPDATE_PROFILE @"/user/update_avatar"
+#define API_LIVING_VIDOES @"/live/channels"
+#define API_HOT_LIVED_VIDEOS @"/live/hot_videos"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
 #define BG_COLOR_GRAY    AWColorFromRGB(240, 240, 240)
+#define TABBAR_TITLE_SELECTED_COLOR AWColorFromRGB(20, 118, 255)
+
+#define kThumbLeft 10
+#define kThumbTop kThumbLeft
+#define kBlackToolbarAlpha 0.8
 
 // 外部组件
 #import <AWMacros/AWMacros.h>
@@ -27,13 +34,17 @@
 #import <AWAPIManager/AWAPIManager.h>
 //#import <AWTableView/*.h>
 #import <AWGeometry/UIView+AWGeometry.h>
+#import <AWTableView/UITableView+RemoveBlankCells.h>
 
 // 扩展
 #import "UIViewController+AWFactoryMethods.h"
 #import "UIViewController+CreateTabBarItem.h"
 #import "CustomNavBar.h"
+#import "UITableView+RefreshControl.h"
 
 #import "CTMediator.h"
+
+//#import "MBProgressHUD.h"
 
 // 用户模块
 #import "UserModule.h"
