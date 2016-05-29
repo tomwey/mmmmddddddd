@@ -12,6 +12,7 @@
 #define API_HOST @"http://123.59.129.197/api/v1/"
 #define API_VOD_TYPES @"/types"
 #define API_VOD_LIST @"/videos"
+#define API_USER_SIGNUP @"/account/signup"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 

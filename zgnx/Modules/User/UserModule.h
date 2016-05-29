@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "CTMediator.h"
 
+#import "User.h"
+#import "UserService.h"
+
 @interface CTMediator (UserModule)
 
 - (UIViewController *)CTMediator_openUserVCWithAuthToken:(NSString *)authToken;
