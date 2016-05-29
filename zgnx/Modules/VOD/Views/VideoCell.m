@@ -9,6 +9,7 @@
 #import "VideoCell.h"
 #import "Defines.h"
 #import <UIImageView+AFNetworking.h>
+#import "StaticToolbar.h"
 
 NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
 
@@ -18,6 +19,10 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 @property (nonatomic, strong, readonly) UILabel* viewCountLabel;
 @property (nonatomic, strong, readonly) UIImageView* coverImageView;
 @property (nonatomic, strong, readonly) UILabel* dateLabel;
+@property (nonatomic, strong, readonly) UILabel* likesCountLabel;
+
+@property (nonatomic, strong) UIView*        digitToolbar;
+@property (nonatomic, strong) StaticToolbar* staticToolbar;
 
 @property (nonatomic, strong, readwrite) id cellData;
 
@@ -25,16 +30,20 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 
 @implementation VideoCell
 
-@synthesize titleLabel = _titleLabel;
-@synthesize viewCountLabel = _viewCountLabel;
-@synthesize coverImageView = _coverImageView;
-@synthesize dateLabel = _dateLabel;
+@synthesize titleLabel      = _titleLabel;
+@synthesize viewCountLabel  = _viewCountLabel;
+@synthesize coverImageView  = _coverImageView;
+@synthesize dateLabel       = _dateLabel;
+@synthesize likesCountLabel = _likesCountLabel;
+
+static CGFloat const kThumbLeft = 10;
+static CGFloat const kThumbTop  = kThumbLeft;
+static CGFloat const kBlackToolbarAlpha = 0.8;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if ( self = [super initWithStyle:style reuseIdentifier:reuseIdentifier] ) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
@@ -44,14 +53,18 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 {
     self.cellData = data;
     
+    self.staticToolbar = [[StaticToolbar alloc] initWithViewCount:[data[@"view_count"] integerValue]
+                                                       likesCount:[data[@"likes_count"] integerValue]
+                                                        biliCount:0];
+    
     self.titleLabel.text = data[@"title"];
-    self.viewCountLabel.text = [data[@"view_count"] description];
-    self.dateLabel.text = data[@"created_on"];
+//    self.viewCountLabel.text = [data[@"view_count"] description];
+//    self.dateLabel.text = data[@"created_on"];
     
     self.coverImageView.image = nil;
     self.coverImageView.userInteractionEnabled = NO;
     self.coverImageView.backgroundColor = [UIColor lightTextColor];
-//    [self.coverImageView setImageWithURL:[NSURL URLWithString:data[@"cover_image"]]];
+    
     __weak typeof(self) weakSelf = self;
     [self.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:
                                                  [NSURL URLWithString:data[@"cover_image"]]]
@@ -70,6 +83,10 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     _viewCountLabel = nil;
     _coverImageView = nil;
     _dateLabel      = nil;
+    _likesCountLabel = nil;
+    
+    self.digitToolbar = nil;
+    self.staticToolbar = nil;
     
     self.cellData   = nil;
 }
@@ -78,47 +95,42 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 {
     [super layoutSubviews];
     
-    self.titleLabel.frame = CGRectMake(10, 5, 158, 30);
+    self.coverImageView.frame = [[self class] calcuThumbImageFrame];
     
-    self.viewCountLabel.frame = CGRectMake(self.width - 88 - self.titleLabel.left,
-                                           self.titleLabel.top,
-                                           88,
-                                           self.titleLabel.height);
-    self.coverImageView.frame = CGRectMake(self.titleLabel.left,
-                                           self.titleLabel.bottom + 5,
-                                           self.width - self.titleLabel.left * 2,
-                                           ( self.width - self.titleLabel.left * 2 ) * 0.618);
-    self.dateLabel.frame = CGRectMake(self.titleLabel.left,
-                                      self.coverImageView.bottom + 5,
-                                      200,
-                                      30);
+    self.titleLabel.frame = CGRectMake(0, 0, self.coverImageView.width, 30);
+    
+    self.digitToolbar.frame = self.staticToolbar.frame =
+    CGRectMake(0, self.coverImageView.height - 30,
+               self.coverImageView.width, 30);
 }
 
 - (UILabel *)titleLabel
 {
     if ( !_titleLabel ) {
-        _titleLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentLeft, nil, nil);
-        [self.contentView addSubview:_titleLabel];
+        _titleLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentCenter,
+                                    nil,
+                                    [UIColor whiteColor]);
+        _titleLabel.backgroundColor = AWColorFromRGBA(0, 0, 0, kBlackToolbarAlpha);
+        [self.coverImageView addSubview:_titleLabel];
     }
     return _titleLabel;
 }
 
-- (UILabel *)viewCountLabel
++ (CGRect)calcuThumbImageFrame
 {
-    if ( !_viewCountLabel ) {
-        _viewCountLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentRight, nil, nil);
-        [self.contentView addSubview:_viewCountLabel];
-    }
-    return _viewCountLabel;
+    static CGRect frame;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        frame = CGRectMake(kThumbLeft, kThumbTop,
+                           AWFullScreenWidth() - kThumbLeft * 2,
+                           (AWFullScreenWidth() - kThumbLeft * 2) * 0.618 );
+    });
+    return frame;
 }
 
-- (UILabel *)dateLabel
++ (CGFloat)cellHeight
 {
-    if ( !_dateLabel ) {
-        _dateLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentLeft, nil, nil);
-        [self.contentView addSubview:_dateLabel];
-    }
-    return _dateLabel;
+    return CGRectGetMaxY([self calcuThumbImageFrame]);
 }
 
 - (UIImageView *)coverImageView
@@ -126,9 +138,15 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     if ( !_coverImageView ) {
         _coverImageView = AWCreateImageView(nil);
         _coverImageView.userInteractionEnabled = NO;
-        _coverImageView.backgroundColor = AWColorFromRGB(201, 201, 201);
+        _coverImageView.backgroundColor = AWColorFromRGB(137, 137, 137);
         [_coverImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
         [self.contentView addSubview:_coverImageView];
+        
+        self.digitToolbar = [[UIView alloc] init];
+        [_coverImageView addSubview:self.digitToolbar];
+        self.digitToolbar.backgroundColor = AWColorFromRGBA(0, 0, 0, kBlackToolbarAlpha);
+        
+        [_coverImageView addSubview:self.staticToolbar];
     }
     return _coverImageView;
 }

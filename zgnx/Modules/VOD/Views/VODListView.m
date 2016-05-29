@@ -12,6 +12,7 @@
 #import <AWTableView/UITableView+RemoveBlankCells.h>
 #import <AWTableView/UITableView+LoadEmptyOrErrorHandle.h>
 #import "Defines.h"
+#import "VideoCell.h"
 
 @interface VODListView () <ReloadDelegate>
 
@@ -51,7 +52,7 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.rowHeight = 30 * 2 + 20 + ( AWFullScreenWidth() - 20 ) * 0.618;
+    self.tableView.rowHeight = [VideoCell cellHeight];
     self.tableView.showsVerticalScrollIndicator = NO;
     
     UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
