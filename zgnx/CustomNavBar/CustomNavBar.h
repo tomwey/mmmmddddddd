@@ -31,16 +31,16 @@ typedef NS_ENUM(NSUInteger, FluidBarItemPosition) {
 @property (nonatomic, copy, nullable)   NSString* title;
 
 /**
- ! 设置标题视图
- */
-@property (nonatomic, strong, nullable) UIView*   titleView;
-
-/**
  ! 设置标题文字属性
  
  @see NSMutableAttributes.h
  */
-- (void)setTitleTextAttirbutes:(NSDictionary<NSString*, id> *)textAttibutes;
+@property (nonatomic, copy, nullable)   NSDictionary<NSString*, id>* titleTextAttributes;
+
+/**
+ ! 设置标题视图
+ */
+@property (nonatomic, strong, nullable) UIView*   titleView;
 
 /**
  ! 添加导航条非固定item

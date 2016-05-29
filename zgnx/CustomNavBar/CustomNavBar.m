@@ -139,13 +139,22 @@ static CGFloat const kFluidItemSpacing     = 10.0;
     [self layoutFluidItems];
 }
 
-- (void)setTitleTextAttirbutes:(NSDictionary<NSString*, id> *)titleAttributes
+- (void)setTitleTextAttributes:(NSDictionary<NSString *,id> *)titleAttributes
 {
+    _titleTextAttributes = titleAttributes;
     if ( self.inTitleLabel && [titleAttributes count] > 0 ) {
-        NSString* text = [NSString stringWithString:self.title];
-        self.inTitleLabel.attributedText = [[NSAttributedString alloc] initWithString:text attributes:titleAttributes];
-        self.inTitleLabel.text = nil;
-        text = nil;
+//        NSString* text = [NSString stringWithString:self.title];
+//        self.inTitleLabel.attributedText = [[NSAttributedString alloc] initWithString:text attributes:titleAttributes];
+//        self.inTitleLabel.text = nil;
+//        text = nil;
+        if ( titleAttributes[NSFontAttributeName] ) {
+            self.inTitleLabel.font = titleAttributes[NSFontAttributeName];
+        }
+        
+        if ( titleAttributes[NSForegroundColorAttributeName] ) {
+           self.inTitleLabel.textColor = titleAttributes[NSForegroundColorAttributeName]; 
+        }
+        
     }
 }
 
@@ -210,6 +219,15 @@ static CGFloat const kFluidItemSpacing     = 10.0;
             [self.backgroundView addSubview:self.inTitleLabel];
         }
         self.inTitleLabel.text = title;
+        if ( self.titleTextAttributes ) {
+            if ( self.titleTextAttributes[NSFontAttributeName] ) {
+                self.inTitleLabel.font = self.titleTextAttributes[NSFontAttributeName];
+            }
+            
+            if ( self.titleTextAttributes[NSForegroundColorAttributeName] ) {
+                self.inTitleLabel.textColor = self.titleTextAttributes[NSForegroundColorAttributeName];
+            }
+        }
     }
 }
 

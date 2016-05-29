@@ -15,4 +15,6 @@
 
 @property (nonatomic, strong) User* user;
 
+@property (nonatomic, copy) void (^didClickBlock)(UserProfileView*);
+
 @end

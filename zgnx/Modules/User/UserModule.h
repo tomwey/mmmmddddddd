@@ -26,4 +26,16 @@
 - (UIViewController *)CTMediator_updatePasswordWithCode:(NSString *)code
                                             newPassword:(NSString *)password;
 
+- (UIViewController *)CTMediator_updateProfile:(User *)user;
+
+- (UIViewController *)CTMediator_openWalletVCForUser:(User *)user;
+
+- (UIViewController *)CTMediator_openUploadVCWithAuthToken:(NSString *)token;
+
+- (UIViewController *)CTMediator_openLikesVCForUser:(User *)user;
+
+- (UIViewController *)CTMediator_openFeedbackVC;
+
+- (UIViewController *)CTMediator_openAboutVC;
+
 @end

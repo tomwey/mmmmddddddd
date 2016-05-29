@@ -36,6 +36,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    _user = nil;
+    self.didClickBlock = nil;
+}
+
 - (void)setup
 {
     self.backgroundColor = [UIColor whiteColor];
@@ -56,6 +62,18 @@
     
     self.avatarView.layer.cornerRadius = avatarWidth / 2;
     self.avatarView.clipsToBounds = YES;
+    
+    self.avatarView.userInteractionEnabled = YES;
+    
+    [self.avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
+}
+
+- (void)tap
+{
+    if ( self.didClickBlock ) {
+        self.didClickBlock(self);
+//        self.didClickBlock = nil;
+    }
 }
 
 - (void)setUser:(User *)user

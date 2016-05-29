@@ -21,6 +21,8 @@
 
 @property (nonatomic, weak) UserProfileView* profileView;
 
+//@property (nonatomic, strong) User* currentUser;
+
 @end
 @implementation UserViewController
 
@@ -42,8 +44,10 @@
 {
     [super viewDidLoad];
     
-//    self.view.backgroundColor = AWColorFromRGB(224, 224, 224);
-    
+    if ( [self respondsToSelector:@selector(setEdgesForExtendedLayout:)] ) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
     self.tableView = [[UITableView alloc] initWithFrame:AWFullScreenBounds()
                                                   style:UITableViewStylePlain];
     [self.view addSubview:self.tableView];
@@ -51,13 +55,20 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     [self.tableView removeBlankCells];
     
-    self.tableView.tableHeaderView = [[UserProfileView alloc] init];
+    UserProfileView* upv = [[UserProfileView alloc] init];
+    self.tableView.tableHeaderView = upv;
     
-    self.profileView = (UserProfileView *) self.tableView.tableHeaderView;
+    self.profileView = upv;
+    
+    __weak typeof(self) weakSelf = self;
+    self.profileView.didClickBlock = ^(UserProfileView* view) {
+        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_updateProfile:view.user];
+        [weakSelf presentViewController:vc animated:YES completion:nil];
+    };
     
     [[UserService sharedInstance] loadUserProfileForAuthToken:self.authToken
                                                    completion:
@@ -72,6 +83,20 @@
           }];
          
      }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -95,6 +120,71 @@
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
+    
+    if ( indexPath.section == 0 && indexPath.row == 0 ) {
+        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openWalletVCForUser:nil];
+        
+        [nav pushViewController:vc animated:YES];
+    } else if ( indexPath.section == 1 ||
+               [[UserService sharedInstance] isLoginedForUser:nil]) {
+        switch (indexPath.row) {
+            case 0:
+            {
+                // 上传
+                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
+                [nav pushViewController:vc animated:YES];
+            }
+                break;
+            case 1:
+            {
+                // 收藏
+                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLikesVCForUser:nil];
+                [nav pushViewController:vc animated:YES];
+            }
+                break;
+            case 2:
+            {
+                // 播放历史
+                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openViewHistoryVCWithAuthToken:nil];
+                [nav pushViewController:vc animated:YES];
+            }
+                break;
+            case 3:
+            {
+                // 清理缓存
+                
+            }
+                break;
+            case 4:
+            {
+                // 意见反馈
+                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openFeedbackVC];
+                [self presentViewController:vc animated:YES completion:nil];
+            }
+                break;
+            case 5:
+            {
+                // 关于
+                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openAboutVC];
+                [self presentViewController:vc animated:YES completion:nil];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    } else if ( indexPath.section == 2 ) {
+        [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
+            
+        }];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

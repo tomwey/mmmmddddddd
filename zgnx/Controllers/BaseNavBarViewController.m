@@ -16,11 +16,11 @@
     [super viewDidLoad];
     
     self.navBar.backgroundColor = NAV_BAR_BG_COLOR;
-    self.navBar.leftItem = AWCreateTextButton(CGRectMake(0, 0, 44, 44),
-                                              @"返回",
-                                              [UIColor redColor],
-                                              self,
-                                              @selector(back));
+    self.navBar.leftItem = AWCreateImageButton(@"btn_back.png",
+                                               self,
+                                               @selector(back));
+    
+    self.navBar.titleTextAttributes = @{ NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: AWSystemFontWithSize(18, NO) };
 }
 
 - (void)back

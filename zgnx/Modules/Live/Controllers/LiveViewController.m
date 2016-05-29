@@ -52,7 +52,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate   = self;
     
-    self.tableView.backgroundColor = BG_COLOR_GRAY;
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -63,7 +63,7 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
     
-    [[UITableViewHeaderFooterView appearance] setTintColor:BG_COLOR_GRAY];
+//    [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor whiteColor]];
     
     // 添加下拉刷新控件
     __weak typeof(self)weakSelf = self;
@@ -147,7 +147,7 @@
     if ( !cell ) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:@"cell.id"];
-        cell.backgroundColor = BG_COLOR_GRAY;
+        cell.backgroundColor = [UIColor whiteColor];
     }
     
     NSArray* array = indexPath.section == 0 ? self.livingDataSource : self.hotLivedDataSource;
@@ -180,10 +180,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UITableViewHeaderFooterView* view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header.id"];
-    if ( !view ) {
-        view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"header.id"];
-    }
+
+    UIView* view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
     
     UILabel* titleLabel = (UILabel *)[view viewWithTag:10011];
     if ( !titleLabel ) {
@@ -191,7 +190,7 @@
                                    nil,
                                    NSTextAlignmentLeft,
                                    AWSystemFontWithSize(16, NO),
-                                   [UIColor blackColor]);
+                                   AWColorFromRGB(137, 137, 137));
         
         [view addSubview:titleLabel];
         titleLabel.tag = 10011;

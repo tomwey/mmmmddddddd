@@ -88,6 +88,17 @@
 		99754ECE1CFAFC83007FA577 /* LiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754ECD1CFAFC83007FA577 /* LiveService.m */; };
 		99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754ED01CFB0350007FA577 /* LiveThumbView.m */; };
 		99754ED41CFB05E2007FA577 /* UITableView+RefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754ED31CFB05E2007FA577 /* UITableView+RefreshControl.m */; };
+		99754EE11CFB403E007FA577 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EE01CFB403E007FA577 /* UserProfileViewController.m */; };
+		99754EE41CFB405E007FA577 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EE31CFB405E007FA577 /* LoginViewController.m */; };
+		99754EE71CFB406A007FA577 /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EE61CFB406A007FA577 /* SignupViewController.m */; };
+		99754EEA1CFB4152007FA577 /* WalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EE91CFB4152007FA577 /* WalletViewController.m */; };
+		99754EEE1CFB43C1007FA577 /* btn_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754EEB1CFB43C1007FA577 /* btn_back.png */; };
+		99754EEF1CFB43C1007FA577 /* btn_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754EEC1CFB43C1007FA577 /* btn_back@2x.png */; };
+		99754EF01CFB43C1007FA577 /* btn_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754EED1CFB43C1007FA577 /* btn_back@3x.png */; };
+		99754EF31CFB46BF007FA577 /* UploadVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EF21CFB46BF007FA577 /* UploadVideoViewController.m */; };
+		99754EF61CFB46CB007FA577 /* LikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EF51CFB46CA007FA577 /* LikesViewController.m */; };
+		99754EF91CFB472A007FA577 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EF81CFB472A007FA577 /* FeedbackViewController.m */; };
+		99754EFC1CFB4734007FA577 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EFB1CFB4734007FA577 /* AboutViewController.m */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +222,25 @@
 		99754ED01CFB0350007FA577 /* LiveThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiveThumbView.m; path = zgnx/Modules/Live/LiveThumbView.m; sourceTree = SOURCE_ROOT; };
 		99754ED21CFB05E2007FA577 /* UITableView+RefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+RefreshControl.h"; sourceTree = "<group>"; };
 		99754ED31CFB05E2007FA577 /* UITableView+RefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RefreshControl.m"; sourceTree = "<group>"; };
+		99754EDF1CFB403E007FA577 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
+		99754EE01CFB403E007FA577 /* UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileViewController.m; sourceTree = "<group>"; };
+		99754EE21CFB405E007FA577 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		99754EE31CFB405E007FA577 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		99754EE51CFB406A007FA577 /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
+		99754EE61CFB406A007FA577 /* SignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignupViewController.m; sourceTree = "<group>"; };
+		99754EE81CFB4152007FA577 /* WalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalletViewController.h; sourceTree = "<group>"; };
+		99754EE91CFB4152007FA577 /* WalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletViewController.m; sourceTree = "<group>"; };
+		99754EEB1CFB43C1007FA577 /* btn_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_back.png; sourceTree = "<group>"; };
+		99754EEC1CFB43C1007FA577 /* btn_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_back@2x.png"; sourceTree = "<group>"; };
+		99754EED1CFB43C1007FA577 /* btn_back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_back@3x.png"; sourceTree = "<group>"; };
+		99754EF11CFB46BF007FA577 /* UploadVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadVideoViewController.h; sourceTree = "<group>"; };
+		99754EF21CFB46BF007FA577 /* UploadVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadVideoViewController.m; sourceTree = "<group>"; };
+		99754EF41CFB46CA007FA577 /* LikesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikesViewController.h; sourceTree = "<group>"; };
+		99754EF51CFB46CA007FA577 /* LikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikesViewController.m; sourceTree = "<group>"; };
+		99754EF71CFB472A007FA577 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		99754EF81CFB472A007FA577 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		99754EFA1CFB4734007FA577 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		99754EFB1CFB4734007FA577 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A6DFD8E4B4253B95566AC7C8 /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
@@ -282,6 +312,22 @@
 			children = (
 				974EBE751CF580F8000DE692 /* UserViewController.h */,
 				974EBE761CF580F8000DE692 /* UserViewController.m */,
+				99754EDF1CFB403E007FA577 /* UserProfileViewController.h */,
+				99754EE01CFB403E007FA577 /* UserProfileViewController.m */,
+				99754EE21CFB405E007FA577 /* LoginViewController.h */,
+				99754EE31CFB405E007FA577 /* LoginViewController.m */,
+				99754EE51CFB406A007FA577 /* SignupViewController.h */,
+				99754EE61CFB406A007FA577 /* SignupViewController.m */,
+				99754EE81CFB4152007FA577 /* WalletViewController.h */,
+				99754EE91CFB4152007FA577 /* WalletViewController.m */,
+				99754EF11CFB46BF007FA577 /* UploadVideoViewController.h */,
+				99754EF21CFB46BF007FA577 /* UploadVideoViewController.m */,
+				99754EF41CFB46CA007FA577 /* LikesViewController.h */,
+				99754EF51CFB46CA007FA577 /* LikesViewController.m */,
+				99754EF71CFB472A007FA577 /* FeedbackViewController.h */,
+				99754EF81CFB472A007FA577 /* FeedbackViewController.m */,
+				99754EFA1CFB4734007FA577 /* AboutViewController.h */,
+				99754EFB1CFB4734007FA577 /* AboutViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -592,6 +638,9 @@
 		99754E4A1CFADA13007FA577 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				99754EEB1CFB43C1007FA577 /* btn_back.png */,
+				99754EEC1CFB43C1007FA577 /* btn_back@2x.png */,
+				99754EED1CFB43C1007FA577 /* btn_back@3x.png */,
 				99754EBA1CFAF2AD007FA577 /* btn_play.png */,
 				99754EBB1CFAF2AD007FA577 /* btn_play@2x.png */,
 				99754EBC1CFAF2AD007FA577 /* btn_play@3x.png */,
@@ -748,6 +797,7 @@
 				99754EB41CFAEB89007FA577 /* tags_comment.png in Resources */,
 				99754E8E1CFADBB8007FA577 /* tab_ranked_n@2x.png in Resources */,
 				99754EC81CFAF474007FA577 /* Default-568h@2x.png in Resources */,
+				99754EEF1CFB43C1007FA577 /* btn_back@2x.png in Resources */,
 				99754EB21CFAEB89007FA577 /* tags_collection@2x.png in Resources */,
 				99754E971CFADE68007FA577 /* zgly_logo@2x.png in Resources */,
 				99754E8F1CFADBB8007FA577 /* tab_ranked_n@3x.png in Resources */,
@@ -756,11 +806,13 @@
 				99754E8B1CFADBB8007FA577 /* tab_me_s@2x.png in Resources */,
 				99754E891CFADBB8007FA577 /* tab_me_n@3x.png in Resources */,
 				99754EB81CFAEB89007FA577 /* tags_play@2x.png in Resources */,
+				99754EEE1CFB43C1007FA577 /* btn_back.png in Resources */,
 				99754EBE1CFAF2AD007FA577 /* btn_play@2x.png in Resources */,
 				99754E921CFADBB8007FA577 /* tab_ranked_s@3x.png in Resources */,
 				99754EB31CFAEB89007FA577 /* tags_collection@3x.png in Resources */,
 				99754E8A1CFADBB8007FA577 /* tab_me_s.png in Resources */,
 				99754E811CFADBB8007FA577 /* tab_live_n.png in Resources */,
+				99754EF01CFB43C1007FA577 /* btn_back@3x.png in Resources */,
 				99754EA31CFADF14007FA577 /* nav_search@2x.png in Resources */,
 				99754EA11CFADF14007FA577 /* nav_history@3x.png in Resources */,
 				99754E861CFADBB8007FA577 /* tab_live_s@3x.png in Resources */,
@@ -852,11 +904,13 @@
 				974EBE671CF57BC9000DE692 /* VODModule.m in Sources */,
 				99754ECE1CFAFC83007FA577 /* LiveService.m in Sources */,
 				99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */,
+				99754EE71CFB406A007FA577 /* SignupViewController.m in Sources */,
 				974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */,
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
 				97A4A9FF1CF824BC0045A69B /* TabsControl.m in Sources */,
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,
+				99754EEA1CFB4152007FA577 /* WalletViewController.m in Sources */,
 				974EBEA31CF59F7F000DE692 /* CatalogService.m in Sources */,
 				99754EA71CFAE9F6007FA577 /* StaticToolbar.m in Sources */,
 				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,
@@ -870,11 +924,16 @@
 				974EBE8F1CF582B2000DE692 /* SearchModule.m in Sources */,
 				974EBE7D1CF581FC000DE692 /* VODListViewController.m in Sources */,
 				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,
+				99754EF61CFB46CB007FA577 /* LikesViewController.m in Sources */,
+				99754EE11CFB403E007FA577 /* UserProfileViewController.m in Sources */,
 				97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */,
 				9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */,
 				97A4A80D1CF6DBE70045A69B /* VODListView.m in Sources */,
 				9756E8471CE01D1E0083B90C /* AppDelegate.m in Sources */,
+				99754EF31CFB46BF007FA577 /* UploadVideoViewController.m in Sources */,
+				99754EFC1CFB4734007FA577 /* AboutViewController.m in Sources */,
 				974EBE911CF582B2000DE692 /* ViewHistoryModule.m in Sources */,
+				99754EF91CFB472A007FA577 /* FeedbackViewController.m in Sources */,
 				974EBE741CF58014000DE692 /* CustomNavBar.m in Sources */,
 				9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */,
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,
@@ -882,6 +941,7 @@
 				9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */,
 				974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */,
 				97A4A8041CF69F080045A69B /* VODService.m in Sources */,
+				99754EE41CFB405E007FA577 /* LoginViewController.m in Sources */,
 				99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */,
 				9957F3851CFAA766003C8B96 /* UserService.m in Sources */,
 				974EBE1F1CF54B62000DE692 /* VideoStreamListViewController.m in Sources */,
