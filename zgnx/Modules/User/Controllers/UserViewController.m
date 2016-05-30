@@ -42,11 +42,13 @@
 {
     [super viewDidLoad];
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     if ( [self respondsToSelector:@selector(setEdgesForExtendedLayout:)] ) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
 
-    self.tableView = [[UITableView alloc] initWithFrame:AWFullScreenBounds()
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds
                                                   style:UITableViewStylePlain];
     [self.view addSubview:self.tableView];
     
@@ -74,9 +76,7 @@
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    
-    self.tableView.contentInset = UIEdgeInsetsZero;
-    
+
     [self loadData];
 }
 
