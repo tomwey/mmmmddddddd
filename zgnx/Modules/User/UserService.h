@@ -13,6 +13,8 @@
 
 + (instancetype)sharedInstance;
 
+- (User *)currentUser;
+
 - (BOOL)isLoginedForUser:(User*)aUser;
 
 - (void)loadUserSettingsForAuthToken:(NSString *)authToken

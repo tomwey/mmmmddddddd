@@ -15,6 +15,9 @@
 @property (nonatomic, strong) UITextField* mobileField;
 @property (nonatomic, strong) UITextField* passwordField;
 
+@property (nonatomic, weak) UIButton* loginButton;
+@property (nonatomic, weak) UIScrollView* scrollView;
+
 @end
 
 @implementation LoginViewController
@@ -24,11 +27,15 @@
     
     self.navBar.title = @"登录";
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     self.contentView.backgroundColor = [UIColor whiteColor];
     
     UIScrollView* scrollView = [[UIScrollView alloc] initWithFrame:self.contentView.bounds];
     [self.contentView addSubview:scrollView];
     scrollView.showsVerticalScrollIndicator = NO;
+    
+    self.scrollView = scrollView;
     
     UIImageView* logoView = AWCreateImageView(@"zgly_logo_s.png");
     [scrollView addSubview:logoView];
@@ -41,6 +48,7 @@
     self.mobileField = [[UITextField alloc] initWithFrame:CGRectInset(inputBg.frame, 10, 0)];
     [scrollView addSubview:self.mobileField];
     self.mobileField.placeholder = @"手机号";
+    self.mobileField.keyboardType = UIKeyboardTypeNumberPad;
     
     UIImageView* inputBg2 = AWCreateImageView(@"login_input_bg.png");
     [scrollView addSubview:inputBg2];
@@ -49,18 +57,21 @@
     self.passwordField = [[UITextField alloc] initWithFrame:CGRectInset(inputBg2.frame, 10, 0)];
     [self.contentView addSubview:self.passwordField];
     self.passwordField.placeholder = @"密码";
+    self.passwordField.secureTextEntry = YES;
     
     // 登陆按钮
     UIButton* loginBtn = AWCreateTextButton(self.mobileField.frame, @"登录",
                                             [UIColor whiteColor],
                                             self,
                                             @selector(login));
-    [self.contentView addSubview:loginBtn];
+    [scrollView addSubview:loginBtn];
     loginBtn.backgroundColor = NAV_BAR_BG_COLOR;
     loginBtn.frame = inputBg.frame;
     loginBtn.top = inputBg2.bottom + 15;
     loginBtn.layer.cornerRadius = 6;
     loginBtn.clipsToBounds = YES;
+    
+    self.loginButton = loginBtn;
     
     // 注册按钮
     UIButton* signupBtn = AWCreateImageButton(@"me_login_btn_register.png", self, @selector(signup));
@@ -71,16 +82,70 @@
     UIButton* pwdBtn = AWCreateImageButton(@"me_login_btn_password.png", self, @selector(updatePassword));
     [scrollView addSubview:pwdBtn];
     pwdBtn.position = CGPointMake(loginBtn.right - pwdBtn.width, loginBtn.bottom + 10);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+}
+
+- (void)keyboardWillShow:(NSNotification *)noti
+{
+//    UIKeyboardAnimationCurveUserInfoKey = 7;
+//    UIKeyboardAnimationDurationUserInfoKey = "0.25";
+//    UIKeyboardBoundsUserInfoKey = "NSRect: {{0, 0}, {320, 216}}";
+//    UIKeyboardCenterBeginUserInfoKey = "NSPoint: {160, 676}";
+//    UIKeyboardCenterEndUserInfoKey = "NSPoint: {160, 460}";
+//    UIKeyboardFrameBeginUserInfoKey = "NSRect: {{0, 568}, {320, 216}}";
+//    UIKeyboardFrameChangedByUserInteraction = 0;
+//    UIKeyboardFrameEndUserInfoKey = "NSRect: {{0, 352}, {320, 216}}";
+    
+    CGRect keyboardEndFrame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect loginBtnFrame = [self.view convertRect:self.loginButton.frame fromView:self.scrollView];
+    
+    CGFloat dty = CGRectGetHeight(loginBtnFrame) - CGRectGetHeight(keyboardEndFrame);
+    if ( dty < 0 ) {
+        [UIView animateWithDuration:[noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue]
+                         animations:
+         ^{
+             self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, -dty + self.loginButton.height + 5, 0);
+         }];
+    }
 }
 
 - (void)login
 {
+    User* user = [User new];
+    user.mobile = self.mobileField.text;
+    if ( ![user validateMobile] ) {
+        [Toast showText:@"不正确的手机号"].backgroundColor = NAV_BAR_BG_COLOR;
+        return;
+    }
     
+    [self.mobileField resignFirstResponder];
+    [self.passwordField resignFirstResponder];
+    
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     [[UserService sharedInstance] loginWithMobile:self.mobileField.text
                                          password:self.passwordField.text
                                        completion:^(User *aUser, NSError *error) {
                                            
+                                           [MBProgressHUD hideHUDForView:self.contentView animated:YES];
+                                           
+                                           if (!error) {
+                                               
+                                               [self.navigationController popViewControllerAnimated:YES];
+                                           } else {
+                                               [Toast showText:error.domain].backgroundColor = NAV_BAR_BG_COLOR;
+                                           }
+                                           
                                        }];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.mobileField resignFirstResponder];
+    [self.passwordField resignFirstResponder];
 }
 
 - (void)updatePassword

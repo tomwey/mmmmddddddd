@@ -51,6 +51,9 @@
     [superView addSubview:t];
     [superView bringSubviewToFront:t];
     
+    t.backgroundColor = [UIColor blackColor];
+//    t.alpha = 0.8;
+    
     [t showText:text];
     
     return t;
@@ -74,7 +77,7 @@
     [UIView animateWithDuration:.3 animations:^{
         self.center = CGPointMake(CGRectGetWidth(frame) * 0.5, CGRectGetHeight(frame) * 0.5);
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:.3 delay:.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:.3 delay:.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.center = CGPointMake(CGRectGetWidth(frame) * 0.5, - CGRectGetHeight(frame) * 0.5);
         } completion:^(BOOL finished) {
             [[UIApplication sharedApplication] setStatusBarHidden:statusBarHidden];

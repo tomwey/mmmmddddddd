@@ -37,4 +37,30 @@
     return user;
 }
 
+- (id)copyWithZone:(nullable NSZone *)zone;
+{
+    User* user = [[User alloc] init];
+    user.mobile = self.mobile;
+    user.password = self.password;
+    user.nickname = self.nickname;
+    user.authToken = self.authToken;
+    user.avatarUrl = self.avatarUrl;
+    user.code = self.code;
+    return user;
+}
+
+@end
+
+@implementation User (Validation)
+
+- (BOOL)validateMobile
+{
+    NSString* reg = @"^1[3|4|5|7|8][0-9]\\d{4,8}$";
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", reg];
+    if ( [predicate evaluateWithObject:self.mobile] ) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

@@ -13,7 +13,7 @@
 #define API_VOD_TYPES @"/types"
 #define API_VOD_LIST @"/videos"
 #define API_USER_SIGNUP @"/account/signup"
-#define API_USER_LOGIN @"/account/signin"
+#define API_USER_LOGIN @"/account/login"
 #define API_USER_LOAD_PROFILE @"/user/me"
 #define API_USER_UPDATE_PROFILE @"/user/update_avatar"
 #define API_LIVING_VIDOES @"/live/channels"
@@ -29,7 +29,7 @@
 #define kThumbTop kThumbLeft
 #define kBlackToolbarAlpha 0.8
 
-#define kAboutPageURL @"https://www.baidu.com2"
+#define kAboutPageURL @"https://www.baidu.com"
 
 // 外部组件
 #import <AWMacros/AWMacros.h>
@@ -39,6 +39,7 @@
 #import <AWGeometry/UIView+AWGeometry.h>
 #import <AWTableView/UITableView+RemoveBlankCells.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIImageView+AFNetworking.h"
 
 // 扩展
 #import "UIViewController+AWFactoryMethods.h"

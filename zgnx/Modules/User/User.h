@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface User : NSObject <NSCoding>
+@interface User : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString* mobile;
 @property (nonatomic, copy) NSString* password;
@@ -18,5 +18,11 @@
 @property (nonatomic, copy) NSString* code;
 
 - (instancetype)initWithDictionary:(NSDictionary *)jsonResult;
+
+@end
+
+@interface User (Validation)
+
+- (BOOL)validateMobile;
 
 @end

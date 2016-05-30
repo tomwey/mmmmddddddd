@@ -18,6 +18,8 @@
 
 @property (nonatomic, copy) void (^responseCallback)(id result, NSError* error);
 
+@property (nonatomic, strong, readwrite) User* user;
+
 @end
 @implementation UserService
 
@@ -37,7 +39,35 @@
 {
 //    if (!aUser) return NO;
     
-    return !![[NSUserDefaults standardUserDefaults] objectForKey:@"auth.user"];
+    return !![self currentUser];
+}
+
+- (User *)currentUser
+{
+    if (self.user)
+        return self.user;
+    
+    id obj = [[NSUserDefaults standardUserDefaults] objectForKey:@"auth.user"];
+    if ( !obj ) {
+        return nil;
+    }
+    
+    self.user = (User *)[NSKeyedUnarchiver unarchiveObjectWithData:obj];
+    
+    return self.user;
+}
+
+- (void)saveUser:(User *)aUser
+{
+    self.user = aUser;
+    
+    if ( aUser == nil ) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"auth.user"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:aUser] forKey:@"auth.user"];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)loadUserSettingsForAuthToken:(NSString *)authToken
@@ -105,8 +135,8 @@
 - (void)logoutWithAuthToken:(NSString *)authToken
                  completion:(void (^)(id result, NSError* error))completion
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"auth.user"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self saveUser:nil];
+    
     if ( completion ) {
         completion(@(YES), nil);
     }
@@ -149,6 +179,9 @@
         if ( self.responseCallback ) {
             id result = [manager fetchDataWithReformer:nil];
             User* user = [[User alloc] initWithDictionary:result[@"data"]];
+            
+            [self saveUser:user];
+            
             self.responseCallback(user, nil);
             self.responseCallback = nil;
         }

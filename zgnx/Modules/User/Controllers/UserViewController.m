@@ -21,8 +21,6 @@
 
 @property (nonatomic, weak) UserProfileView* profileView;
 
-//@property (nonatomic, strong) User* currentUser;
-
 @end
 @implementation UserViewController
 
@@ -69,20 +67,6 @@
         UIViewController* vc = [[CTMediator sharedInstance] CTMediator_updateProfile:view.user];
         [weakSelf presentViewController:vc animated:YES completion:nil];
     };
-    
-    [[UserService sharedInstance] loadUserProfileForAuthToken:self.authToken
-                                                   completion:
-     ^(User *aUser, NSError *error) {
-         self.profileView.user = aUser;
-         
-         [[UserService sharedInstance] loadUserSettingsForAuthToken:self.authToken
-                                                         completion:
-          ^(NSArray<NSArray *> *result, NSError *error) {
-              self.dataSource = result;
-              [self.tableView reloadData];
-          }];
-         
-     }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -90,6 +74,10 @@
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    
+    [self loadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -97,6 +85,18 @@
     [super viewWillDisappear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
+- (void)loadData
+{
+    self.profileView.user = [[UserService sharedInstance] currentUser];
+    
+    [[UserService sharedInstance] loadUserSettingsForAuthToken:[[UserService sharedInstance] currentUser].authToken
+                                                    completion:
+     ^(NSArray<NSArray *> *result, NSError *error) {
+         self.dataSource = result;
+         [self.tableView reloadData];
+     }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -142,6 +142,7 @@
             [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
                 
             }];
+            [self loadData];
         } else {
             [self didSelectAtIndexPath:indexPath];
         }
@@ -204,7 +205,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    return 15;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView* view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header.id"];
+    if ( !view ) {
+        view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"header.id"];
+        view.contentView.backgroundColor = AWColorFromRGB(211, 212, 213);
+    }
+    return view;
 }
 
 @end
