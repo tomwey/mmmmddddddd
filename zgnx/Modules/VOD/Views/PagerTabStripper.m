@@ -173,7 +173,7 @@ static CGFloat const kItemSpacing = 6.0;
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
 {
     
-    if ( selectedIndex > [self.titles count] ) return;
+    if ( selectedIndex >= [self.titles count] ) return;
     
     UIView* currentItem = self.stripperArray[selectedIndex];
     

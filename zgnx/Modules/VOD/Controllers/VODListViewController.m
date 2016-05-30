@@ -87,7 +87,9 @@
         for (id dict in results[@"data"]) {
             [temp addObject:dict[@"name"]];
         }
-        stripper.titles = temp;
+        if ( [temp count] > 0 ) {
+            stripper.titles = temp;
+        }
         
         self.catalogs = results[@"data"];
 

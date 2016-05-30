@@ -125,6 +125,7 @@
 		99754EF61CFB46CB007FA577 /* LikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EF51CFB46CA007FA577 /* LikesViewController.m */; };
 		99754EF91CFB472A007FA577 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EF81CFB472A007FA577 /* FeedbackViewController.m */; };
 		99754EFC1CFB4734007FA577 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EFB1CFB4734007FA577 /* AboutViewController.m */; };
+		99754EFF1CFC4D1D007FA577 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EFE1CFC4D1D007FA577 /* CustomTextField.m */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -298,6 +299,8 @@
 		99754EF81CFB472A007FA577 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		99754EFA1CFB4734007FA577 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		99754EFB1CFB4734007FA577 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		99754EFD1CFC4D1D007FA577 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomTextField.h; path = zgnx/Modules/User/Controllers/CustomTextField.h; sourceTree = SOURCE_ROOT; };
+		99754EFE1CFC4D1D007FA577 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomTextField.m; path = zgnx/Modules/User/Controllers/CustomTextField.m; sourceTree = SOURCE_ROOT; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A1D32B9AF838FF0721BFC625 /* Pods-zgnx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.release.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.release.xcconfig"; sourceTree = "<group>"; };
@@ -406,6 +409,8 @@
 			children = (
 				9957F3891CFAB1CC003C8B96 /* UserProfileView.h */,
 				9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */,
+				99754EFD1CFC4D1D007FA577 /* CustomTextField.h */,
+				99754EFE1CFC4D1D007FA577 /* CustomTextField.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1004,6 +1009,7 @@
 				97A4A9FF1CF824BC0045A69B /* TabsControl.m in Sources */,
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,
 				99754EEA1CFB4152007FA577 /* WalletViewController.m in Sources */,
+				99754EFF1CFC4D1D007FA577 /* CustomTextField.m in Sources */,
 				974EBEA31CF59F7F000DE692 /* CatalogService.m in Sources */,
 				99754EA71CFAE9F6007FA577 /* StaticToolbar.m in Sources */,
 				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,

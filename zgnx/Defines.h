@@ -19,6 +19,7 @@
 #define API_LIVING_VIDOES @"/live/channels"
 #define API_HOT_LIVED_VIDEOS @"/live/hot_videos"
 #define API_SEND_FEEDBACK @"/feedbacks"
+#define API_USER_CODE @"/auth_codes"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
@@ -51,6 +52,8 @@
 
 #import "Toast.h"
 
+#import "UserService.h"
+
 // 用户模块
 #import "UserModule.h"
 
@@ -65,6 +68,8 @@
 
 // 模型
 // 视图
+#import "CustomTextField.h"
+
 // 控制器
 //#import "LiveViewController.h"
 //#import "VODListViewController.h"

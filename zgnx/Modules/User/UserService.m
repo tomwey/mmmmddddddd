@@ -15,8 +15,10 @@
 
 @property (nonatomic, strong) APIManager* loadUserInfoManager;
 @property (nonatomic, strong) APIManager* apiManager;
+@property (nonatomic, strong) APIManager* noDataManager;
 
 @property (nonatomic, copy) void (^responseCallback)(id result, NSError* error);
+@property (nonatomic, copy) void (^noDataCallback)(id result, NSError* error);
 
 @property (nonatomic, strong, readwrite) User* user;
 
@@ -142,6 +144,20 @@
     }
 }
 
+- (void)fetchCodeWithMobile:(NSString *)mobile completion:(void (^)(id result, NSError* error))completion
+{
+    self.noDataCallback = completion;
+    
+    if ( !self.noDataManager ) {
+        self.noDataManager = [[APIManager alloc] initWithDelegate:self];
+    }
+    
+    [self.noDataManager sendRequest:
+     APIRequestCreate(API_USER_CODE,
+                      RequestMethodPost,
+                      @{@"mobile" : mobile})];
+}
+
 - (void)loadUserProfileForAuthToken:(NSString *)authToken
                          completion:(void (^)(User* aUser, NSError* error))completion
 {
@@ -185,6 +201,10 @@
             self.responseCallback(user, nil);
             self.responseCallback = nil;
         }
+    } else if ( self.noDataManager == manager ) {
+        if ( self.noDataCallback ) {
+            self.noDataCallback([manager fetchDataWithReformer:nil], nil);
+        }
     }
 }
 
@@ -196,6 +216,11 @@
             self.responseCallback(nil, [NSError errorWithDomain:manager.apiError.message code:manager.apiError.code
                                                        userInfo:nil]);
             self.responseCallback = nil;
+        }
+    } else if ( self.noDataManager == manager ) {
+        if ( self.noDataCallback ) {
+            self.noDataCallback(nil, [NSError errorWithDomain:manager.apiError.message
+                                                         code:manager.apiError.code userInfo:nil]);
         }
     }
 }
