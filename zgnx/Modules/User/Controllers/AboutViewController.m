@@ -23,6 +23,7 @@
     UIWebView* webView = [[UIWebView alloc] initWithFrame:self.contentView.bounds];
     [self.contentView addSubview:webView];
     webView.delegate = self;
+    webView.scalesPageToFit = YES;
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kAboutPageURL]]];
 }
 

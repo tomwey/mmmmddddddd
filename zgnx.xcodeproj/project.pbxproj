@@ -127,6 +127,7 @@
 		99754EFC1CFB4734007FA577 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EFB1CFB4734007FA577 /* AboutViewController.m */; };
 		99754EFF1CFC4D1D007FA577 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EFE1CFC4D1D007FA577 /* CustomTextField.m */; };
 		99754F011CFC9537007FA577 /* default_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754F001CFC9537007FA577 /* default_avatar.png */; };
+		99754F041CFC97AA007FA577 /* CommonVODListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754F031CFC97AA007FA577 /* CommonVODListViewController.m */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -303,6 +304,8 @@
 		99754EFD1CFC4D1D007FA577 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomTextField.h; path = zgnx/Modules/User/Controllers/CustomTextField.h; sourceTree = SOURCE_ROOT; };
 		99754EFE1CFC4D1D007FA577 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomTextField.m; path = zgnx/Modules/User/Controllers/CustomTextField.m; sourceTree = SOURCE_ROOT; };
 		99754F001CFC9537007FA577 /* default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_avatar.png; sourceTree = "<group>"; };
+		99754F021CFC97AA007FA577 /* CommonVODListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonVODListViewController.h; sourceTree = "<group>"; };
+		99754F031CFC97AA007FA577 /* CommonVODListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonVODListViewController.m; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A1D32B9AF838FF0721BFC625 /* Pods-zgnx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.release.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.release.xcconfig"; sourceTree = "<group>"; };
@@ -675,6 +678,8 @@
 				9756ED7A1CF4473D0083B90C /* VideoStreamDetailViewController.m */,
 				97A4A9EF1CF7D5110045A69B /* BaseNavBarViewController.h */,
 				97A4A9F01CF7D5110045A69B /* BaseNavBarViewController.m */,
+				99754F021CFC97AA007FA577 /* CommonVODListViewController.h */,
+				99754F031CFC97AA007FA577 /* CommonVODListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1043,6 +1048,7 @@
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,
 				974EBEA01CF5946E000DE692 /* Catalog.m in Sources */,
 				9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */,
+				99754F041CFC97AA007FA577 /* CommonVODListViewController.m in Sources */,
 				974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */,
 				97A4A8041CF69F080045A69B /* VODService.m in Sources */,
 				99754EE41CFB405E007FA577 /* LoginViewController.m in Sources */,

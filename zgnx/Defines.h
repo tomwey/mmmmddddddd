@@ -31,7 +31,7 @@
 #define kThumbTop kThumbLeft
 #define kBlackToolbarAlpha 0.8
 
-#define kAboutPageURL @"https://www.baidu.com"
+#define kAboutPageURL @"http://123.59.129.197/p/about"
 
 // 外部组件
 #import <AWMacros/AWMacros.h>

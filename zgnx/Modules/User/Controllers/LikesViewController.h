@@ -6,8 +6,8 @@
 //  Copyright © 2016 tangwei1. All rights reserved.
 //
 
-#import "BaseNavBarViewController.h"
+#import "CommonVODListViewController.h"
 
-@interface LikesViewController : BaseNavBarViewController
+@interface LikesViewController : CommonVODListViewController
 
 @end

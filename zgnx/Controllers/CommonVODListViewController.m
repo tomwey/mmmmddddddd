@@ -1,26 +1,22 @@
 //
-//  LikesViewController.m
+//  CommonVODListViewController.m
 //  zgnx
 //
-//  Created by tomwey on 5/29/16.
+//  Created by tomwey on 5/30/16.
 //  Copyright © 2016 tangwei1. All rights reserved.
 //
 
-#import "LikesViewController.h"
-#import "CustomNavBar.h"
+#import "CommonVODListViewController.h"
 
-@interface LikesViewController ()
+@interface CommonVODListViewController ()
 
 @end
 
-@implementation LikesViewController
+@implementation CommonVODListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.navBar.title = @"我的收藏";
-    
 }
 
 - (void)didReceiveMemoryWarning {
