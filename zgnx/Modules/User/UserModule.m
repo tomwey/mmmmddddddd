@@ -16,6 +16,7 @@
 #import "LikesViewController.h"
 #import "UploadVideoViewController.h"
 #import "WalletViewController.h"
+#import "UpdatePasswordViewController.h"
 
 @implementation CTMediator (UserModule)
 
@@ -33,11 +34,9 @@
     }
 }
 
-- (UIViewController *)CTMediator_signupWithMobile:(NSString *)mobile
-                                             code:(NSString *)code
-                                         password:(NSString *)password
+- (UIViewController *)CTMediator_openSignupVC
 {
-    return nil;
+    return [[SignupViewController alloc] init];
 }
 
 - (UIViewController *)CTMediator_signinWithMobile:(NSString *)mobile
@@ -54,16 +53,27 @@
 
 - (UIViewController *)CTMediator_openWalletVCForUser:(User *)user
 {
+    if ( [[UserService sharedInstance] isLoginedForUser:nil] == NO ) {
+        return [[LoginViewController alloc] init];
+    }
+    
     return [[WalletViewController alloc] init];
 }
 
 - (UIViewController *)CTMediator_openUploadVCWithAuthToken:(NSString *)token
 {
+    if ( [[UserService sharedInstance] isLoginedForUser:nil] == NO ) {
+        return [[LoginViewController alloc] init];
+    }
     return [[UploadVideoViewController alloc] init];
 }
 
 - (UIViewController *)CTMediator_openLikesVCForUser:(User *)user
 {
+    if ( [[UserService sharedInstance] isLoginedForUser:nil] == NO ) {
+        return [[LoginViewController alloc] init];
+    }
+    
     return [[LikesViewController alloc] init];
 }
 
@@ -75,6 +85,11 @@
 - (UIViewController *)CTMediator_openAboutVC
 {
     return [[AboutViewController alloc] init];
+}
+
+- (UIViewController *)CTMediator_openPasswordVC
+{
+    return [[UpdatePasswordViewController alloc] init];
 }
 
 @end

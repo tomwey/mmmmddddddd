@@ -1,25 +1,25 @@
 //
-//  SignupViewController.m
+//  UpdatePasswordViewController.m
 //  zgnx
 //
-//  Created by tomwey on 5/29/16.
-//  Copyright © 2016 tangwei1. All rights reserved.
+//  Created by tangwei1 on 16/5/30.
+//  Copyright © 2016年 tangwei1. All rights reserved.
 //
 
-#import "SignupViewController.h"
+#import "UpdatePasswordViewController.h"
 #import "Defines.h"
 
-@interface SignupViewController ()
+@interface UpdatePasswordViewController ()
 
 @end
 
-@implementation SignupViewController
+@implementation UpdatePasswordViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navBar.title = @"免费注册";
+    self.navBar.title = @"修改密码";
 }
 
 - (void)didReceiveMemoryWarning {

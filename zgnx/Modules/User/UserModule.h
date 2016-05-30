@@ -16,9 +16,7 @@
 
 - (UIViewController *)CTMediator_openUserVCWithAuthToken:(NSString *)authToken;
 
-- (UIViewController *)CTMediator_signupWithMobile:(NSString *)mobile
-                                             code:(NSString *)code
-                                         password:(NSString *)password;
+- (UIViewController *)CTMediator_openSignupVC;
 
 - (UIViewController *)CTMediator_signinWithMobile:(NSString *)mobile
                                          password:(NSString *)password;
@@ -37,5 +35,7 @@
 - (UIViewController *)CTMediator_openFeedbackVC;
 
 - (UIViewController *)CTMediator_openAboutVC;
+
+- (UIViewController *)CTMediator_openPasswordVC;
 
 @end

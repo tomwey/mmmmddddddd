@@ -10,5 +10,5 @@ pod 'AWRefresh'
 pod 'AWTableView'
 pod 'AWAPIManager'
 pod 'AWUITools'
+pod 'MBProgressHUD'
 end
-

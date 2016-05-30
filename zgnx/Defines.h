@@ -18,6 +18,7 @@
 #define API_USER_UPDATE_PROFILE @"/user/update_avatar"
 #define API_LIVING_VIDOES @"/live/channels"
 #define API_HOT_LIVED_VIDEOS @"/live/hot_videos"
+#define API_SEND_FEEDBACK @"/feedbacks"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
@@ -28,6 +29,8 @@
 #define kThumbTop kThumbLeft
 #define kBlackToolbarAlpha 0.8
 
+#define kAboutPageURL @"https://www.baidu.com2"
+
 // 外部组件
 #import <AWMacros/AWMacros.h>
 #import <AWUITools/AWUITools.h>
@@ -35,6 +38,7 @@
 //#import <AWTableView/*.h>
 #import <AWGeometry/UIView+AWGeometry.h>
 #import <AWTableView/UITableView+RemoveBlankCells.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 // 扩展
 #import "UIViewController+AWFactoryMethods.h"
@@ -44,7 +48,7 @@
 
 #import "CTMediator.h"
 
-//#import "MBProgressHUD.h"
+#import "Toast.h"
 
 // 用户模块
 #import "UserModule.h"
