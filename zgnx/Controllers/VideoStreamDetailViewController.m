@@ -10,6 +10,7 @@
 #import "Defines.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "TabsControl.h"
+#import "PlayerToolbar.h"
 
 @interface VideoStreamDetailViewController () <TabsControlDataSource>
 
@@ -44,22 +45,11 @@
                                         self.view.width * 0.618);
     [self.view addSubview:self.player.view];
     
-    [self.player prepareToPlay];
-    self.player.shouldAutoplay = NO;
-    
+    self.player.controlStyle = MPMovieControlStyleNone;
     self.player.scalingMode = MPMovieScalingModeAspectFit;
-    
     self.player.fullscreen = NO;
-    
-//    self.player.controlStyle = MPMovieControlStyleFullscreen;
-    
-    UIButton* backBtn = AWCreateTextButton(CGRectMake(10, 30, 44, 44),
-                                           @"返回",
-                                           [UIColor redColor],
-                                           self,
-                                           @selector(back));
-    [self.view addSubview:backBtn];
-    
+
+    [self addPlayerToolbar];
     
     self.tabsDataSource = @[@"弹幕",@"节目介绍",@"回看",@"打赏"];
     
@@ -68,18 +58,60 @@
                                                                      self.view.height - self.player.view.bottom)
                                              tabsPosition:TabsPositionTop];
     [self.view addSubview:self.tabsControl];
-    
     self.tabsControl.dataSource = self;
+}
+
+- (void)addPlayerToolbar
+{
+//    [self.player.view addSubview:]
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(willEnterFullscreen)
-//                                                 name:MPMoviePlayerWillEnterFullscreenNotification
-//                                               object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(willExitFullscreen)
-//                                                 name:MPMoviePlayerWillExitFullscreenNotification
-//                                               object:nil];
+//    UIButton* playBtn = AWCreateImageButton(@"btn_play.png", self, @selector(play:));
+//    [self.player.view addSubview:playBtn];
+//    playBtn.center = CGPointMake(, <#CGFloat y#>)
     
+    PlayerToolbar* toolbar1 = [[PlayerToolbar alloc] initWithLeftButtonImage:@"live_v_btn_back.png"
+                                                            rightButtonImage:@"live_v_btn_collect.png"];
+    [self.player.view addSubview:toolbar1];
+    toolbar1.frame = CGRectMake(0, 0, self.player.view.width, 40);
+    toolbar1.tag = 10011;
+    
+    __weak typeof(self) weakSelf = self;
+    toolbar1.leftButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
+        [weakSelf back];
+    };
+    
+    toolbar1.rightButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
+        [weakSelf doFavorite];
+    };
+    
+    PlayerToolbar* toolbar2 = [[PlayerToolbar alloc] initWithLeftButtonImage:@"live_v_btn_share.png"
+                                                            rightButtonImage:@"live_v_btn_qp.png"];
+    [self.player.view addSubview:toolbar2];
+    toolbar2.frame = CGRectMake(0, self.player.view.height - 40, self.player.view.width, 40);
+    toolbar2.tag = 10012;
+    
+    toolbar2.leftButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
+        [weakSelf gotoShare];
+    };
+    
+    toolbar2.rightButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
+        [weakSelf gotoFullscreen];
+    };
+}
+
+- (void)doFavorite
+{
+    
+}
+
+- (void)gotoShare
+{
+    
+}
+
+- (void)back
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSUInteger)numberOfTabs:(TabsControl *)tabsControl
@@ -131,19 +163,6 @@
     return view;
 }
 
-- (void)willEnterFullscreen
-{
-    NSLog(@"willEnterFullscreen");
-    self.player.fullscreen = NO;
-    [self back];
-}
-//
-//- (void)willExitFullscreen
-//{
-//    NSLog(@"willExitFullscreen");
-//    [self back];
-//}
-
 - (BOOL)shouldAutorotate
 {
     return YES;
@@ -169,6 +188,8 @@
     
     [UIView animateWithDuration:duration animations:^{
         self.player.view.frame = frame;
+        [[self.player.view viewWithTag:10011] setFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 40)];
+        [[self.player.view viewWithTag:10012] setFrame:CGRectMake(0, CGRectGetHeight(frame) - 40, CGRectGetWidth(frame), 40)];
     }];
     
     if ( UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ) {
@@ -197,6 +218,9 @@
         //
         self.player.view.frame = frame;
         
+        [[self.player.view viewWithTag:10011] setFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 40)];
+        [[self.player.view viewWithTag:10012] setFrame:CGRectMake(0, CGRectGetHeight(frame) - 40, CGRectGetWidth(frame), 40)];
+        
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //
     }];
@@ -214,7 +238,7 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
-- (void)back
+- (void)gotoFullscreen
 {
     if ( UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]) ) {
         [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];

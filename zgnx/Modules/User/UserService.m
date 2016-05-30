@@ -35,7 +35,7 @@
 
 - (BOOL)isLoginedForUser:(User*)aUser
 {
-    if (!aUser) return NO;
+//    if (!aUser) return NO;
     
     return !![[NSUserDefaults standardUserDefaults] objectForKey:@"auth.user"];
 }

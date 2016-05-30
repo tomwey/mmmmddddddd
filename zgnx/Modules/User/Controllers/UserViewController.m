@@ -119,6 +119,10 @@
     cell.textLabel.text = self.dataSource[indexPath.section][indexPath.row];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
+    if ( indexPath.section == 2 ) {
+        cell.textLabel.textColor = [UIColor redColor];
+    }
+    
     return cell;
 }
 
@@ -128,62 +132,73 @@
     
     UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
     
-    if ( indexPath.section == 0 && indexPath.row == 0 ) {
-        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openWalletVCForUser:nil];
-        
-        [nav pushViewController:vc animated:YES];
-    } else if ( indexPath.section == 1 ||
-               [[UserService sharedInstance] isLoginedForUser:nil]) {
-        switch (indexPath.row) {
-            case 0:
-            {
-                // 上传
-                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
-                [nav pushViewController:vc animated:YES];
-            }
-                break;
-            case 1:
-            {
-                // 收藏
-                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLikesVCForUser:nil];
-                [nav pushViewController:vc animated:YES];
-            }
-                break;
-            case 2:
-            {
-                // 播放历史
-                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openViewHistoryVCWithAuthToken:nil];
-                [nav pushViewController:vc animated:YES];
-            }
-                break;
-            case 3:
-            {
-                // 清理缓存
-                
-            }
-                break;
-            case 4:
-            {
-                // 意见反馈
-                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openFeedbackVC];
-                [self presentViewController:vc animated:YES completion:nil];
-            }
-                break;
-            case 5:
-            {
-                // 关于
-                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openAboutVC];
-                [self presentViewController:vc animated:YES completion:nil];
-            }
-                break;
-                
-            default:
-                break;
-        }
-    } else if ( indexPath.section == 2 ) {
-        [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
+    BOOL isLogined = [[UserService sharedInstance] isLoginedForUser:nil];
+    if ( isLogined ) {
+        if ( indexPath.section == 0 && indexPath.row == 0 ) {
+            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openWalletVCForUser:nil];
             
-        }];
+            [nav pushViewController:vc animated:YES];
+        } else if ( indexPath.section == 2 && indexPath.row == 0 ) {
+            [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
+                
+            }];
+        } else {
+            [self didSelectAtIndexPath:indexPath];
+        }
+    } else {
+        [self didSelectAtIndexPath:indexPath];
+    }
+}
+
+- (void)didSelectAtIndexPath:(NSIndexPath *)indexPath
+{
+    UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
+    
+    switch (indexPath.row) {
+        case 0:
+        {
+            // 上传
+            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
+            [nav pushViewController:vc animated:YES];
+        }
+            break;
+        case 1:
+        {
+            // 收藏
+            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLikesVCForUser:nil];
+            [nav pushViewController:vc animated:YES];
+        }
+            break;
+        case 2:
+        {
+            // 播放历史
+            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openViewHistoryVCWithAuthToken:nil];
+            [nav pushViewController:vc animated:YES];
+        }
+            break;
+        case 3:
+        {
+            // 清理缓存
+            
+        }
+            break;
+        case 4:
+        {
+            // 意见反馈
+            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openFeedbackVC];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+            break;
+        case 5:
+        {
+            // 关于
+            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openAboutVC];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 

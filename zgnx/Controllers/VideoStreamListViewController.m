@@ -18,9 +18,9 @@
     self.navBar.backgroundColor = NAV_BAR_BG_COLOR;
     self.navBar.leftItem = AWCreateImageView(@"zgly_logo.png");
     
-    [self.navBar addFluidBarItem:AWCreateImageButton(@"nav_search.png", self, @selector(gotoSearch))
+    [self.navBar addFluidBarItem:AWCreateImageButtonWithSize(@"nav_search.png", CGSizeMake(35,35), self, @selector(gotoSearch))
                       atPosition:FluidBarItemPositionTitleRight];
-    [self.navBar addFluidBarItem:AWCreateImageButton(@"nav_history.png", self, @selector(gotoHistory))
+    [self.navBar addFluidBarItem:AWCreateImageButtonWithSize(@"nav_history.png", CGSizeMake(35,35), self, @selector(gotoHistory))
                       atPosition:FluidBarItemPositionTitleRight];
 }
 

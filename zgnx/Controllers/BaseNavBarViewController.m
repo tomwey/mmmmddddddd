@@ -16,9 +16,12 @@
     [super viewDidLoad];
     
     self.navBar.backgroundColor = NAV_BAR_BG_COLOR;
-    self.navBar.leftItem = AWCreateImageButton(@"btn_back.png",
-                                               self,
-                                               @selector(back));
+    UIButton* btn = AWCreateImageButtonWithSize(@"btn_back.png",
+                                                CGSizeMake(40, 44),
+                                                self,
+                                                @selector(back));
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
+    self.navBar.leftItem = btn;
     
     self.navBar.titleTextAttributes = @{ NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: AWSystemFontWithSize(18, NO) };
 }
