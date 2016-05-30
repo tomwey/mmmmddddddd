@@ -158,6 +158,26 @@
                       @{@"mobile" : mobile})];
 }
 
+- (void)updatePassword:(NSString *)newPassword
+                mobile:(NSString *)mobile
+                  code:(NSString *)code
+            completion:(void (^)(id result, NSError* error))completion
+{
+    self.noDataCallback = completion;
+    
+    if ( !self.noDataManager ) {
+        self.noDataManager = [[APIManager alloc] initWithDelegate:self];
+    }
+    
+    [self.noDataManager sendRequest:
+     APIRequestCreate(API_USER_UPDATE_PASSWORD,
+                      RequestMethodPost,
+                      @{@"code" : code ?: @"",
+                        @"password" : newPassword ?: @"",
+                        @"mobile" : mobile ?: @""
+                        })];
+}
+
 - (void)loadUserProfileForAuthToken:(NSString *)authToken
                          completion:(void (^)(User* aUser, NSError* error))completion
 {

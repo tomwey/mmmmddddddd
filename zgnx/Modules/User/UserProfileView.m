@@ -85,7 +85,7 @@
         [self.noLoginTipLabel removeFromSuperview];
         self.noLoginTipLabel = nil;
         
-        [self.avatarView setImageWithURL:[NSURL URLWithString:user.avatarUrl]];
+        [self.avatarView setImageWithURL:[NSURL URLWithString:user.avatarUrl] placeholderImage:[UIImage imageNamed:@"default_avatar.png"]];
     } else {
         if ( !self.noLoginTipLabel ) {
             self.noLoginTipLabel =

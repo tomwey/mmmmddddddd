@@ -24,6 +24,11 @@
 
 - (void)fetchCodeWithMobile:(NSString *)mobile completion:(void (^)(id result, NSError* error))completion;
 
+- (void)updatePassword:(NSString *)newPassword
+                mobile:(NSString *)mobile
+                  code:(NSString *)code
+            completion:(void (^)(id result, NSError* error))completion;
+
 - (void)signupWithMobile:(NSString *)mobile
                 password:(NSString *)password
                     code:(NSString *)code

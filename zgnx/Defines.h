@@ -20,6 +20,7 @@
 #define API_HOT_LIVED_VIDEOS @"/live/hot_videos"
 #define API_SEND_FEEDBACK @"/feedbacks"
 #define API_USER_CODE @"/auth_codes"
+#define API_USER_UPDATE_PASSWORD @"/user/update_password"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR

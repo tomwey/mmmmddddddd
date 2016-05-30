@@ -126,6 +126,7 @@
 		99754EF91CFB472A007FA577 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EF81CFB472A007FA577 /* FeedbackViewController.m */; };
 		99754EFC1CFB4734007FA577 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EFB1CFB4734007FA577 /* AboutViewController.m */; };
 		99754EFF1CFC4D1D007FA577 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 99754EFE1CFC4D1D007FA577 /* CustomTextField.m */; };
+		99754F011CFC9537007FA577 /* default_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754F001CFC9537007FA577 /* default_avatar.png */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 /* End PBXBuildFile section */
 
@@ -301,6 +302,7 @@
 		99754EFB1CFB4734007FA577 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		99754EFD1CFC4D1D007FA577 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomTextField.h; path = zgnx/Modules/User/Controllers/CustomTextField.h; sourceTree = SOURCE_ROOT; };
 		99754EFE1CFC4D1D007FA577 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomTextField.m; path = zgnx/Modules/User/Controllers/CustomTextField.m; sourceTree = SOURCE_ROOT; };
+		99754F001CFC9537007FA577 /* default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_avatar.png; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
 		A1D32B9AF838FF0721BFC625 /* Pods-zgnx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.release.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.release.xcconfig"; sourceTree = "<group>"; };
@@ -703,6 +705,7 @@
 		99754E4A1CFADA13007FA577 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				99754F001CFC9537007FA577 /* default_avatar.png */,
 				97A4AA2B1CFBE7BB0045A69B /* login_input_bg.png */,
 				97A4AA2C1CFBE7BB0045A69B /* login_input_bg@2x.png */,
 				97A4AA2D1CFBE7BB0045A69B /* login_input_bg@3x.png */,
@@ -937,6 +940,7 @@
 				97A4AA2E1CFBE7BB0045A69B /* login_input_bg.png in Resources */,
 				99754EA41CFADF14007FA577 /* nav_search@3x.png in Resources */,
 				99754EB71CFAEB89007FA577 /* tags_play.png in Resources */,
+				99754F011CFC9537007FA577 /* default_avatar.png in Resources */,
 				99754EBF1CFAF2AD007FA577 /* btn_play@3x.png in Resources */,
 				99754E841CFADBB8007FA577 /* tab_live_s.png in Resources */,
 				99754ECB1CFAF499007FA577 /* Default.png in Resources */,
