@@ -7,9 +7,9 @@
 //
 
 #import "LikesViewController.h"
-#import "CustomNavBar.h"
+#import "Defines.h"
 
-@interface LikesViewController ()
+@interface LikesViewController () <ReloadDelegate>
 
 @end
 
@@ -21,6 +21,31 @@
     
     self.navBar.title = @"我的收藏";
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadDataForErrorOrEmpty];
+    });
+}
+
+- (void)reloadDataForErrorOrEmpty
+{
+    [self.dataSource.tableView removeErrorOrEmptyTips];
+    
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    
+    [[UserService sharedInstance] loadUserLikedVideosWithPage:-1 completion:^(id result, NSError *error) {
+        
+        [MBProgressHUD hideAllHUDsForView:self.contentView animated:YES];
+        
+        if ( error ) {
+            [self.dataSource.tableView showErrorOrEmptyMessage:@"加载数据失败，请重试！" reloadDelegate:self];
+        } else {
+            if ( [result count] > 0 ) {
+                self.dataSource.dataSource = result;
+            } else {
+                [self.dataSource.tableView showErrorOrEmptyMessage:@"Oops，您还未收藏过！" reloadDelegate:self];
+            }
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,17 +10,18 @@
 #define Defines_h
 
 #define API_HOST @"http://123.59.129.197/api/v1/"
-#define API_VOD_TYPES @"/types"
-#define API_VOD_LIST @"/videos"
-#define API_USER_SIGNUP @"/account/signup"
-#define API_USER_LOGIN @"/account/login"
-#define API_USER_LOAD_PROFILE @"/user/me"
-#define API_USER_UPDATE_PROFILE @"/user/update_avatar"
-#define API_LIVING_VIDOES @"/live/channels"
-#define API_HOT_LIVED_VIDEOS @"/live/hot_videos"
-#define API_SEND_FEEDBACK @"/feedbacks"
-#define API_USER_CODE @"/auth_codes"
-#define API_USER_UPDATE_PASSWORD @"/user/update_password"
+#define API_VOD_TYPES              @"/types"
+#define API_VOD_LIST               @"/videos"
+#define API_USER_SIGNUP            @"/account/signup"
+#define API_USER_LOGIN             @"/account/login"
+#define API_USER_LOAD_PROFILE      @"/user/me"
+#define API_USER_UPDATE_PROFILE    @"/user/update_avatar"
+#define API_LIVING_VIDOES          @"/live/channels"
+#define API_HOT_LIVED_VIDEOS       @"/live/hot_videos"
+#define API_SEND_FEEDBACK          @"/feedbacks"
+#define API_USER_CODE              @"/auth_codes"
+#define API_USER_UPDATE_PASSWORD   @"/user/update_password"
+#define API_USER_LIKED_VIDEOS      @"/user/liked_videos"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
@@ -40,6 +41,8 @@
 //#import <AWTableView/*.h>
 #import <AWGeometry/UIView+AWGeometry.h>
 #import <AWTableView/UITableView+RemoveBlankCells.h>
+#import <AWTableView/AWTableViewDataSource.h>
+#import <AWTableView/UITableView+LoadEmptyOrErrorHandle.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIImageView+AFNetworking.h"
 

@@ -7,8 +7,14 @@
 //
 
 #import "CommonVODListViewController.h"
+#import "Defines.h"
+#import <AWTableView/AWTableViewDataSource.h>
 
 @interface CommonVODListViewController ()
+
+@property (nonatomic, strong) UITableView* tableView;
+
+@property (nonatomic, strong, readwrite) AWTableViewDataSource* dataSource;
 
 @end
 
@@ -17,21 +23,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.contentView.bounds style:UITableViewStylePlain];
+    [self.contentView addSubview:self.tableView];
+    
+    self.dataSource = [[AWTableViewDataSource alloc] initWithArray:nil cellClass:@"VideoCell" identifier:@"video.cell.id"];
+    
+    self.tableView.dataSource = self.dataSource;
+    self.dataSource.tableView = self.tableView;
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView removeBlankCells];
+    
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

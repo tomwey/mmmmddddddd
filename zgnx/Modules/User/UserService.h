@@ -47,4 +47,7 @@
             withAuthToken:(NSString *)authToken
                completion:(void (^)(User* aUser, NSError* error))completion;
 
+- (void)loadUserLikedVideosWithPage:(NSInteger)pageNo
+                         completion:(void (^)(id result, NSError* error))completion;
+
 @end

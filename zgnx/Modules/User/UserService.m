@@ -17,6 +17,8 @@
 @property (nonatomic, strong) APIManager* apiManager;
 @property (nonatomic, strong) APIManager* noDataManager;
 
+@property (nonatomic, strong) APIManager* userLikedVideosAPIManager;
+
 @property (nonatomic, copy) void (^responseCallback)(id result, NSError* error);
 @property (nonatomic, copy) void (^noDataCallback)(id result, NSError* error);
 
@@ -225,6 +227,10 @@
         if ( self.noDataCallback ) {
             self.noDataCallback([manager fetchDataWithReformer:nil], nil);
         }
+    } else if ( self.userLikedVideosAPIManager == manager ) {
+        if ( self.responseCallback ) {
+            self.responseCallback([[manager fetchDataWithReformer:nil] objectForKey:@"data"], nil);
+        }
     }
 }
 
@@ -242,7 +248,30 @@
             self.noDataCallback(nil, [NSError errorWithDomain:manager.apiError.message
                                                          code:manager.apiError.code userInfo:nil]);
         }
+    } else if ( self.userLikedVideosAPIManager == manager ) {
+        if ( self.responseCallback ) {
+            self.responseCallback(nil, [NSError errorWithDomain:manager.apiError.message
+                                                           code:manager.apiError.code
+                                                       userInfo:nil]);
+        }
     }
+}
+
+- (void)loadUserLikedVideosWithPage:(NSInteger)pageNo
+                         completion:(void (^)(id result, NSError* error))completion
+{
+    self.responseCallback = completion;
+    
+    if ( !self.userLikedVideosAPIManager ) {
+        self.userLikedVideosAPIManager = [[APIManager alloc] initWithDelegate:self];
+    }
+    
+    [self.userLikedVideosAPIManager sendRequest:
+     APIRequestCreate(API_USER_LIKED_VIDEOS,
+                      RequestMethodGet,
+                      @{@"token" : [[self currentUser] authToken],
+                        @"page" : pageNo < 1 ? @"" : @(pageNo),
+                        })];
 }
 
 @end

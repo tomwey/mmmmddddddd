@@ -8,6 +8,9 @@
 
 #import "BaseNavBarViewController.h"
 
+@class AWTableViewDataSource;
 @interface CommonVODListViewController : BaseNavBarViewController
+
+@property (nonatomic, strong, readonly) AWTableViewDataSource* dataSource;
 
 @end
