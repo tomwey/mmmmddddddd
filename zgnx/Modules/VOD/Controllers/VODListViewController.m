@@ -150,7 +150,7 @@
         [self.spinner startAnimating];
     }
     
-    [listView startLoad:^(BOOL succeed) {
+    [listView startLoadForPage:1 completion:^(BOOL succeed) {
         [self.spinner stopAnimating];
     }];
 }

@@ -66,6 +66,7 @@
 		97A4AA431CFD25260045A69B /* ViewHistoryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA421CFD25260045A69B /* ViewHistoryService.m */; };
 		97A4AA461CFD25CE0045A69B /* ViewHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA451CFD25CE0045A69B /* ViewHistory.m */; };
 		97A4AA491CFD28E20045A69B /* ViewHistoryTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA481CFD28E20045A69B /* ViewHistoryTable.m */; };
+		97A4AA4F1CFD70D80045A69B /* LoadMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA4E1CFD70D80045A69B /* LoadMoreView.m */; };
 		9957F3851CFAA766003C8B96 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3841CFAA766003C8B96 /* UserService.m */; };
 		9957F3881CFAA9B3003C8B96 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3871CFAA9B3003C8B96 /* User.m */; };
 		9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */; };
@@ -233,6 +234,8 @@
 		97A4AA451CFD25CE0045A69B /* ViewHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistory.m; sourceTree = "<group>"; };
 		97A4AA471CFD28E20045A69B /* ViewHistoryTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewHistoryTable.h; sourceTree = "<group>"; };
 		97A4AA481CFD28E20045A69B /* ViewHistoryTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistoryTable.m; sourceTree = "<group>"; };
+		97A4AA4D1CFD70D80045A69B /* LoadMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreView.h; sourceTree = "<group>"; };
+		97A4AA4E1CFD70D80045A69B /* LoadMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreView.m; sourceTree = "<group>"; };
 		9957F3831CFAA766003C8B96 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		9957F3841CFAA766003C8B96 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9957F3861CFAA9B3003C8B96 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = zgnx/Modules/User/User.h; sourceTree = SOURCE_ROOT; };
@@ -820,6 +823,8 @@
 				97A4AA3F1CFC1CE00045A69B /* Toast.m */,
 				97A4AA1A1CFBD46F0045A69B /* PlayerToolbar.h */,
 				97A4AA1B1CFBD46F0045A69B /* PlayerToolbar.m */,
+				97A4AA4D1CFD70D80045A69B /* LoadMoreView.h */,
+				97A4AA4E1CFD70D80045A69B /* LoadMoreView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1029,6 +1034,7 @@
 				99754EE71CFB406A007FA577 /* SignupViewController.m in Sources */,
 				974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */,
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
+				97A4AA4F1CFD70D80045A69B /* LoadMoreView.m in Sources */,
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
 				97A4A9FF1CF824BC0045A69B /* TabsControl.m in Sources */,
 				97A4AA461CFD25CE0045A69B /* ViewHistory.m in Sources */,

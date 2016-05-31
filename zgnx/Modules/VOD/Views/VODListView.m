@@ -14,12 +14,14 @@
 #import "Defines.h"
 #import "VideoCell.h"
 
-@interface VODListView () <ReloadDelegate>
+@interface VODListView () <ReloadDelegate, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) AWTableViewDataSource* dataSource;
 
 @property (nonatomic, weak) UIRefreshControl* refreshControl;
+
+@property (nonatomic, assign) NSUInteger currentPage;
 
 @end
 @implementation VODListView
@@ -34,6 +36,9 @@
 
 - (void)setup
 {
+    self.currentPage = 1;
+//    self.allowLoadingNextPage = YES;
+    
     self.dataSource = [[AWTableViewDataSource alloc] initWithArray:nil
                                                          cellClass:@"VideoCell"
                                                         identifier:@"video.cell.id"];
@@ -42,6 +47,8 @@
     [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
     
     self.tableView.dataSource = self.dataSource;
+    self.tableView.delegate   = self;
+    
     [self addSubview:self.tableView];
     
     self.tableView.autoresizingMask =
@@ -62,6 +69,15 @@
     refreshControl.tintColor = NAV_BAR_BG_COLOR;
     
     self.refreshControl = refreshControl;
+    
+    // 加载更多组件
+//    LoadMoreView* lmv = [[LoadMoreView alloc] init];
+//    __weak typeof(self) weakSelf = self;
+//    [self.tableView addFooterLoadMoreView:lmv withCallback:^{
+//        weakSelf.currentPage ++;
+//        [weakSelf startLoadForPage:weakSelf.currentPage completion:nil];
+//    }];
+//    self.loadMoreView = lmv;
 }
 
 - (void)startLoad
@@ -70,22 +86,49 @@
         [self.refreshControl beginRefreshing];
     }
     
-    [self startLoad:^(BOOL succeed) {
+    [self startLoadForPage:1 completion:^(BOOL succeed) {
         [self.refreshControl endRefreshing];
     }];
 }
 
-- (void)startLoad:(void (^)(BOOL))completion
+- (void)startLoadForPage:(NSUInteger)pageNo completion:( void (^)(BOOL succeed) )completion
 {
     [self.tableView removeErrorOrEmptyTips];
     
-    [[VODService sharedInstance] loadWithCatalogID:_catalogID completion:^(id results, NSError *error) {
+    if ( pageNo == 1 ) {
+//        [MBProgressHUD showHUDAddedTo:self animated:YES];
+    }
+    
+    [[VODService sharedInstance] loadWithCatalogID:_catalogID
+                                              page:pageNo
+                                        completion:
+     ^(id results, NSError *error) {
+         
+         [self.tableView footerLoadMoreViewEndLoading];
+         
+         if ( error ) {
+             [self.tableView showErrorOrEmptyMessage:@"Oops, 加载失败了！点击重试" reloadDelegate:self];
+             return;
+         }
+         
         if ( [results[@"data"] count] > 0 ) {
-            self.dataSource.dataSource = results[@"data"];
+//            self.allowLoadingNextPage = YES;
+            if ( pageNo > 1 ) {
+                NSMutableArray* temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
+                [temp addObjectsFromArray:results[@"data"]];
+                self.dataSource.dataSource = [NSArray arrayWithArray:temp];
+            } else {
+                self.dataSource.dataSource = results[@"data"];
+            }
             
             [self.tableView reloadData];
         } else {
-            [self.tableView showErrorOrEmptyMessage:@"点击重试" reloadDelegate:self];
+//            self.allowLoadingNextPage = YES;
+            if ( pageNo == 1 ) {
+                [self.tableView showErrorOrEmptyMessage:@"Oops, 没有数据！" reloadDelegate:self];
+            } else {
+                self.tableView.footerLoadMoreViewHidden = YES;
+            }
         }
         
         if ( completion ) {
@@ -99,11 +142,25 @@
     if ( self.reloadBlock ) {
         self.reloadBlock(NO);
     }
-    [self startLoad:^(BOOL succeed) {
+    [self startLoadForPage:1 completion:^(BOOL succeed) {
         if ( self.reloadBlock ) {
             self.reloadBlock(succeed);
         }
     }];
 }
+
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if ( self.allowLoadingNextPage &&
+//        [self.dataSource.dataSource count] == (kPageSize * self.currentPage) &&
+//        indexPath.row == [self.dataSource.dataSource count] - 1  ) {
+//        
+//        self.allowLoadingNextPage = NO;
+//        
+//        self.currentPage ++;
+//        
+//        [self startLoadForPage:self.currentPage completion:nil];
+//    }
+//}
 
 @end

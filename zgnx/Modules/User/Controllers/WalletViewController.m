@@ -7,6 +7,7 @@
 //
 
 #import "WalletViewController.h"
+#import "Defines.h"
 
 @interface WalletViewController ()
 
@@ -17,6 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.navBar.title = @"我的钱包";
 }
 
 - (void)didReceiveMemoryWarning {

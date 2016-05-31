@@ -6,8 +6,8 @@
 //  Copyright © 2016 tangwei1. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "BaseNavBarViewController.h"
 
-@interface WalletViewController : BaseViewController
+@interface WalletViewController : BaseNavBarViewController
 
 @end

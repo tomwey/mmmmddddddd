@@ -33,7 +33,9 @@
     return instance;
 }
 
-- (void)loadWithCatalogID:(NSString *)catalogID completion:(void (^)(id results, NSError* error))completion
+- (void)loadWithCatalogID:(NSString *)catalogID
+                     page:(NSInteger)pageNO
+               completion:(void (^)(id results, NSError* error))completion
 {
     if ( self.loading ) {
         return;
@@ -47,7 +49,10 @@
     
     self.callback = completion;
     
-    [self.apiManager sendRequest:APIRequestCreate(API_VOD_LIST, RequestMethodGet, @{ @"cid": catalogID })];
+    [self.apiManager sendRequest:APIRequestCreate(API_VOD_LIST, RequestMethodGet, @{ @"cid": catalogID,
+                                                                                     @"page": @(pageNO),
+                                                                                     @"size": @(kPageSize),
+                                                                                     })];
     
 }
 

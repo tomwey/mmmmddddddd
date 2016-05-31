@@ -32,6 +32,8 @@
 #define kThumbTop kThumbLeft
 #define kBlackToolbarAlpha 0.8
 
+#define kPageSize 15
+
 #define kAboutPageURL @"http://123.59.129.197/p/about"
 
 // 外部组件
@@ -51,6 +53,9 @@
 #import "UIViewController+CreateTabBarItem.h"
 #import "CustomNavBar.h"
 #import "UITableView+RefreshControl.h"
+
+#import "LoadMoreView.h"
+#import <AWRefresh/UIScrollView+AWRefresh.h>
 
 #import "CTMediator.h"
 

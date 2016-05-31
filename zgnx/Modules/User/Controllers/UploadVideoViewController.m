@@ -20,6 +20,8 @@
     // Do any additional setup after loading the view.
     
     self.navBar.title = @"上传视频";
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

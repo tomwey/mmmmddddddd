@@ -12,6 +12,8 @@
 
 + (instancetype)sharedInstance;
 
-- (void)loadWithCatalogID:(NSString *)catalogID completion:(void (^)(id results, NSError* error))completion;
+- (void)loadWithCatalogID:(NSString *)catalogID
+                     page:(NSInteger)pageNO
+               completion:(void (^)(id results, NSError* error))completion;
 
 @end

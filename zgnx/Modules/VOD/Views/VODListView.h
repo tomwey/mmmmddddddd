@@ -14,6 +14,6 @@
 
 @property (nonatomic, copy) void (^reloadBlock)(BOOL succeed);
 
-- (void)startLoad:( void (^)(BOOL succeed) )completion;
+- (void)startLoadForPage:(NSUInteger)pageNo completion:( void (^)(BOOL succeed) )completion;
 
 @end
