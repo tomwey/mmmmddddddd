@@ -63,6 +63,9 @@
 		97A4AA331CFBEB730045A69B /* UpdatePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA321CFBEB730045A69B /* UpdatePasswordViewController.m */; };
 		97A4AA371CFBF3F10045A69B /* UIViewController+AWService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA361CFBF3F10045A69B /* UIViewController+AWService.m */; };
 		97A4AA401CFC1CE00045A69B /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA3F1CFC1CE00045A69B /* Toast.m */; };
+		97A4AA431CFD25260045A69B /* ViewHistoryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA421CFD25260045A69B /* ViewHistoryService.m */; };
+		97A4AA461CFD25CE0045A69B /* ViewHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA451CFD25CE0045A69B /* ViewHistory.m */; };
+		97A4AA491CFD28E20045A69B /* ViewHistoryTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA481CFD28E20045A69B /* ViewHistoryTable.m */; };
 		9957F3851CFAA766003C8B96 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3841CFAA766003C8B96 /* UserService.m */; };
 		9957F3881CFAA9B3003C8B96 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3871CFAA9B3003C8B96 /* User.m */; };
 		9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */; };
@@ -224,6 +227,12 @@
 		97A4AA361CFBF3F10045A69B /* UIViewController+AWService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AWService.m"; sourceTree = "<group>"; };
 		97A4AA3E1CFC1CE00045A69B /* Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toast.h; sourceTree = "<group>"; };
 		97A4AA3F1CFC1CE00045A69B /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
+		97A4AA411CFD25260045A69B /* ViewHistoryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewHistoryService.h; sourceTree = "<group>"; };
+		97A4AA421CFD25260045A69B /* ViewHistoryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistoryService.m; sourceTree = "<group>"; };
+		97A4AA441CFD25CE0045A69B /* ViewHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewHistory.h; sourceTree = "<group>"; };
+		97A4AA451CFD25CE0045A69B /* ViewHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistory.m; sourceTree = "<group>"; };
+		97A4AA471CFD28E20045A69B /* ViewHistoryTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewHistoryTable.h; sourceTree = "<group>"; };
+		97A4AA481CFD28E20045A69B /* ViewHistoryTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistoryTable.m; sourceTree = "<group>"; };
 		9957F3831CFAA766003C8B96 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		9957F3841CFAA766003C8B96 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9957F3861CFAA9B3003C8B96 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = zgnx/Modules/User/User.h; sourceTree = SOURCE_ROOT; };
@@ -595,6 +604,8 @@
 				974EBE8B1CF582B2000DE692 /* ViewHistoryModule.m */,
 				974EBE8C1CF582B2000DE692 /* Models */,
 				974EBE8D1CF582B2000DE692 /* Views */,
+				97A4AA411CFD25260045A69B /* ViewHistoryService.h */,
+				97A4AA421CFD25260045A69B /* ViewHistoryService.m */,
 			);
 			path = ViewHistory;
 			sourceTree = "<group>";
@@ -611,6 +622,10 @@
 		974EBE8C1CF582B2000DE692 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				97A4AA441CFD25CE0045A69B /* ViewHistory.h */,
+				97A4AA451CFD25CE0045A69B /* ViewHistory.m */,
+				97A4AA471CFD28E20045A69B /* ViewHistoryTable.h */,
+				97A4AA481CFD28E20045A69B /* ViewHistoryTable.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1016,9 +1031,11 @@
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
 				97A4A9FF1CF824BC0045A69B /* TabsControl.m in Sources */,
+				97A4AA461CFD25CE0045A69B /* ViewHistory.m in Sources */,
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,
 				99754EEA1CFB4152007FA577 /* WalletViewController.m in Sources */,
 				99754EFF1CFC4D1D007FA577 /* CustomTextField.m in Sources */,
+				97A4AA491CFD28E20045A69B /* ViewHistoryTable.m in Sources */,
 				974EBEA31CF59F7F000DE692 /* CatalogService.m in Sources */,
 				99754EA71CFAE9F6007FA577 /* StaticToolbar.m in Sources */,
 				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,
@@ -1047,6 +1064,7 @@
 				9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */,
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,
 				974EBEA01CF5946E000DE692 /* Catalog.m in Sources */,
+				97A4AA431CFD25260045A69B /* ViewHistoryService.m in Sources */,
 				9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */,
 				99754F041CFC97AA007FA577 /* CommonVODListViewController.m in Sources */,
 				974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */,

@@ -74,9 +74,4 @@
 // 视图
 #import "CustomTextField.h"
 
-// 控制器
-//#import "LiveViewController.h"
-//#import "VODListViewController.h"
-//#import "UserViewController.h"
-
 #endif /* Defines_h */

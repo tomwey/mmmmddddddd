@@ -34,6 +34,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CTPersistance.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,12 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A18783DEC6DA366099DC6D837C91671A</key>
+		<key>A85198AF3444C0BCDC340239E7B421C3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A85198AF3444C0BCDC340239E7B421C3</key>
+		<key>AC6C573058237B97B1BEE20322865172</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -78,6 +83,11 @@
 			<true/>
 		</dict>
 		<key>DEBA20A208DEB92B529CF170F20346BD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E49A938D5F7ABB7772B5A17D3AEECCE4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

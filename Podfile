@@ -11,4 +11,5 @@ pod 'AWTableView'
 pod 'AWAPIManager'
 pod 'AWUITools'
 pod 'MBProgressHUD'
+pod 'CTPersistance'
 end
