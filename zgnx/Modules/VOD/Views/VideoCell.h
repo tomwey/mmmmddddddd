@@ -15,6 +15,8 @@ FOUNDATION_EXTERN NSString * const kVideoCellDidSelectNotification;
 
 @property (nonatomic, strong, readonly) id cellData;
 
+@property (nonatomic, copy) void (^didSelectItem)(VideoCell* cell);
+
 + (CGFloat)cellHeight;
 
 @end

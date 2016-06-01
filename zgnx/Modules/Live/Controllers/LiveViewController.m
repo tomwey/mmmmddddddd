@@ -52,7 +52,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate   = self;
     
-    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = BG_COLOR_GRAY;//[UIColor whiteColor];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -143,37 +143,45 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell.id"];
+    VideoCell* cell = (VideoCell *)[tableView dequeueReusableCellWithIdentifier:@"cell.id"];
     if ( !cell ) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+        cell = [[VideoCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:@"cell.id"];
-        cell.backgroundColor = [UIColor whiteColor];
+//        cell.backgroundColor = [UIColor whiteColor];
     }
     
     NSArray* array = indexPath.section == 0 ? self.livingDataSource : self.hotLivedDataSource;
-    
+
     id obj = nil;
     if ( indexPath.row < [array count] ) {
         obj = [array objectAtIndex:indexPath.row];
     }
+//
+//    LiveThumbView* ltv = (LiveThumbView *)[cell.contentView viewWithTag:1024];
+//    if ( !ltv ) {
+//        ltv = [[LiveThumbView alloc] init];
+//        [cell.contentView addSubview:ltv];
+//        ltv.tag = 1024;
+//        ltv.frame = CGRectMake(kThumbLeft,
+//                               kThumbTop,
+//                               self.contentView.width - kThumbLeft * 2,
+//                               self.tableView.rowHeight - kThumbTop);
+//    }
+//    
+//    __weak typeof(self) weakSelf = self;
+//    ltv.didSelectBlock = ^(LiveThumbView *view) {
+//        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:obj];
+//        [weakSelf presentViewController:vc animated:YES completion:nil];
+//    };
+//    ltv.liveInfo = obj;
     
-    LiveThumbView* ltv = (LiveThumbView *)[cell.contentView viewWithTag:1024];
-    if ( !ltv ) {
-        ltv = [[LiveThumbView alloc] init];
-        [cell.contentView addSubview:ltv];
-        ltv.tag = 1024;
-        ltv.frame = CGRectMake(kThumbLeft,
-                               kThumbTop,
-                               self.contentView.width - kThumbLeft * 2,
-                               self.tableView.rowHeight - kThumbTop);
-    }
+    [cell configData:obj];
     
     __weak typeof(self) weakSelf = self;
-    ltv.didSelectBlock = ^(LiveThumbView *view) {
+    cell.didSelectItem = ^(VideoCell* cell) {
         UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:obj];
         [weakSelf presentViewController:vc animated:YES completion:nil];
     };
-    ltv.liveInfo = obj;
     
     return cell;
 }
@@ -182,24 +190,25 @@
 {
 
     UIView* view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor clearColor];
     
     UILabel* titleLabel = (UILabel *)[view viewWithTag:10011];
     if ( !titleLabel ) {
-        titleLabel = AWCreateLabel(CGRectMake(10, 10, 100, 30),
+        titleLabel = AWCreateLabel(CGRectMake(10, 10, self.contentView.width - 20, 30),
                                    nil,
                                    NSTextAlignmentLeft,
                                    AWSystemFontWithSize(16, NO),
-                                   AWColorFromRGB(137, 137, 137));
+                                   [UIColor blackColor]);
         
         [view addSubview:titleLabel];
+        titleLabel.backgroundColor = [UIColor whiteColor];
         titleLabel.tag = 10011;
     }
     
     if ( section == 0 ) {
-        titleLabel.text = @"正在直播";
+        titleLabel.text = @"  正在直播";
     } else if ( section == 1 ) {
-        titleLabel.text = @"热门直播";
+        titleLabel.text = @"  热门直播";
     }
     
     return view;
