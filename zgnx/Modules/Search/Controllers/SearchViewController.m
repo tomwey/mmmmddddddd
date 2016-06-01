@@ -8,7 +8,13 @@
 
 #import "SearchViewController.h"
 #import "Defines.h"
+#import "BannerView.h"
 
+@interface SearchViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView* tableView;
+
+@end
 @implementation SearchViewController
 
 - (void)viewDidLoad
@@ -17,6 +23,24 @@
     
     self.navBar.title = @"搜索";
     
+    self.tableView = [[UITableView alloc] initWithFrame:self.contentView.bounds
+                                                  style:UITableViewStylePlain];
+    [self.contentView addSubview:self.tableView];
+    
+//    self.tableView.dataSource = self;
+//    self.tableView.delegate   = self;
+    
+    self.tableView.tableHeaderView = [[BannerView alloc] init];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
 }
 
 @end
