@@ -73,6 +73,7 @@
         }
         [weakSelf startLoad];
     }] setTintColor:NAV_BAR_BG_COLOR];
+    
 }
 
 - (void)reloadDataForErrorOrEmpty
@@ -147,7 +148,6 @@
     if ( !cell ) {
         cell = [[VideoCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:@"cell.id"];
-//        cell.backgroundColor = [UIColor whiteColor];
     }
     
     NSArray* array = indexPath.section == 0 ? self.livingDataSource : self.hotLivedDataSource;
@@ -156,25 +156,7 @@
     if ( indexPath.row < [array count] ) {
         obj = [array objectAtIndex:indexPath.row];
     }
-//
-//    LiveThumbView* ltv = (LiveThumbView *)[cell.contentView viewWithTag:1024];
-//    if ( !ltv ) {
-//        ltv = [[LiveThumbView alloc] init];
-//        [cell.contentView addSubview:ltv];
-//        ltv.tag = 1024;
-//        ltv.frame = CGRectMake(kThumbLeft,
-//                               kThumbTop,
-//                               self.contentView.width - kThumbLeft * 2,
-//                               self.tableView.rowHeight - kThumbTop);
-//    }
-//    
-//    __weak typeof(self) weakSelf = self;
-//    ltv.didSelectBlock = ^(LiveThumbView *view) {
-//        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:obj];
-//        [weakSelf presentViewController:vc animated:YES completion:nil];
-//    };
-//    ltv.liveInfo = obj;
-    
+
     [cell configData:obj];
     
     __weak typeof(self) weakSelf = self;

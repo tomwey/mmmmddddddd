@@ -32,7 +32,7 @@
 #define kThumbTop kThumbLeft
 #define kBlackToolbarAlpha 0.8
 
-#define kPageSize 15
+#define kPageSize 10
 
 #define kAboutPageURL @"http://123.59.129.197/p/about"
 

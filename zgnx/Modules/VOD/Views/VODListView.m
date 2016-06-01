@@ -23,6 +23,9 @@
 
 @property (nonatomic, assign) NSUInteger currentPage;
 
+@property (nonatomic, assign) BOOL hasNextPage;
+@property (nonatomic, assign) BOOL allowLoading;
+
 @end
 @implementation VODListView
 
@@ -37,7 +40,8 @@
 - (void)setup
 {
     self.currentPage = 1;
-//    self.allowLoadingNextPage = YES;
+    self.hasNextPage = NO;
+    self.allowLoading = YES;
     
     self.dataSource = [[AWTableViewDataSource alloc] initWithArray:nil
                                                          cellClass:@"VideoCell"
@@ -104,7 +108,7 @@
                                         completion:
      ^(id results, NSError *error) {
          
-         [self.tableView footerLoadMoreViewEndLoading];
+         self.allowLoading = YES;
          
          if ( error ) {
              [self.tableView showErrorOrEmptyMessage:@"Oops, 加载失败了！点击重试" reloadDelegate:self];
@@ -112,7 +116,6 @@
          }
          
         if ( [results[@"data"] count] > 0 ) {
-//            self.allowLoadingNextPage = YES;
             if ( pageNo > 1 ) {
                 NSMutableArray* temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
                 [temp addObjectsFromArray:results[@"data"]];
@@ -122,12 +125,18 @@
             }
             
             [self.tableView reloadData];
+            
+            if ( [results[@"data"] count] < kPageSize ) {
+                self.hasNextPage = NO;
+            } else {
+                self.hasNextPage = YES;
+            }
         } else {
 //            self.allowLoadingNextPage = YES;
             if ( pageNo == 1 ) {
                 [self.tableView showErrorOrEmptyMessage:@"Oops, 没有数据！" reloadDelegate:self];
             } else {
-                self.tableView.footerLoadMoreViewHidden = YES;
+//                self.tableView.footerLoadMoreViewHidden = YES;
             }
         }
         
@@ -149,18 +158,17 @@
     }];
 }
 
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if ( self.allowLoadingNextPage &&
-//        [self.dataSource.dataSource count] == (kPageSize * self.currentPage) &&
-//        indexPath.row == [self.dataSource.dataSource count] - 1  ) {
-//        
-//        self.allowLoadingNextPage = NO;
-//        
-//        self.currentPage ++;
-//        
-//        [self startLoadForPage:self.currentPage completion:nil];
-//    }
-//}
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( self.hasNextPage && self.allowLoading &&
+        indexPath.row == [self.dataSource.dataSource count] - 1  ) {
+        
+        self.allowLoading = NO;
+        
+        self.currentPage ++;
+        
+        [self startLoadForPage:self.currentPage completion:nil];
+    }
+}
 
 @end
