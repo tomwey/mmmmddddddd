@@ -10,6 +10,6 @@
 
 @interface BannerView : UIView
 
-- (void)startLoading:(void (^)(void))callback;
+- (void)startLoading:(void (^)(id selectItem))selectCallback;
 
 @end

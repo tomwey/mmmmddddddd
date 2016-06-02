@@ -67,6 +67,8 @@
 		97A4AA461CFD25CE0045A69B /* ViewHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA451CFD25CE0045A69B /* ViewHistory.m */; };
 		97A4AA491CFD28E20045A69B /* ViewHistoryTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA481CFD28E20045A69B /* ViewHistoryTable.m */; };
 		97A4AA4F1CFD70D80045A69B /* LoadMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA4E1CFD70D80045A69B /* LoadMoreView.m */; };
+		97A4AA751CFFC4970045A69B /* HotSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA741CFFC4970045A69B /* HotSearchView.m */; };
+		97A4AA781CFFE0070045A69B /* LoadDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA771CFFE0070045A69B /* LoadDataService.m */; };
 		9957F3851CFAA766003C8B96 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3841CFAA766003C8B96 /* UserService.m */; };
 		9957F3881CFAA9B3003C8B96 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3871CFAA9B3003C8B96 /* User.m */; };
 		9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */; };
@@ -237,6 +239,10 @@
 		97A4AA481CFD28E20045A69B /* ViewHistoryTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewHistoryTable.m; sourceTree = "<group>"; };
 		97A4AA4D1CFD70D80045A69B /* LoadMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreView.h; sourceTree = "<group>"; };
 		97A4AA4E1CFD70D80045A69B /* LoadMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreView.m; sourceTree = "<group>"; };
+		97A4AA731CFFC4970045A69B /* HotSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotSearchView.h; sourceTree = "<group>"; };
+		97A4AA741CFFC4970045A69B /* HotSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotSearchView.m; sourceTree = "<group>"; };
+		97A4AA761CFFE0070045A69B /* LoadDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadDataService.h; sourceTree = "<group>"; };
+		97A4AA771CFFE0070045A69B /* LoadDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadDataService.m; sourceTree = "<group>"; };
 		9957F3831CFAA766003C8B96 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		9957F3841CFAA766003C8B96 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9957F3861CFAA9B3003C8B96 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = zgnx/Modules/User/User.h; sourceTree = SOURCE_ROOT; };
@@ -575,6 +581,8 @@
 				974EBE831CF582B2000DE692 /* SearchModule.m */,
 				974EBE841CF582B2000DE692 /* Models */,
 				974EBE851CF582B2000DE692 /* Views */,
+				97A4AA761CFFE0070045A69B /* LoadDataService.h */,
+				97A4AA771CFFE0070045A69B /* LoadDataService.m */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -600,6 +608,8 @@
 			children = (
 				998C9E711CFF3EF40040E84B /* BannerView.h */,
 				998C9E721CFF3EF40040E84B /* BannerView.m */,
+				97A4AA731CFFC4970045A69B /* HotSearchView.h */,
+				97A4AA741CFFC4970045A69B /* HotSearchView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1038,6 +1048,7 @@
 				99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */,
 				99754EE71CFB406A007FA577 /* SignupViewController.m in Sources */,
 				974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */,
+				97A4AA751CFFC4970045A69B /* HotSearchView.m in Sources */,
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,
 				97A4AA4F1CFD70D80045A69B /* LoadMoreView.m in Sources */,
 				974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */,
@@ -1052,6 +1063,7 @@
 				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,
 				974EBE551CF57A4D000DE692 /* UserModule.m in Sources */,
 				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
+				97A4AA781CFFE0070045A69B /* LoadDataService.m in Sources */,
 				97A4A9F11CF7D5110045A69B /* BaseNavBarViewController.m in Sources */,
 				9957F3881CFAA9B3003C8B96 /* User.m in Sources */,
 				99754ED41CFB05E2007FA577 /* UITableView+RefreshControl.m in Sources */,

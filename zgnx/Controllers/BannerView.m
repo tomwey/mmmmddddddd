@@ -63,6 +63,8 @@
 @property (nonatomic, strong) UIPageControl*        pageControl;
 @property (nonatomic, strong) NSTimer*              scrollTimer;
 
+@property (nonatomic, copy)   void (^didSelectItem)(id selectItem);
+
 @property (nonatomic, strong) UIActivityIndicatorView* spinner;
 
 @end
@@ -82,12 +84,14 @@
 {
     self.frame = CGRectMake(0, 0, AWFullScreenWidth(),AWFullScreenWidth() * 0.382);
     
+    // 分页视图
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageViewController.view.frame = self.bounds;
     [self addSubview:self.pageViewController.view];
     self.pageViewController.delegate = self;
     
+    // 分页指示器
     self.pageControl = [[UIPageControl alloc] init];
     [self addSubview:self.pageControl];
     self.pageControl.hidesForSinglePage = YES;
@@ -95,10 +99,15 @@
     self.pageControl.y = self.height - 25;
     self.pageControl.currentPageIndicatorTintColor = NAV_BAR_BG_COLOR;
     
+    // 加载进度
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self addSubview:self.spinner];
     self.spinner.center = CGPointMake(self.width / 2, self.height / 2);
     
+    // 单击手势
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
+    
+    // 自动轮播定时器
     self.scrollTimer = [NSTimer timerWithTimeInterval:kAutoScrollInterval
                                                target:self
                                              selector:@selector(autoScroll)
@@ -112,13 +121,16 @@
 {
     [self.scrollTimer invalidate];
     self.scrollTimer = nil;
+    self.didSelectItem = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - public methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)startLoading:(void (^)(void))callback
+- (void)startLoading:(void (^)(id selectItem))callback
 {
+    self.didSelectItem = callback;
+    
     if ( !self.apiManager ) {
         self.apiManager = [[APIManager alloc] initWithDelegate:self];
     }
@@ -222,6 +234,18 @@ willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewContro
     }
     
     [self scrollToPage:nextPage animated:YES];
+}
+
+- (void)tap
+{
+    if ( self.didSelectItem ) {
+        id obj = nil;
+        if ( self.pageControl.currentPage < [self.dataSource count] ) {
+            obj = self.dataSource[self.pageControl.currentPage];
+        }
+        self.didSelectItem(obj);
+        self.didSelectItem = nil;
+    }
 }
 
 - (void)scrollToPage:(NSInteger)pageIndex animated:(BOOL)animated

@@ -23,6 +23,8 @@
 #define API_USER_UPDATE_PASSWORD   @"/user/update_password"
 #define API_USER_LIKED_VIDEOS      @"/user/liked_videos"
 #define API_BANNERS                @"/banners"
+#define API_HOT_KEYWORDS           @"/search/hot_keywords"
+#define API_VIDEOS_MORE_LIKED      @"/videos/more_liked"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
