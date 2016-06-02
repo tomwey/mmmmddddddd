@@ -66,22 +66,14 @@
     self.tableView.rowHeight = [VideoCell cellHeight];
     self.tableView.showsVerticalScrollIndicator = NO;
     
-    UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(startLoad) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:refreshControl];
-    
-    refreshControl.tintColor = NAV_BAR_BG_COLOR;
-    
-    self.refreshControl = refreshControl;
-    
-    // 加载更多组件
-//    LoadMoreView* lmv = [[LoadMoreView alloc] init];
-//    __weak typeof(self) weakSelf = self;
-//    [self.tableView addFooterLoadMoreView:lmv withCallback:^{
-//        weakSelf.currentPage ++;
-//        [weakSelf startLoadForPage:weakSelf.currentPage completion:nil];
-//    }];
-//    self.loadMoreView = lmv;
+    __weak typeof(self)weakSelf = self;
+    self.refreshControl = [self.tableView addRefreshControlWithReloadCallback:^(UIRefreshControl *control) {
+        if ( control ) {
+            [weakSelf startLoad];
+        }
+        
+    }];
+    self.refreshControl.tintColor = NAV_BAR_BG_COLOR;
 }
 
 - (void)startLoad
@@ -110,7 +102,12 @@
          
          self.allowLoading = YES;
          
+         if ( completion ) {
+             completion(!error);
+         }
+         
          if ( error ) {
+             self.hasNextPage = NO;
              [self.tableView showErrorOrEmptyMessage:@"Oops, 加载失败了！点击重试" reloadDelegate:self];
              return;
          }
@@ -133,6 +130,7 @@
             }
         } else {
 //            self.allowLoadingNextPage = YES;
+            self.hasNextPage = NO;
             if ( pageNo == 1 ) {
                 [self.tableView showErrorOrEmptyMessage:@"Oops, 没有数据！" reloadDelegate:self];
             } else {
@@ -140,9 +138,6 @@
             }
         }
         
-        if ( completion ) {
-            completion(!error);
-        }
     }];
 }
 

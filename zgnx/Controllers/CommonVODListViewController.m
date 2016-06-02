@@ -55,6 +55,7 @@
     self.refreshControl = [self.tableView addRefreshControlWithReloadCallback:^(UIRefreshControl *control) {
         [weakSelf loadDataForPage:weakSelf.currentPage];
     }];
+    self.refreshControl.tintColor = NAV_BAR_BG_COLOR;
 }
 
 - (void)viewWillAppear:(BOOL)animated

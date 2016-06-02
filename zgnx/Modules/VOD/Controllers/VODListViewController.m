@@ -16,18 +16,12 @@
 
 @interface VODListViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
-@property (nonatomic, copy) NSArray* catalogs;
-
-@property (nonatomic, strong) UIPageViewController* pageViewController;
+@property (nonatomic, copy) NSArray*          catalogs;
 @property (nonatomic, weak) PagerTabStripper* tabStripper;
-
-@property (nonatomic, assign) NSInteger currentPageIndex;
-
-@property (nonatomic, strong) SwipeView* swipeView;
-
-@property (nonatomic, strong) UIActivityIndicatorView* spinner;
+@property (nonatomic, strong) SwipeView*      swipeView;
 
 @end
+
 @implementation VODListViewController
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -59,20 +53,17 @@
     stripper.titleAttributes = @{ NSForegroundColorAttributeName: AWColorFromRGB(186, 186, 186),
                                   NSFontAttributeName: AWSystemFontWithSize(16, NO) };
     
-//    stripper.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
-//    stripper.layer.shadowOpacity = 1.0;
-//    stripper.layer.shadowRadius = 1.0;
-//    stripper.layer.shadowOffset = CGSizeMake(0, 1);
-    
     __weak typeof(self) weakSelf = self;
     self.tabStripper.didSelectBlock = ^(PagerTabStripper* stripper, NSUInteger index) {
         weakSelf.swipeView.currentPage = index;
     };
     
+    // 翻页视图
     if ( !self.swipeView ) {
         self.swipeView = [[SwipeView alloc] init];
         [self.contentView addSubview:self.swipeView];
-        self.swipeView.frame = CGRectMake(0, self.tabStripper.bottom,
+        self.swipeView.frame = CGRectMake(0,
+                                          self.tabStripper.bottom,
                                           self.tabStripper.width,
                                           self.contentView.height - self.tabStripper.height - 49);
         
@@ -96,19 +87,9 @@
         [self addVideoListForPages];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [self swipeStartLoad];
         });
     }];
-    
-    // 进度
-    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.spinner.color = NAV_BAR_BG_COLOR;
-    self.spinner.hidesWhenStopped = YES;
-    [self.contentView addSubview:self.spinner];
-    
-    self.spinner.center = self.swipeView.center;
-    
     
 }
 
@@ -135,10 +116,7 @@
 {
     id cellData = [noti.object cellData];
     
-    UIViewController* vc =
-    [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData];
-//    UINavigationController* nav = (UINavigationController*)[AWAppWindow() rootViewController];
-//    [nav pushViewController:vc animated:YES];
+    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -146,18 +124,15 @@
 {
     VODListView* listView = (VODListView *)[self.swipeView currentItemView];
     
-    if ( [self.spinner isAnimating] == NO ) {
-        [self.spinner startAnimating];
-    }
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     
     [listView startLoadForPage:1 completion:^(BOOL succeed) {
-        [self.spinner stopAnimating];
+        [MBProgressHUD hideAllHUDsForView:self.contentView animated:YES];
     }];
 }
 
 - (void)addVideoListForPages
 {
-    
     self.swipeView.dataSource = self;
     self.swipeView.delegate   = self;
 }
@@ -170,24 +145,18 @@
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
 {
     VODListView* listView = nil;
-//    if ( view == nil ) {
     listView = [[VODListView alloc] init];
     listView.backgroundColor = BG_COLOR_GRAY;
-        listView.frame = swipeView.bounds;
-//    } else {
-//        listView = (VODListView *)view;
-//    }
+    listView.frame = swipeView.bounds;
     
     listView.catalogID = [[[self.catalogs objectAtIndex:index] objectForKey:@"id"] description];
     
-//    __weak typeof(self)weakSelf = self;
     listView.reloadBlock = ^(BOOL succeed) {
         if ( succeed ) {
-            [self.spinner stopAnimating];
+            [MBProgressHUD hideAllHUDsForView:self.contentView animated:YES];
         } else {
-            [self.spinner startAnimating];
+            [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
         }
-        
     };
     
     return listView;
@@ -197,9 +166,7 @@
 {
     [self.tabStripper setSelectedIndex:swipeView.currentPage animated:YES];
     
-//    VODListView* listView = (VODListView*)[swipeView currentItemView];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [listView startLoad];
         [self swipeStartLoad];
     });
     
