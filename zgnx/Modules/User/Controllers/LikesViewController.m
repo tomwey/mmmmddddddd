@@ -34,9 +34,12 @@
         self.dataService = [[LoadDataService alloc] init];
     }
     
-    [self.dataService GET:API_USER_LIKED_VIDEOS params:@{ @"token": [[[UserService sharedInstance] currentUser] authToken],
-                                                          @"page" : @(page)
-                                                          } completion:^(id result, NSError *error) {
+    [self.dataService GET:API_USER_LIKED_VIDEOS
+                   params:@{ @"token": [[[UserService sharedInstance] currentUser] authToken],
+                             @"page" : @(page),
+                             @"size" : @(kPageSize)
+                             }
+               completion:^(id result, NSError *error) {
         [self finishLoading:[result objectForKey:@"data"] error:error];
     }];
 }

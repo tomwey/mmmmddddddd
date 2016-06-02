@@ -44,7 +44,11 @@
     }
     
     __weak typeof(self)weakSelf = self;
-    [self.dataService GET:API_SEARCH_VIDEOS params:@{ @"q" : self.keyword, @"page": @(page) } completion:^(id result, NSError *error) {
+    [self.dataService GET:API_SEARCH_VIDEOS
+                   params:@{ @"q" : self.keyword,
+                             @"page": @(page),
+                             @"size": @(kPageSize) }
+               completion:^(id result, NSError *error) {
         [weakSelf finishLoading:[result objectForKey:@"data"] error:error];
     }];
 }
