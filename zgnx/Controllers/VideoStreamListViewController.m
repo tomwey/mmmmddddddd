@@ -27,13 +27,17 @@
 - (void)gotoSearch
 {
     UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openSearchVC];
-    [self presentViewController:vc animated:YES completion:nil];
+//    [self presentViewController:vc animated:YES completion:nil];
+    UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
+    [nav pushViewController:vc animated:YES];
 }
 
 - (void)gotoHistory
 {
     UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openViewHistoryVCWithAuthToken:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+//    [self presentViewController:vc animated:YES completion:nil];
+    UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
+    [nav pushViewController:vc animated:YES];
 }
 
 @end
