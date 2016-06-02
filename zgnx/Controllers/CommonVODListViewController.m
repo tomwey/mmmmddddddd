@@ -57,6 +57,32 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(videoDidSelect:)
+                                                 name:kVideoCellDidSelectNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)videoDidSelect:(NSNotification *)noti
+{
+    id cellData = [noti.object cellData];
+    
+    UIViewController* vc =
+    [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
 - (void)loadDataForPage:(NSInteger)page
 {
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];

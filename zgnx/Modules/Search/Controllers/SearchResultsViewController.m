@@ -9,6 +9,7 @@
 #import "SearchResultsViewController.h"
 #import "Defines.h"
 #import "LoadDataService.h"
+#import "VideoCell.h"
 
 @interface SearchResultsViewController ()
 
