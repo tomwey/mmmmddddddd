@@ -46,6 +46,8 @@
     
     self.tableView.backgroundColor = BG_COLOR_GRAY;
     
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
+    
     self.tableView.rowHeight  = [VideoCell cellHeight];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -53,6 +55,7 @@
     
     __weak typeof(self) weakSelf = self;
     self.refreshControl = [self.tableView addRefreshControlWithReloadCallback:^(UIRefreshControl *control) {
+        weakSelf.currentPage = 1;
         [weakSelf loadDataForPage:weakSelf.currentPage];
     }];
     self.refreshControl.tintColor = NAV_BAR_BG_COLOR;
@@ -86,7 +89,10 @@
 
 - (void)loadDataForPage:(NSInteger)page
 {
-    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    if ( page == 1 ) {
+        [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    }
+    
     NSLog(@"加载：%d", page);
 }
 
@@ -131,7 +137,8 @@
 
 - (void)reloadDataForErrorOrEmpty
 {
-    [self loadDataForPage:1];
+    self.currentPage = 1;
+    [self loadDataForPage:self.currentPage];
 }
 
 - (void)tableView:(UITableView *)tableView

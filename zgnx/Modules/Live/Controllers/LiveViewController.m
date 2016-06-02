@@ -20,6 +20,13 @@
 @property (nonatomic, strong) NSMutableArray* livingDataSource;
 @property (nonatomic, strong) NSMutableArray* hotLivedDataSource;
 
+@property (nonatomic, assign) BOOL hasNextPage;
+@property (nonatomic, assign) BOOL allowLoading;
+@property (nonatomic, assign) NSInteger currentPage;
+
+@property (nonatomic, strong) NSError* liveDataError;
+@property (nonatomic, strong) NSError* hotDataError;
+
 @end
 @implementation LiveViewController
 
@@ -41,7 +48,11 @@
 {
     [super viewDidLoad];
     
-    self.livingDataSource = [NSMutableArray array];
+    self.hasNextPage = NO;
+    self.allowLoading = YES;
+    self.currentPage = 1;
+    
+    self.livingDataSource   = [NSMutableArray array];
     self.hotLivedDataSource = [NSMutableArray array];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.contentView.bounds
@@ -53,7 +64,6 @@
     self.tableView.delegate   = self;
     
     self.tableView.backgroundColor = BG_COLOR_GRAY;//[UIColor whiteColor];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // 简单处理
@@ -63,40 +73,40 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
     
-//    [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor whiteColor]];
-    
     // 添加下拉刷新控件
     __weak typeof(self)weakSelf = self;
     [[self.tableView addRefreshControlWithReloadCallback:^(UIRefreshControl* control) {
-        if ( !control ) {
-            
-        }
-        [weakSelf startLoad];
+        [weakSelf startLoad:control];
     }] setTintColor:NAV_BAR_BG_COLOR];
-    
 }
 
 - (void)reloadDataForErrorOrEmpty
 {
-    
-    [self startLoad];
+    [self startLoad:nil];
 }
 
-- (void)startLoad
+- (void)startLoad:(id)sender
 {
     [self.livingDataSource removeAllObjects];
     [self.hotLivedDataSource removeAllObjects];
     
     self.tableView.hidden = YES;
-    
     [self.tableView removeErrorOrEmptyTips];
+    
+    if ( !sender ) {
+        [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    }
+    
+    self.currentPage = 1;
     
     [[LiveService sharedInstance] loadLivingVideos:^(NSArray *result, NSError *error) {
         if ( result ) {
             [self.livingDataSource addObjectsFromArray:result];
         }
         
-        [self startLoadHotVideos:-1];
+        self.liveDataError = error;
+        
+        [self startLoadHotVideos:self.currentPage];
     }];
 }
 
@@ -104,21 +114,41 @@
 {
     [[LiveService sharedInstance] loadHotLivedVideosForPage:page completion:^(NSArray *results, NSError *error) {
         
-        if ( results ) {
-            [self.hotLivedDataSource addObjectsFromArray:results];
-        }
-        
-        if ( [self.hotLivedDataSource count] == 0 &&
-            [self.livingDataSource count] == 0) {
-            [self.tableView showErrorOrEmptyMessage:@"Oops, 没有数据！" reloadDelegate:self];
-        } else {
-            [self.tableView removeErrorOrEmptyTips];
-            self.tableView.hidden = NO;
-            
-            [self.tableView reloadData];
-        }
-        
         [self.tableView finishLoading];
+        [MBProgressHUD hideAllHUDsForView:self.contentView animated:YES];
+        
+        self.allowLoading = YES;
+        
+        if ( error ) {
+            self.hasNextPage = NO;
+            if ( self.liveDataError ) {
+                [self.tableView showErrorOrEmptyMessage:@"Oops,加载出错,点击重试" reloadDelegate:self];
+            }
+        } else {
+            if ( [results count] == 0 ) {
+                if ( self.currentPage == 1 && [self.livingDataSource count] == 0 ) {
+                    [self.tableView showErrorOrEmptyMessage:@"Oops, 没有数据！" reloadDelegate:self];
+                } else {
+                    [self.tableView removeErrorOrEmptyTips];
+                    
+                    self.tableView.hidden = NO;
+                    [self.tableView reloadData];
+                }
+            } else {
+                [self.hotLivedDataSource addObjectsFromArray:results];
+                
+                [self.tableView removeErrorOrEmptyTips];
+                self.tableView.hidden = NO;
+                [self.tableView reloadData];
+            }
+            
+            if ( [results count] < kPageSize ) {
+                self.hasNextPage = NO;
+            } else {
+                self.hasNextPage = YES;
+            }
+        }
+        
     }];
 }
 
@@ -176,10 +206,10 @@
     
     UILabel* titleLabel = (UILabel *)[view viewWithTag:10011];
     if ( !titleLabel ) {
-        titleLabel = AWCreateLabel(CGRectMake(10, 10, self.contentView.width - 20, 30),
+        titleLabel = AWCreateLabel(CGRectMake(10, 10, self.contentView.width - 20, 40),
                                    nil,
                                    NSTextAlignmentLeft,
-                                   AWSystemFontWithSize(16, NO),
+                                   nil,
                                    [UIColor blackColor]);
         
         [view addSubview:titleLabel];
@@ -198,7 +228,20 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 40;
+    return 50;
+}
+
+- (void)tableView:(UITableView *)tableView
+  willDisplayCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( self.hasNextPage && self.allowLoading &&
+       ( indexPath.section == 1 && indexPath.row == [self.hotLivedDataSource count] - 1) ) {
+        self.allowLoading = NO;
+        
+        self.currentPage ++;
+        [self startLoadHotVideos:self.currentPage];
+    }
 }
 
 @end

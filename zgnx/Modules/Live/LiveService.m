@@ -53,7 +53,7 @@
     
     NSDictionary* params = nil;
     if ( pageNo > 0 ) {
-        params = @{ @"page" : @(pageNo) };
+        params = @{ @"page" : @(pageNo), @"size": @(kPageSize) };
     }
     [self.hotLivedVideoAPIManager sendRequest:APIRequestCreate(API_HOT_LIVED_VIDEOS, RequestMethodGet, params )];
 }

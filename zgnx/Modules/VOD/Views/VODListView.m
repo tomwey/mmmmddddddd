@@ -55,6 +55,8 @@
     
     [self addSubview:self.tableView];
     
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
+    
     self.tableView.autoresizingMask =
     UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
@@ -71,7 +73,6 @@
         if ( control ) {
             [weakSelf startLoad];
         }
-        
     }];
     self.refreshControl.tintColor = NAV_BAR_BG_COLOR;
 }
@@ -82,7 +83,8 @@
         [self.refreshControl beginRefreshing];
     }
     
-    [self startLoadForPage:1 completion:^(BOOL succeed) {
+    self.currentPage = 1;
+    [self startLoadForPage:self.currentPage completion:^(BOOL succeed) {
         [self.refreshControl endRefreshing];
     }];
 }
@@ -146,7 +148,9 @@
     if ( self.reloadBlock ) {
         self.reloadBlock(NO);
     }
-    [self startLoadForPage:1 completion:^(BOOL succeed) {
+    
+    self.currentPage = 1;
+    [self startLoadForPage:self.currentPage completion:^(BOOL succeed) {
         if ( self.reloadBlock ) {
             self.reloadBlock(succeed);
         }
