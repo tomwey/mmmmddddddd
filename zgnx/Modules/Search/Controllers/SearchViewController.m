@@ -13,6 +13,7 @@
 @interface SearchViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView* tableView;
+@property (nonatomic, strong) BannerView*  bannerView;
 
 @end
 @implementation SearchViewController
@@ -30,7 +31,13 @@
 //    self.tableView.dataSource = self;
 //    self.tableView.delegate   = self;
     
-    self.tableView.tableHeaderView = [[BannerView alloc] init];
+    self.bannerView = [[BannerView alloc] init];
+    
+    self.tableView.tableHeaderView = self.bannerView;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.bannerView startLoading:nil];
+    });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -10,4 +10,6 @@
 
 @interface BannerView : UIView
 
+- (void)startLoading:(void (^)(void))callback;
+
 @end

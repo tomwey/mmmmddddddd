@@ -55,15 +55,20 @@
 
 @end
 
-@interface BannerView () <UIPageViewControllerDataSource, APIManagerDelegate>
+@interface BannerView () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, APIManagerDelegate>
 
 @property (nonatomic, strong) UIPageViewController* pageViewController;
-@property (nonatomic, strong) NSArray* dataSource;
+@property (nonatomic, strong) NSArray*              dataSource;
+@property (nonatomic, strong) APIManager*           apiManager;
+@property (nonatomic, strong) UIPageControl*        pageControl;
+@property (nonatomic, strong) NSTimer*              scrollTimer;
 
-@property (nonatomic, strong) APIManager* apiManager;
+@property (nonatomic, strong) UIActivityIndicatorView* spinner;
 
 @end
 @implementation BannerView
+
+#define kAutoScrollInterval 3.0
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -81,33 +86,103 @@
                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageViewController.view.frame = self.bounds;
     [self addSubview:self.pageViewController.view];
+    self.pageViewController.delegate = self;
     
-    self.apiManager = [[APIManager alloc] initWithDelegate:self];
+    self.pageControl = [[UIPageControl alloc] init];
+    [self addSubview:self.pageControl];
+    self.pageControl.hidesForSinglePage = YES;
+    self.pageControl.frame = CGRectMake(0, 0, self.width, 20);
+    self.pageControl.y = self.height - 25;
+    self.pageControl.currentPageIndicatorTintColor = NAV_BAR_BG_COLOR;
     
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self addSubview:self.spinner];
+    self.spinner.center = CGPointMake(self.width / 2, self.height / 2);
+    
+    self.scrollTimer = [NSTimer timerWithTimeInterval:kAutoScrollInterval
+                                               target:self
+                                             selector:@selector(autoScroll)
+                                             userInfo:nil
+                                              repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.scrollTimer forMode:NSRunLoopCommonModes];
+    [self.scrollTimer setFireDate:[NSDate distantFuture]];
+}
+
+- (void)dealloc
+{
+    [self.scrollTimer invalidate];
+    self.scrollTimer = nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - public methods
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)startLoading:(void (^)(void))callback
+{
+    if ( !self.apiManager ) {
+        self.apiManager = [[APIManager alloc] initWithDelegate:self];
+    }
+    
+    if ([self.spinner isAnimating] == NO) {
+        [self.spinner startAnimating];
+    }
     [self.apiManager sendRequest:APIRequestCreate(API_BANNERS, RequestMethodGet, nil)];
-    
 }
 
-- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(BannerViewController *)viewController
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UIPageViewController dataSource
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController
+               viewControllerBeforeViewController:(BannerViewController *)viewController
 {
-    if ( viewController.pageIndex - 1 < 0 ) {
-        return nil;
+    NSInteger index = viewController.pageIndex - 1;
+    if ( index < 0 ) {
+        index = [self.dataSource count] - 1;
+    }
+
+    NSString* url = [[self.dataSource objectAtIndex:index] objectForKey:@"image"];
+    return [BannerViewController viewControllerWithPageIndex:index imageUrl:url];
+}
+
+- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController
+                viewControllerAfterViewController:(BannerViewController *)viewController
+{
+    NSInteger index = viewController.pageIndex + 1;
+    if ( index > [self.dataSource count] - 1 ) {
+        index = 0;
     }
     
-    NSString* url = [[self.dataSource objectAtIndex:viewController.pageIndex - 1] objectForKey:@"image"];
-    return [BannerViewController viewControllerWithPageIndex:viewController.pageIndex - 1 imageUrl:url];
+    NSString* url = [[self.dataSource objectAtIndex:index] objectForKey:@"image"];
+    return [BannerViewController viewControllerWithPageIndex:index imageUrl:url];
 }
 
-- (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(BannerViewController *)viewController
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UIPageViewController delegate
+////////////////////////////////////////////////////////////////////////////////////////////////////
+     - (void)pageViewController:(UIPageViewController *)pageViewController
+willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers
 {
-    if ( viewController.pageIndex + 1 > [self.dataSource count] - 1 ) {
-        return nil;
-    }
-    
-    NSString* url = [[self.dataSource objectAtIndex:viewController.pageIndex + 1] objectForKey:@"image"];
-    return [BannerViewController viewControllerWithPageIndex:viewController.pageIndex + 1 imageUrl:url];
+    // 暂停自动滚动
+    [self.scrollTimer setFireDate:[NSDate distantFuture]];
 }
 
+- (void)pageViewController:(UIPageViewController *)pageViewController
+        didFinishAnimating:(BOOL)finished
+   previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers
+       transitionCompleted:(BOOL)completed
+{
+    if ( completed ) {
+        // 启动自动滚动
+        [self.scrollTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoScrollInterval]];
+        
+        BannerViewController* bvc = [pageViewController.viewControllers firstObject];
+        self.pageControl.currentPage = bvc.pageIndex;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - APIManager delegate
+////////////////////////////////////////////////////////////////////////////////////////////////////
 /** 网络请求成功回调 */
 - (void)apiManagerDidSuccess:(APIManager *)manager
 {
@@ -115,10 +190,12 @@
     
     if ( [self.dataSource count] > 0 ) {
         self.pageViewController.dataSource = self;
-        NSString* url = [[self.dataSource objectAtIndex:0] objectForKey:@"image"];
-        [self.pageViewController setViewControllers:@[[BannerViewController viewControllerWithPageIndex:0 imageUrl:url]]
-                                          direction:UIPageViewControllerNavigationDirectionForward animated:NO
-                                         completion:nil];
+        
+        // 3。0后启动定时器
+        [self.scrollTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoScrollInterval]];
+        
+        // 滚动到第一页
+        [self scrollToPage:0 animated:NO];
     }
     
 }
@@ -126,7 +203,39 @@
 /** 网络请求失败回调 */
 - (void)apiManagerDidFailure:(APIManager *)manager
 {
+    NSLog(@"Error: %@", manager.apiError);
+}
+
+- (void)apiManagerDidFinish:(APIManager *)manager
+{
+    [self.spinner stopAnimating];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSTimer target - action 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)autoScroll
+{
+    NSInteger nextPage = self.pageControl.currentPage + 1;
+    if ( nextPage > self.dataSource.count - 1 ) {
+        nextPage = 0;
+    }
     
+    [self scrollToPage:nextPage animated:YES];
+}
+
+- (void)scrollToPage:(NSInteger)pageIndex animated:(BOOL)animated
+{
+    self.pageControl.numberOfPages = [self.dataSource count];
+    
+    self.pageControl.currentPage = pageIndex;
+    
+    NSString* url = [[self.dataSource objectAtIndex:pageIndex] objectForKey:@"image"];
+    [self.pageViewController setViewControllers:@[[BannerViewController viewControllerWithPageIndex:pageIndex
+                                                                                           imageUrl:url]]
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:animated
+                                     completion:nil];
 }
 
 @end
