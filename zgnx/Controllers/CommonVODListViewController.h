@@ -11,6 +11,13 @@
 @class AWTableViewDataSource;
 @interface CommonVODListViewController : BaseNavBarViewController
 
-@property (nonatomic, strong, readonly) AWTableViewDataSource* dataSource;
+/**
+ * 子类重写，并且需要调用super
+ */
+- (void)loadDataForPage:(NSInteger)page;
+/**
+ * 每一次loadDataForPage调用完成，回调一次下面的方法
+ */
+- (void)finishLoading:(NSArray *)result error:(NSError *)error;
 
 @end

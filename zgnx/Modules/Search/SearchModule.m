@@ -8,12 +8,18 @@
 
 #import "SearchModule.h"
 #import "SearchViewController.h"
+#import "SearchResultsViewController.h"
 
 @implementation CTMediator (SearchModule)
 
 - (UIViewController *)CTMediator_openSearchVC
 {
     return [[SearchViewController alloc] init];
+}
+
+- (UIViewController *)CTMediator_openSearchResultsVCWithParams:(NSDictionary *)params
+{
+    return [[SearchResultsViewController alloc] initWithKeyword:params[@"keyword"]];
 }
 
 @end

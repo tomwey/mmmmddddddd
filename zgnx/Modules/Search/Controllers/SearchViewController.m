@@ -163,7 +163,8 @@
 
 - (void)doSearch:(NSString *)keyword
 {
-    
+    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openSearchResultsVCWithParams:@{ @"keyword":keyword }];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)openBanner:(id)bannerInfo

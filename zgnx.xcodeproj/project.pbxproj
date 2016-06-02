@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8E1924CB6785D8D27F8C6CED /* libPods-zgnx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D499CD57F8E3EDC2FFE61F /* libPods-zgnx.a */; };
+		972A24221D00087F0036D166 /* SearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972A24211D00087F0036D166 /* SearchResultsViewController.m */; };
 		974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE181CF44F81000DE692 /* UIViewController+CreateTabBarItem.m */; };
 		974EBE1F1CF54B62000DE692 /* VideoStreamListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE1E1CF54B62000DE692 /* VideoStreamListViewController.m */; };
 		974EBE281CF55DE6000DE692 /* CTMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 974EBE261CF55DE6000DE692 /* CTMediator.m */; };
@@ -143,6 +144,8 @@
 /* Begin PBXFileReference section */
 		4880867BD34CACE936F52ABC /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
 		66D499CD57F8E3EDC2FFE61F /* libPods-zgnx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zgnx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		972A24201D00087F0036D166 /* SearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsViewController.h; sourceTree = "<group>"; };
+		972A24211D00087F0036D166 /* SearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsViewController.m; sourceTree = "<group>"; };
 		974EBE171CF44F81000DE692 /* UIViewController+CreateTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CreateTabBarItem.h"; sourceTree = "<group>"; };
 		974EBE181CF44F81000DE692 /* UIViewController+CreateTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CreateTabBarItem.m"; sourceTree = "<group>"; };
 		974EBE1D1CF54B62000DE692 /* VideoStreamListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamListViewController.h; sourceTree = "<group>"; };
@@ -598,6 +601,8 @@
 			children = (
 				974EBE921CF582C6000DE692 /* SearchViewController.h */,
 				974EBE931CF582C6000DE692 /* SearchViewController.m */,
+				972A24201D00087F0036D166 /* SearchResultsViewController.h */,
+				972A24211D00087F0036D166 /* SearchResultsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1103,6 +1108,7 @@
 				9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */,
 				99754F041CFC97AA007FA577 /* CommonVODListViewController.m in Sources */,
 				974EBE7A1CF581DB000DE692 /* LiveViewController.m in Sources */,
+				972A24221D00087F0036D166 /* SearchResultsViewController.m in Sources */,
 				97A4A8041CF69F080045A69B /* VODService.m in Sources */,
 				998C9E731CFF3EF40040E84B /* BannerView.m in Sources */,
 				99754EE41CFB405E007FA577 /* LoginViewController.m in Sources */,

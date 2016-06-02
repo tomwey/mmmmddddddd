@@ -13,4 +13,6 @@
 
 - (UIViewController *)CTMediator_openSearchVC;
 
+- (UIViewController *)CTMediator_openSearchResultsVCWithParams:(NSDictionary *)params;
+
 @end

@@ -26,6 +26,7 @@
 #define API_HOT_KEYWORDS           @"/search/hot_keywords"
 #define API_VIDEOS_MORE_LIKED      @"/videos/more_liked"
 #define API_KEYWORDS_LIST          @"/search/kw_list"
+#define API_SEARCH_VIDEOS          @"/search"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
