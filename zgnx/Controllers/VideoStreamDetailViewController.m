@@ -11,15 +11,23 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "TabsControl.h"
 #import "PlayerToolbar.h"
+#import "SmallToolbar.h"
+#import "VideoPlayer.h"
 
 @interface VideoStreamDetailViewController () <TabsControlDataSource>
 
-@property (nonatomic, strong) MPMoviePlayerController* player;
+//@property (nonatomic, strong) MPMoviePlayerController* player;
 @property (nonatomic, strong) id streamData;
 
 @property (nonatomic, strong) TabsControl* tabsControl;
 
 @property (nonatomic, copy) NSArray* tabsDataSource;
+
+@property (nonatomic, strong) UIButton* backButton;
+
+@property (nonatomic, strong) VideoPlayer* playerView;
+
+@property (nonatomic, strong) SmallToolbar* toolbar;
 
 @end
 @implementation VideoStreamDetailViewController
@@ -39,79 +47,137 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.player = [[MPMoviePlayerController alloc] initWithContentURL:
-                   [NSURL URLWithString:self.streamData[@"video_file"]]];
-    self.player.view.frame = CGRectMake(0, 0, self.view.width,
-                                        self.view.width * 0.618);
-    [self.view addSubview:self.player.view];
+    NSString* videoUrl = nil;
+    NSInteger type = [self.streamData[@"type"] integerValue];
+    if ( type == 1 ) {
+        videoUrl = [[self.streamData[@"video_file"] description] length] == 0 ?
+                    [self.streamData[@"hls_url"] description] : [self.streamData[@"video_file"] description];
+        
+    } else {
+        videoUrl = [self.streamData[@"video_file"] description];
+    }
     
-    self.player.controlStyle = MPMovieControlStyleNone;
-    self.player.scalingMode = MPMovieScalingModeAspectFit;
-    self.player.fullscreen = NO;
-
-    [self addPlayerToolbar];
+//    NSURL* fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"test.mp4" ofType:nil]];
+    self.playerView = [[VideoPlayer alloc] initWithContentURL:[NSURL URLWithString:videoUrl]];
+    [self.view addSubview:self.playerView];
     
-    self.tabsDataSource = @[@"弹幕",@"节目介绍",@"回看",@"打赏"];
+    if ( [[self.streamData[@"video_file"] description] length] > 0 ) {
+        self.playerView.playerType = VideoPlayerTypeVOD;
+    } else {
+        self.playerView.playerType = VideoPlayerTypeLiving;
+    }
     
-    self.tabsControl = [[TabsControl alloc] initWithFrame:CGRectMake(0, self.player.view.bottom,
-                                                                     self.view.width,
-                                                                     self.view.height - self.player.view.bottom)
-                                             tabsPosition:TabsPositionTop];
-    [self.view addSubview:self.tabsControl];
-    self.tabsControl.dataSource = self;
-}
-
-- (void)addPlayerToolbar
-{
-//    [self.player.view addSubview:]
+    self.playerView.shouldAutoplay = YES;
     
-//    UIButton* playBtn = AWCreateImageButton(@"btn_play.png", self, @selector(play:));
-//    [self.player.view addSubview:playBtn];
-//    playBtn.center = CGPointMake(, <#CGFloat y#>)
+    self.playerView.frame = CGRectMake(0, 0, self.view.width, self.view.width * 0.618);
     
-    PlayerToolbar* toolbar1 = [[PlayerToolbar alloc] initWithLeftButtonImage:@"live_v_btn_back.png"
-                                                            rightButtonImage:@"live_v_btn_collect.png"];
-    [self.player.view addSubview:toolbar1];
-    toolbar1.frame = CGRectMake(0, 0, self.player.view.width, 40);
-    toolbar1.tag = 10011;
+    [self addExtraItemsInControl];
     
-    __weak typeof(self) weakSelf = self;
-    toolbar1.leftButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
-        [weakSelf back];
+    __weak typeof(self)weakSelf = self;
+    self.playerView.didHideControlCallback = ^(VideoPlayer* player, BOOL hidden) {
+        weakSelf.backButton.hidden = hidden;
     };
-    
-    toolbar1.rightButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
-        [weakSelf doFavorite];
-    };
-    
-    PlayerToolbar* toolbar2 = [[PlayerToolbar alloc] initWithLeftButtonImage:@"live_v_btn_share.png"
-                                                            rightButtonImage:@"live_v_btn_qp.png"];
-    [self.player.view addSubview:toolbar2];
-    toolbar2.frame = CGRectMake(0, self.player.view.height - 40, self.player.view.width, 40);
-    toolbar2.tag = 10012;
-    
-    toolbar2.leftButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
-        [weakSelf gotoShare];
-    };
-    
-    toolbar2.rightButtonClickBlock = ^(PlayerToolbar* toolbar, UIButton* sender) {
+    self.playerView.didClickFullscreenCallback = ^(VideoPlayer *player) {
         [weakSelf gotoFullscreen];
     };
+    
+    // 返回按钮
+    self.backButton = AWCreateImageButton(@"live_v_btn_back.png", self, @selector(back));
+    [self.view addSubview:self.backButton];
+    self.backButton.position = CGPointMake(10, 10);
+    
+    // 竖屏工具条
+    [self initToolbar];
+    
+    // 分栏视图控件
+    [self initTabPage];
 }
 
-- (void)doFavorite
+- (void)initTabPage
+{
+    //
+    //    self.tabsDataSource = @[@"弹幕",@"节目介绍",@"回看",@"打赏"];
+    //    self.tabsControl = [[TabsControl alloc] initWithFrame:CGRectMake(0, self.toolbar.bottom,
+    //                                                                     self.view.width,
+    //                                                                     self.view.height - self.toolbar.bottom)
+    //                                             tabsPosition:TabsPositionTop];
+    //    [self.view addSubview:self.tabsControl];
+    //    self.tabsControl.dataSource = self;
+}
+
+- (void)initToolbar
+{
+    self.toolbar = [[SmallToolbar alloc] initWithVideoInfo:self.streamData];
+    [self.view addSubview:self.toolbar];
+    self.toolbar.position = CGPointMake(0, self.playerView.bottom);
+    self.toolbar.backgroundColor = AWColorFromRGB(186,186,186);
+    
+    __weak typeof(self)weakSelf = self;
+    self.toolbar.toolbarButtonDidTapBlock = ^(UIButton* sender) {
+        switch (sender.tag) {
+            case ToolbarButtonTagBili:
+            {
+                [weakSelf openOrCloseBili:sender];
+            }
+                break;
+            case ToolbarButtonTagLike:
+            {
+                [weakSelf doLike:sender];
+            }
+                break;
+            case ToolbarButtonTagShare:
+            {
+                [weakSelf doShare];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    };
+}
+
+- (void)addExtraItemsInControl
+{
+    NSMutableArray* items = [NSMutableArray array];
+    UIButton* likeBtn = AWCreateImageButton(@"btn_like.png", self, @selector(doLike:));
+    [likeBtn setImage:[UIImage imageNamed:@"btn_liked.png"] forState:UIControlStateSelected];
+    likeBtn.selected = [self.streamData[@"liked"] boolValue];
+    [items addObject:likeBtn];
+    
+    UIButton* shareBtn = AWCreateImageButton(@"btn_share.png", self, @selector(doShare));
+    [items addObject:shareBtn];
+    
+    UIButton* danmu = AWCreateImageButton(@"danmu.png", self, @selector(openOrCloseBili:));
+    [danmu setImage:[UIImage imageNamed:@"danmu_h.png"] forState:UIControlStateSelected];
+    danmu.selected = YES;
+    [items addObject:danmu];
+    
+    self.playerView.extraItemsInControl = items;
+}
+
+- (void)doLike:(UIButton *)sender
 {
     
 }
 
-- (void)gotoShare
+- (void)doShare
+{
+    
+}
+
+- (void)openOrCloseBili:(UIButton *)sender
 {
     
 }
 
 - (void)back
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ( self.playerView.fullscreen ) {
+        [self gotoFullscreen];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (NSUInteger)numberOfTabs:(TabsControl *)tabsControl
@@ -186,10 +252,11 @@
     CGRectMake(0, 0, self.view.height, self.view.width) :
     CGRectMake(0, 0, self.view.width, self.view.width * 0.618);
     
+    self.playerView.fullscreen = UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+    
     [UIView animateWithDuration:duration animations:^{
-        self.player.view.frame = frame;
-        [[self.player.view viewWithTag:10011] setFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 40)];
-        [[self.player.view viewWithTag:10012] setFrame:CGRectMake(0, CGRectGetHeight(frame) - 40, CGRectGetWidth(frame), 40)];
+        self.playerView.frame = frame;
+        self.backButton.position = CGPointMake(10, 10);
     }];
     
     if ( UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ) {
@@ -197,6 +264,8 @@
     } else {
         self.tabsControl.hidden = NO;
     }
+    
+    self.toolbar.hidden = self.tabsControl.hidden;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -213,13 +282,14 @@
     : CGRectMake(0, 0, size.width, size.width * 0.618);
     
     self.tabsControl.hidden = size.width > size.height;
+    self.toolbar.hidden = self.tabsControl.hidden;
+    
+    self.playerView.fullscreen = self.toolbar.hidden;
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //
-        self.player.view.frame = frame;
-        
-        [[self.player.view viewWithTag:10011] setFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 40)];
-        [[self.player.view viewWithTag:10012] setFrame:CGRectMake(0, CGRectGetHeight(frame) - 40, CGRectGetWidth(frame), 40)];
+        self.playerView.frame = frame;
+        self.backButton.position = CGPointMake(10, 10);
         
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //
