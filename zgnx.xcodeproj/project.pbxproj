@@ -14,6 +14,7 @@
 		971A74121D0178BD00DA2D10 /* danmu_h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 971A740E1D0178BD00DA2D10 /* danmu_h@3x.png */; };
 		971A74131D0178BD00DA2D10 /* danmu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 971A740F1D0178BD00DA2D10 /* danmu@2x.png */; };
 		971A74141D0178BD00DA2D10 /* danmu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 971A74101D0178BD00DA2D10 /* danmu@3x.png */; };
+		971A74171D017F8400DA2D10 /* ButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74161D017F8400DA2D10 /* ButtonGroup.m */; };
 		972A1AFB1D011CFC0059E530 /* danmu_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 972A1AF91D011CFC0059E530 /* danmu_h.png */; };
 		972A1AFC1D011CFC0059E530 /* danmu.png in Resources */ = {isa = PBXBuildFile; fileRef = 972A1AFA1D011CFC0059E530 /* danmu.png */; };
 		972A1AFF1D011D2D0059E530 /* btn_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 972A1AFD1D011D2D0059E530 /* btn_pause.png */; };
@@ -180,6 +181,8 @@
 		971A740E1D0178BD00DA2D10 /* danmu_h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "danmu_h@3x.png"; sourceTree = "<group>"; };
 		971A740F1D0178BD00DA2D10 /* danmu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "danmu@2x.png"; sourceTree = "<group>"; };
 		971A74101D0178BD00DA2D10 /* danmu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "danmu@3x.png"; sourceTree = "<group>"; };
+		971A74151D017F8400DA2D10 /* ButtonGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonGroup.h; sourceTree = "<group>"; };
+		971A74161D017F8400DA2D10 /* ButtonGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonGroup.m; sourceTree = "<group>"; };
 		972A1AF91D011CFC0059E530 /* danmu_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = danmu_h.png; sourceTree = "<group>"; };
 		972A1AFA1D011CFC0059E530 /* danmu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = danmu.png; sourceTree = "<group>"; };
 		972A1AFD1D011D2D0059E530 /* btn_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_pause.png; sourceTree = "<group>"; };
@@ -948,6 +951,8 @@
 				972A24241D0108EA0036D166 /* SmallToolbar.m */,
 				972A24381D01121E0036D166 /* VideoPlayer.h */,
 				972A24391D01121E0036D166 /* VideoPlayer.m */,
+				971A74151D017F8400DA2D10 /* ButtonGroup.h */,
+				971A74161D017F8400DA2D10 /* ButtonGroup.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1225,6 +1230,7 @@
 				9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */,
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,
 				974EBEA01CF5946E000DE692 /* Catalog.m in Sources */,
+				971A74171D017F8400DA2D10 /* ButtonGroup.m in Sources */,
 				97A4AA431CFD25260045A69B /* ViewHistoryService.m in Sources */,
 				9756ED701CF431A40083B90C /* UIViewController+AWFactoryMethods.m in Sources */,
 				971A740A1D015B5E00DA2D10 /* TestViewController.m in Sources */,
