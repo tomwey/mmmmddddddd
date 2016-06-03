@@ -497,7 +497,7 @@ typedef NS_ENUM(NSInteger, SliderTouchState) {
     
     if ( self.timeLabel.text ) {
         CGSize size = [self.timeLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.timeLabel.font }];
-        self.timeLabel.frame = CGRectMake(0, 0, size.width, size.height);
+        self.timeLabel.frame = CGRectMake(0, 0, size.width + 4, size.height);
         self.timeLabel.position = CGPointMake(left - margin - self.timeLabel.width,
                                               self.height / 2 - self.timeLabel.height / 2);
         left = self.timeLabel.left;

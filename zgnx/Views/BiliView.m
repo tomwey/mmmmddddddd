@@ -7,7 +7,14 @@
 //
 
 #import "BiliView.h"
+#import "CustomTextField.h"
 
+@interface BiliView ()
+
+@property (nonatomic, strong) UIScrollView* biliContainerView;
+@property (nonatomic, strong) CustomTextField* inputField;
+
+@end
 @implementation BiliView
 
 - (instancetype)initWithFrame:(CGRect)frame

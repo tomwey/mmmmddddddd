@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "CustomNavBar.h"
 #import "Defines.h"
+#import <AWUITools/AWUITools.h>
 
 @interface LoginViewController ()
 
@@ -36,6 +37,8 @@
     scrollView.showsVerticalScrollIndicator = NO;
     
     self.scrollView = scrollView;
+    self.scrollView.contentSize = self.scrollView.frame.size;
+//    self.scrollView.backgroundColor = [UIColor redColor];
     
     UIImageView* logoView = AWCreateImageView(@"zgly_logo_s.png");
     [scrollView addSubview:logoView];
@@ -55,7 +58,7 @@
     inputBg2.center = CGPointMake(scrollView.width / 2, 10 + inputBg.bottom + inputBg2.height / 2);
     
     self.passwordField = [[UITextField alloc] initWithFrame:CGRectInset(inputBg2.frame, 10, 0)];
-    [self.contentView addSubview:self.passwordField];
+    [scrollView addSubview:self.passwordField];
     self.passwordField.placeholder = @"密码";
     self.passwordField.secureTextEntry = YES;
     
@@ -87,6 +90,10 @@
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 - (void)keyboardWillShow:(NSNotification *)noti
@@ -108,7 +115,23 @@
         [UIView animateWithDuration:[noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue]
                          animations:
          ^{
-             self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, -dty + self.loginButton.height + 5, 0);
+             self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetMinY(loginBtnFrame) - CGRectGetMinY(keyboardEndFrame) + self.loginButton.height + 5, 0);
+             self.scrollView.contentOffset = CGPointMake(0, CGRectGetMinY(loginBtnFrame) - CGRectGetMinY(keyboardEndFrame) + self.loginButton.height + 5 );
+         }];
+    } else {
+        self.scrollView.contentInset = UIEdgeInsetsZero;
+        self.scrollView.contentOffset = CGPointZero;
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)noti
+{
+    if ( self.scrollView.contentInset.bottom > 0 ) {
+        [UIView animateWithDuration:[noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue]
+                         animations:
+         ^{
+             self.scrollView.contentInset = UIEdgeInsetsZero;
+             self.scrollView.contentOffset = CGPointZero;
          }];
     }
 }
@@ -134,7 +157,7 @@
                                            
                                            if (!error) {
                                                
-                                               [self.navigationController popViewControllerAnimated:YES];
+                                               [self dismissViewControllerAnimated:YES completion:nil];
                                            } else {
                                                [Toast showText:error.domain].backgroundColor = NAV_BAR_BG_COLOR;
                                            }

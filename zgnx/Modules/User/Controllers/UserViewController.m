@@ -75,6 +75,8 @@
 {
     [super viewWillAppear:animated];
     
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0);
+    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [self loadData];

@@ -64,7 +64,8 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     }];
     
     self.viewCountLabel.text = [data[@"view_count"] description];
-    self.msgCountLabel.text  = @"10";//[data[@"msg_count"] description];
+    self.msgCountLabel.text  = [data[@"msg_count"] description];
+//    self.msgCountLabel.hidden = YES;
 }
 
 - (void)dealloc
@@ -186,10 +187,10 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 - (UILabel *)msgCountLabel
 {
     if ( !_msgCountLabel ) {
-        _msgCountLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentLeft,
+        _msgCountLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentRight,
                                         nil,
                                         [UIColor grayColor]);
-        _msgCountLabel.backgroundColor = [UIColor whiteColor];
+        _msgCountLabel.backgroundColor = [UIColor clearColor];
         [self.containerView addSubview:_msgCountLabel];
     }
     return _msgCountLabel;
