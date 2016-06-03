@@ -42,4 +42,6 @@ typedef NS_ENUM(NSInteger, VideoPlayerType) {
  */
 //- (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated;
 
+- (void)finishPlaying;
+
 @end

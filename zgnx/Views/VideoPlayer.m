@@ -106,16 +106,50 @@ typedef NS_ENUM(NSInteger, SliderTouchState) {
         [[NSRunLoop currentRunLoop] addTimer:self.updateProgressTimer forMode:NSRunLoopCommonModes];
         [self.updateProgressTimer setFireDate:[NSDate distantFuture]];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playerLoadStateDidChange:)
-                                                     name:MPMoviePlayerLoadStateDidChangeNotification
-                                                   object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(playerLoadStateDidChange:)
+//                                                     name:MPMoviePlayerLoadStateDidChangeNotification
+//                                                   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(stopPlaying)
                                                      name:MPMoviePlayerPlaybackDidFinishNotification
                                                    object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(readyForDisplay:)
+                                                     name:MPMoviePlayerReadyForDisplayDidChangeNotification
+                                                   object:nil];
+        
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(playStateChange:)
+//                                                     name:MPMoviePlayerPlaybackStateDidChangeNotification
+//                                                   object:nil];
+        
     }
     return self;
+}
+
+- (void)readyForDisplay:(NSNotification *)noti
+{
+//    NSLog(@"ready: %@", noti);
+    [self.spinner stopAnimating];
+    [self startPlaying];
+}
+
+- (void)playStateChange:(NSNotification *)noti
+{
+    NSLog(@"playStateChange: %@", noti);
+}
+
+- (void)finishPlaying
+{
+    [self.autoHideTimer invalidate];
+    self.autoHideTimer = nil;
+    
+    [self.updateProgressTimer invalidate];
+    self.updateProgressTimer = nil;
+    
+//    [self.player stop];
 }
 
 - (void)autoHideControl
@@ -277,6 +311,8 @@ typedef NS_ENUM(NSInteger, SliderTouchState) {
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.player = nil;
+    self.playerControl = nil;
 }
 
 - (void)doTap

@@ -38,7 +38,7 @@
         self.buttonNormalImages = normalImages;
         self.buttonSelectedImages = selectedImages;
         
-        self.selectedIndex = 0;
+        _selectedIndex = 0;
     }
     return self;
 }
@@ -67,6 +67,7 @@
         
         if ( index == self.selectedIndex ) {
             btn.selected = YES;
+            self.lastButton = btn;
         }
     }
     

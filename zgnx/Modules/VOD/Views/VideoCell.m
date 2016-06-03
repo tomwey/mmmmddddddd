@@ -64,7 +64,7 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     }];
     
     self.viewCountLabel.text = [data[@"view_count"] description];
-    self.msgCountLabel.text  = [data[@"msg_count"] description];
+    self.msgCountLabel.text  = @"10";//[data[@"msg_count"] description];
 }
 
 - (void)dealloc
@@ -155,7 +155,7 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 {
     if ( !_playIconView ) {
         _playIconView = AWCreateImageView(@"tags_play.png");
-        _playIconView.backgroundColor = [UIColor grayColor];
+//        _playIconView.backgroundColor = [UIColor grayColor];
         [self.containerView addSubview:_playIconView];
     }
     return _playIconView;
@@ -177,7 +177,7 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 {
     if ( !_msgIconView ) {
         _msgIconView = AWCreateImageView(@"tags_comment.png");
-        _msgIconView.backgroundColor = [UIColor grayColor];
+//        _msgIconView.backgroundColor = [UIColor grayColor];
         [self.containerView addSubview:_msgIconView];
     }
     return _msgIconView;
