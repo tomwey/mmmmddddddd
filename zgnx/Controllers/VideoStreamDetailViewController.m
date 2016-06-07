@@ -241,11 +241,11 @@
     }
     
     NSString* uri = nil;
-    if ( sender.selected ) {
-        // 取消收藏
+    if ( sender.selected == NO ) {
+        // 收藏
         uri = API_USER_LIKE;
     } else {
-        // 收藏
+        // 取消收藏
         uri = API_USER_CANCEL_LIKE;
     }
     

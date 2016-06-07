@@ -52,6 +52,7 @@
     [self.apiManager sendRequest:APIRequestCreate(API_VOD_LIST, RequestMethodGet, @{ @"cid": catalogID,
                                                                                      @"page": @(pageNO),
                                                                                      @"size": @(kPageSize),
+                                                                                     @"token": [[UserService sharedInstance] currentUser].authToken ?: @"",
                                                                                      })];
     
 }

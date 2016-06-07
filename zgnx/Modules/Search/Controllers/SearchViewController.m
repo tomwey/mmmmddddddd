@@ -179,7 +179,8 @@
     }
     
     __weak typeof(self) weakSelf = self;
-    [self.dataService GET:API_VIDEOS_MORE_LIKED params:@{ @"page": @(page) } completion:^(id result, NSError *error) {
+    [self.dataService GET:API_VIDEOS_MORE_LIKED params:@{ @"page": @(page),
+                                                          @"token": [[UserService sharedInstance] currentUser].authToken ?: @"" } completion:^(id result, NSError *error) {
 //        NSArray* data = result[@"data"];
         if ( error ) {
             NSLog(@"Error: %@", error);
