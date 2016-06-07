@@ -27,7 +27,7 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 @property (nonatomic, strong) UIImageView* msgIconView;
 @property (nonatomic, strong) UILabel*     msgCountLabel;
 
-@property (nonatomic, strong, readwrite) id cellData;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *cellData;
 
 @end
 
@@ -45,12 +45,12 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 - (void)configData:(id)data
 {
     if ( [data isKindOfClass:[NSDictionary class]] ) {
-        self.cellData = data;
+        self.cellData = [NSMutableDictionary dictionaryWithDictionary:data];
         self.cellData[@"from_type"] = @(0);
     } else {
         ViewHistory *obj = (ViewHistory *)data;
         NSDictionary* newData = [obj dictionaryRepresentationWithTable:nil];
-        self.cellData = newData;
+        self.cellData = [NSMutableDictionary dictionaryWithDictionary:newData];
         self.cellData[@"from_type"] = @(1);
     }
     

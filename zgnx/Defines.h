@@ -30,6 +30,8 @@
 #define API_VIEW_HISTORY_CREATE    @"/view_histories/create"
 #define API_VIEW_HISTORY_DELETE    @"/view_histories/delete"
 #define API_VIEW_HISTORY_LIST      @"/view_histories"
+#define API_USER_LIKE              @"/user/like"
+#define API_USER_CANCEL_LIKE       @"/user/cancel_like"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR

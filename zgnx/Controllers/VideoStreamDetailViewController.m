@@ -19,6 +19,7 @@
 #import "BiliView.h"
 #import "ViewHistoryService.h"
 #import "ViewHistory.h"
+#import "LoadDataService.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -42,7 +43,10 @@
 
 @property (nonatomic, strong) ViewHistoryService *vhService;
 
+@property (nonatomic, strong) LoadDataService *likeService;
+
 @end
+
 @implementation VideoStreamDetailViewController
 
 - (instancetype)initWithStreamData:(id)streamData fromType:(VideoFromType)fromType
@@ -229,7 +233,34 @@
 
 - (void)doLike:(UIButton *)sender
 {
+    User* user = [[UserService sharedInstance] currentUser];
+    if ( !user ) {
+        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
+        [self presentViewController:vc animated:YES completion:nil];
+        return;
+    }
     
+    NSString* uri = nil;
+    if ( sender.selected ) {
+        // 取消收藏
+        uri = API_USER_LIKE;
+    } else {
+        // 收藏
+        uri = API_USER_CANCEL_LIKE;
+    }
+    
+    __weak typeof(self) me = self;
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    [self.likeService POST:uri params:@{ @"token": user.authToken ?: @"",
+                                         @"likeable_id": self.streamData[@"id"],
+                                         @"type": self.streamData[@"type"] ?: @"",
+                                         } completion:^(id result, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:me.contentView animated:YES];
+        if ( !error ) {
+        } else {
+            sender.selected = !sender.selected;
+        }
+    }];
 }
 
 - (void)doShare
@@ -240,6 +271,14 @@
 - (void)openOrCloseBili:(UIButton *)sender
 {
     
+}
+
+- (LoadDataService *)likeService
+{
+    if ( !_likeService ) {
+        _likeService = [[LoadDataService alloc] init];
+    }
+    return _likeService;
 }
 
 - (void)back

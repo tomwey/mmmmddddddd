@@ -50,7 +50,7 @@ static CGFloat const kFluidItemSpacing     = 10.0;
 
 - (void)setup
 {
-    self.frame = CGRectMake(0, 0, CGRectGetWidth([[UIScreen mainScreen] bounds]), 44 + [self statusBarHeight]);
+    self.frame = CGRectMake(0, 0, CGRectGetWidth([[UIScreen mainScreen] bounds]), 44 + /*[self statusBarHeight]*/ 20);
     
     self.backgroundView = [[UIImageView alloc] init];
     self.backgroundView.frame = self.bounds;

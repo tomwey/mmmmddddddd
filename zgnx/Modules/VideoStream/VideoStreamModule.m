@@ -13,7 +13,11 @@
 
 - (UIViewController *)CTMediator_openVideoStreamVCWithData:(id)data fromType:(NSInteger)type
 {
-    return [[VideoStreamDetailViewController alloc] initWithStreamData:data fromType:type];
+    UIViewController* vc = [[VideoStreamDetailViewController alloc] initWithStreamData:data fromType:type];
+//    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
+//    nav.navigationBarHidden = YES;
+    return vc;
 }
 
 @end
+

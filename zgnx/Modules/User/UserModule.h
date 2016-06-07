@@ -18,6 +18,8 @@
 
 - (UIViewController *)CTMediator_openSignupVC;
 
+- (UIViewController *)CTMediator_openLoginVC;
+
 - (UIViewController *)CTMediator_signinWithMobile:(NSString *)mobile
                                          password:(NSString *)password;
 

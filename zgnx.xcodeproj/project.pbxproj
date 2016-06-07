@@ -15,6 +15,7 @@
 		971A74131D0178BD00DA2D10 /* danmu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 971A740F1D0178BD00DA2D10 /* danmu@2x.png */; };
 		971A74141D0178BD00DA2D10 /* danmu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 971A74101D0178BD00DA2D10 /* danmu@3x.png */; };
 		971A74171D017F8400DA2D10 /* ButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74161D017F8400DA2D10 /* ButtonGroup.m */; };
+		971A75331D06BB1800DA2D10 /* LikeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A75321D06BB1800DA2D10 /* LikeService.m */; };
 		972A1AFB1D011CFC0059E530 /* danmu_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 972A1AF91D011CFC0059E530 /* danmu_h.png */; };
 		972A1AFC1D011CFC0059E530 /* danmu.png in Resources */ = {isa = PBXBuildFile; fileRef = 972A1AFA1D011CFC0059E530 /* danmu.png */; };
 		972A1AFF1D011D2D0059E530 /* btn_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 972A1AFD1D011D2D0059E530 /* btn_pause.png */; };
@@ -213,6 +214,8 @@
 		971A74101D0178BD00DA2D10 /* danmu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "danmu@3x.png"; sourceTree = "<group>"; };
 		971A74151D017F8400DA2D10 /* ButtonGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonGroup.h; sourceTree = "<group>"; };
 		971A74161D017F8400DA2D10 /* ButtonGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonGroup.m; sourceTree = "<group>"; };
+		971A75311D06BB1800DA2D10 /* LikeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikeService.h; sourceTree = "<group>"; };
+		971A75321D06BB1800DA2D10 /* LikeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeService.m; sourceTree = "<group>"; };
 		972A1AF91D011CFC0059E530 /* danmu_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = danmu_h.png; sourceTree = "<group>"; };
 		972A1AFA1D011CFC0059E530 /* danmu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = danmu.png; sourceTree = "<group>"; };
 		972A1AFD1D011D2D0059E530 /* btn_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_pause.png; sourceTree = "<group>"; };
@@ -526,6 +529,8 @@
 				974EBE541CF57A4D000DE692 /* UserModule.m */,
 				9957F3831CFAA766003C8B96 /* UserService.h */,
 				9957F3841CFAA766003C8B96 /* UserService.m */,
+				971A75311D06BB1800DA2D10 /* LikeService.h */,
+				971A75321D06BB1800DA2D10 /* LikeService.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1310,6 +1315,7 @@
 				97A4AA7E1CFFF5570045A69B /* SearchBar.m in Sources */,
 				99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */,
 				99754EE71CFB406A007FA577 /* SignupViewController.m in Sources */,
+				971A75331D06BB1800DA2D10 /* LikeService.m in Sources */,
 				974EBE9A1CF588C4000DE692 /* BaseViewController.m in Sources */,
 				97A4AA751CFFC4970045A69B /* HotSearchView.m in Sources */,
 				974EBE6D1CF57D9D000DE692 /* VideoStreamModule.m in Sources */,

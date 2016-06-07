@@ -39,6 +39,11 @@
     return [[SignupViewController alloc] init];
 }
 
+- (UIViewController *)CTMediator_openLoginVC
+{
+    return [[LoginViewController alloc] init];
+}
+
 - (UIViewController *)CTMediator_signinWithMobile:(NSString *)mobile
                                          password:(NSString *)password
 {
