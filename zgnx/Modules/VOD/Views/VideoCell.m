@@ -46,10 +46,12 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 {
     if ( [data isKindOfClass:[NSDictionary class]] ) {
         self.cellData = data;
+        self.cellData[@"from_type"] = @(0);
     } else {
         ViewHistory *obj = (ViewHistory *)data;
         NSDictionary* newData = [obj dictionaryRepresentationWithTable:nil];
         self.cellData = newData;
+        self.cellData[@"from_type"] = @(1);
     }
     
     self.titleLabel.text = self.cellData[@"title"];

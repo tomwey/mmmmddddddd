@@ -51,7 +51,8 @@
         NSLog(@"%@", streamData);
         self.streamData = streamData;
         
-        self.videoFromType = fromType;
+        NSInteger type = streamData[@"from_type"] ? [streamData[@"from_type"] integerValue] : 0;
+        self.videoFromType = type;
     }
     return self;
 }
@@ -196,9 +197,6 @@
     } else {
         return [[UIView alloc] init];
     }
-//    UIView* view = [[UIView alloc] init];
-//    view.backgroundColor = AWColorFromRGB(255 * index, 255.0, 0);
-//    return view;
 }
 
 - (VideoIntroView *)introView
@@ -311,11 +309,6 @@
     self.toolbar.hidden = self.buttonGroup.hidden;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-//    NSLog(@"didRotateFromInterfaceOrientation: %d", fromInterfaceOrientation);
-}
-
 // ios8以上
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
@@ -325,8 +318,7 @@
     : CGRectMake(0, 0, size.width, size.width * 0.618);
     
     self.toolbar.hidden = size.width > size.height;
-//    self.toolbar.hidden = self.tabsControl.hidden;
-    
+
     self.playerView.fullscreen = self.toolbar.hidden;
     
     self.buttonGroup.hidden = self.panelView.hidden = self.toolbar.hidden;
