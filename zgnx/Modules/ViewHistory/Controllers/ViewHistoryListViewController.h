@@ -6,9 +6,9 @@
 //  Copyright © 2016年 tangwei1. All rights reserved.
 //
 
-#import "BaseNavBarViewController.h"
+#import "CommonVODListViewController.h"
 
-@interface ViewHistoryListViewController : BaseNavBarViewController
+@interface ViewHistoryListViewController : CommonVODListViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken;
 

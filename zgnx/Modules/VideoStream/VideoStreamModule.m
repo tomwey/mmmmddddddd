@@ -11,9 +11,9 @@
 
 @implementation CTMediator (VideoStreamModule)
 
-- (UIViewController *)CTMediator_openVideoStreamVCWithData:(id)data
+- (UIViewController *)CTMediator_openVideoStreamVCWithData:(id)data fromType:(NSInteger)type
 {
-    return [[VideoStreamDetailViewController alloc] initWithStreamData:data];
+    return [[VideoStreamDetailViewController alloc] initWithStreamData:data fromType:type];
 }
 
 @end

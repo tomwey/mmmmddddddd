@@ -10,6 +10,8 @@
 #import "Defines.h"
 #import <UIImageView+AFNetworking.h>
 #import "StaticToolbar.h"
+#import "ViewHistory.h"
+#import "ViewHistoryTable.h"
 
 NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
 
@@ -42,9 +44,15 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 
 - (void)configData:(id)data
 {
-    self.cellData = data;
+    if ( [data isKindOfClass:[NSDictionary class]] ) {
+        self.cellData = data;
+    } else {
+        ViewHistory *obj = (ViewHistory *)data;
+        NSDictionary* newData = [obj dictionaryRepresentationWithTable:nil];
+        self.cellData = newData;
+    }
     
-    self.titleLabel.text = data[@"title"];
+    self.titleLabel.text = self.cellData[@"title"];
 
     self.coverImageView.image = nil;
     self.coverImageView.userInteractionEnabled = NO;
@@ -52,7 +60,7 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     
     __weak typeof(self) weakSelf = self;
     [self.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:
-                                                 [NSURL URLWithString:data[@"cover_image"]]]
+                                                 [NSURL URLWithString:self.cellData[@"cover_image"]]]
                                placeholderImage:nil
                                         success:
      ^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
@@ -63,8 +71,8 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
                                             
     }];
     
-    self.viewCountLabel.text = [data[@"view_count"] description];
-    self.msgCountLabel.text  = [data[@"msg_count"] description];
+    self.viewCountLabel.text = [self.cellData[@"view_count"] description];
+    self.msgCountLabel.text  = [self.cellData[@"msg_count"] description];
 //    self.msgCountLabel.hidden = YES;
 }
 

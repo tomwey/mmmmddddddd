@@ -129,6 +129,16 @@ typedef NS_ENUM(NSInteger, SliderTouchState) {
     return self;
 }
 
+- (NSTimeInterval)currentPlaybackTime
+{
+    return self.player.currentPlaybackTime;
+}
+
+- (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime
+{
+    self.player.currentPlaybackTime = currentPlaybackTime;
+}
+
 - (void)readyForDisplay:(NSNotification *)noti
 {
 //    NSLog(@"ready: %@", noti);
@@ -213,6 +223,8 @@ typedef NS_ENUM(NSInteger, SliderTouchState) {
 {
     self.playerControl.hidden = NO;
     self.playerControl.playing = YES;
+    
+//    self.player.currentPlaybackTime = self.currentPlaybackTime;
     
     [self.autoHideTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:5.0]];
     

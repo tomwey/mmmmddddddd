@@ -24,19 +24,21 @@
 //#import "LiveViewController.h"
 //#import "VODListViewController.h"
 //#import "UserViewController.h"
-
+@class User;
 @interface ViewHistory : CTPersistanceRecord <CTPersistanceRecordProtocol>
 
 @property (nonatomic, copy) NSNumber* vid;
 @property (nonatomic, copy) NSString* title;
-@property (nonatomic, copy) NSString* videoFile;
-@property (nonatomic, copy) NSString* coverImage;
-@property (nonatomic, copy) NSNumber* viewCount;
-@property (nonatomic, copy) NSNumber* likesCount;
-@property (nonatomic, copy) NSNumber* msgCount;
+@property (nonatomic, copy) NSString* video_file;
+@property (nonatomic, copy) NSString* cover_image;
+@property (nonatomic, copy) NSNumber* view_count;
+@property (nonatomic, copy) NSNumber* likes_count;
+@property (nonatomic, copy) NSNumber* msg_count;
+@property (nonatomic, copy) NSNumber* video_id;
 @property (nonatomic, copy) NSNumber* type;
-@property (nonatomic, copy) NSString* streamId;
-@property (nonatomic, copy) NSString* createdOn;
+@property (nonatomic, copy) NSString* stream_id;
+@property (nonatomic, copy) NSString* created_on;
 @property (nonatomic, copy) NSNumber* currentPlaybackTime;
+@property (nonatomic, strong) User* loginedUser;
 
 @end

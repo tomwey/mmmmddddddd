@@ -12,11 +12,11 @@
 @class User;
 @interface ViewHistoryService : NSObject
 
-+ (instancetype)sharedInstance;
+//+ (instancetype)sharedInstance;
 
-- (void)saveRecord:(ViewHistory *)vh;
+- (void)saveRecord:(ViewHistory *)vh needSyncServer:(BOOL)flag;
 
-- (void)deleteRecord:(ViewHistory *)vh;
+- (void)deleteRecord:(ViewHistory *)vh needSyncServer:(BOOL)flag;
 
 - (void)loadRecordsForUser:(User *)user page:(NSInteger)page completion:(void (^)(id result, NSError* error))completion;
 

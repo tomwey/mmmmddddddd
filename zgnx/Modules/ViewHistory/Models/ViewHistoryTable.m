@@ -13,7 +13,7 @@
 
 - (NSString *)databaseName
 {
-    return @"VHDB.sqlite";
+    return @"data.sqlite";
 }
 
 - (NSString *)tableName
@@ -26,14 +26,15 @@
     return @{
              @"vid": @"INTEGER PRIMARY KEY AUTOINCREMENT",
              @"title": @"TEXT",
-             @"videoFile": @"TEXT",
-             @"coverImage": @"TEXT",
-             @"viewCount": @"INTEGER",
-             @"likesCount": @"INTEGER",
-             @"msgCount": @"INTEGER",
+             @"video_file": @"TEXT",
+             @"cover_image": @"TEXT",
+             @"view_count": @"INTEGER",
+             @"likes_count": @"INTEGER",
+             @"msg_count": @"INTEGER",
              @"type": @"INTEGER",
-             @"streamId": @"TEXT",
-             @"createdOn": @"TEXT",
+             @"video_id": @"INTEGER",
+             @"stream_id": @"TEXT",
+             @"created_on": @"TEXT",
              @"currentPlaybackTime": @"INTEGER"
              };
 }

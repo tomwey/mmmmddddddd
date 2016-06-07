@@ -28,6 +28,11 @@ typedef NS_ENUM(NSInteger, VideoPlayerType) {
 @property (nonatomic, assign) BOOL shouldAutoplay;
 
 /**
+ * 当前播放进度，只有推荐的点播视频才有观看历史
+ */
+@property (nonatomic, assign) NSTimeInterval currentPlaybackTime;
+
+/**
  * 是否是全屏播放，这里的全屏只针对设备横竖屏来说的
  */
 @property (nonatomic, assign) BOOL fullscreen;

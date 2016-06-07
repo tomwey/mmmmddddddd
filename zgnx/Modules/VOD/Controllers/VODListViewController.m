@@ -116,7 +116,7 @@
 {
     id cellData = [noti.object cellData];
     
-    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData];
+    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData fromType:0];
     [self presentViewController:vc animated:YES completion:nil];
 }
 

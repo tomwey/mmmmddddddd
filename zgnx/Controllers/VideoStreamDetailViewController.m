@@ -17,6 +17,8 @@
 #import "PanelView.h"
 #import "VideoIntroView.h"
 #import "BiliView.h"
+#import "ViewHistoryService.h"
+#import "ViewHistory.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -36,16 +38,27 @@
 
 @property (nonatomic, strong) VideoIntroView* introView;
 
+@property (nonatomic, assign) NSUInteger videoFromType;
+
+@property (nonatomic, strong) ViewHistoryService *vhService;
+
 @end
 @implementation VideoStreamDetailViewController
 
-- (instancetype)initWithStreamData:(id)streamData
+- (instancetype)initWithStreamData:(id)streamData fromType:(VideoFromType)fromType
 {
     if ( self = [super init] ) {
         NSLog(@"%@", streamData);
         self.streamData = streamData;
+        
+        self.videoFromType = fromType;
     }
     return self;
+}
+
+- (NSInteger)videoType
+{
+    return [self.streamData[@"type"] integerValue];
 }
 
 - (void)viewDidLoad
@@ -236,6 +249,23 @@
     if ( self.playerView.fullscreen ) {
         [self gotoFullscreen];
     } else {
+        // 记录观看历史
+        if ( self.videoFromType == VideoFromTypeDefault &&
+            [self videoType] == 2) {
+            if ( !self.vhService ) {
+                self.vhService = [[ViewHistoryService alloc] init];
+            }
+            
+            ViewHistory* vh = [[ViewHistory alloc] init];
+            [vh objectRepresentationWithDictionary:self.streamData];
+            
+            vh.currentPlaybackTime = @(self.playerView.currentPlaybackTime);
+            vh.video_id = self.streamData[@"id"];
+            vh.loginedUser = [[UserService sharedInstance] currentUser];
+            
+            [self.vhService saveRecord:vh needSyncServer:YES];
+        }
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }

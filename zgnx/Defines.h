@@ -27,6 +27,9 @@
 #define API_VIDEOS_MORE_LIKED      @"/videos/more_liked"
 #define API_KEYWORDS_LIST          @"/search/kw_list"
 #define API_SEARCH_VIDEOS          @"/search"
+#define API_VIEW_HISTORY_CREATE    @"/view_histories/create"
+#define API_VIEW_HISTORY_DELETE    @"/view_histories/delete"
+#define API_VIEW_HISTORY_LIST      @"/view_histories"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR

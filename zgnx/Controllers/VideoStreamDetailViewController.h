@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, VideoFromType) {
+    VideoFromTypeDefault = 0,
+    VideoFromTypeHistory = 1,
+    VideoFromTypeLike    = 2,
+};
+
 @interface VideoStreamDetailViewController : UIViewController
 
-- (instancetype)initWithStreamData:(id)streamData;
+- (instancetype)initWithStreamData:(id)streamData fromType:(VideoFromType)fromType;
 
 @end

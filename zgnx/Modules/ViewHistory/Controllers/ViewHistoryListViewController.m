@@ -8,7 +8,13 @@
 
 #import "ViewHistoryListViewController.h"
 #import "Defines.h"
+#import "ViewHistoryService.h"
 
+@interface ViewHistoryListViewController ()
+
+@property (nonatomic, strong) ViewHistoryService *vhService;
+
+@end
 @implementation ViewHistoryListViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken
@@ -25,6 +31,25 @@
     
     self.navBar.title = @"历史记录";
     
+}
+
+/**
+ * 子类重写，并且需要调用super
+ */
+- (void)loadDataForPage:(NSInteger)page
+{
+    [super loadDataForPage:page];
+    
+    if ( !self.vhService ) {
+        self.vhService = [[ViewHistoryService alloc] init];
+    }
+    
+    __weak typeof(self)weakSelf = self;
+    [self.vhService loadRecordsForUser:[[UserService sharedInstance] currentUser]
+                                  page:page
+                            completion:^(id result, NSError *error) {
+                                [weakSelf finishLoading:result error:error];
+                            }];
 }
 
 @end
