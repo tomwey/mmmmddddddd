@@ -59,6 +59,7 @@
         [weakSelf loadDataForPage:weakSelf.currentPage];
     }];
     self.refreshControl.tintColor = NAV_BAR_BG_COLOR;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -69,6 +70,35 @@
                                              selector:@selector(videoDidSelect:)
                                                  name:kVideoCellDidSelectNotification
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(cellDidDelete:)
+                                                 name:kVideoCellDidDeleteNotification
+                                               object:nil];
+}
+
+- (void)cellDidDelete:(NSNotification *)noti
+{
+    Stream *stream = [noti.object stream];
+    
+    BOOL flag = [self performSelector:@selector(removeStream:) withObject:stream];
+    
+    if ( !flag ) {
+        [[Toast showText:@"删除失败"] setBackgroundColor: NAV_BAR_BG_COLOR];
+        return;
+    }
+    
+    NSMutableArray *temp = [NSMutableArray array];
+    [self.dataSource.dataSource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( [obj isKindOfClass:[Stream class]] ) {
+            Stream* inStream = (Stream *)obj;
+            if ( ![inStream.stream_id isEqualToString:stream.stream_id] ) {
+                [temp addObject:obj];
+            }
+        }
+    }];
+    self.dataSource.dataSource = temp;
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -80,10 +110,10 @@
 
 - (void)videoDidSelect:(NSNotification *)noti
 {
-    id cellData = [noti.object cellData];
-    
+    Stream *stream = [noti.object stream];
+    stream.fromType = self.fromType;
     UIViewController* vc =
-    [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData fromType:0];
+    [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:stream];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -99,7 +129,6 @@
 - (void)finishLoading:(NSArray *)result error:(NSError *)error
 {
     [self.tableView finishLoading];
-    
     if ( self.currentPage == 1 ) {
         [MBProgressHUD hideAllHUDsForView:self.contentView animated:YES];
     }
@@ -120,14 +149,30 @@
                 [Toast showText:@"Oops, 没有更多数据了！"];
             }
         } else {
+            
+            NSMutableArray *temp = [NSMutableArray array];
+            [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                Stream *stream = nil;
+                if ( [obj isKindOfClass:[NSDictionary class]] ) {
+                    stream = [[Stream alloc] initWithDictionary:obj];
+                } else if ( [obj isKindOfClass:[Stream class]] ) {
+                    stream = (Stream *)obj;
+                }
+                stream.fromType = self.fromType;
+                if ( stream ) {
+                    [temp addObject:stream];
+                }
+            }];
+            
             self.hasNextPage = [result count] == kPageSize;
             
             if ( self.currentPage == 1 ) {
-                self.dataSource.dataSource = result;
-            } else {
-                NSMutableArray* temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
-                [temp addObjectsFromArray:result];
+                
                 self.dataSource.dataSource = temp;
+            } else {
+                NSMutableArray* temp1 = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
+                [temp1 addObjectsFromArray:temp];
+                self.dataSource.dataSource = temp1;
             }
             
             [self.tableView reloadData];

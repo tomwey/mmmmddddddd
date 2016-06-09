@@ -23,6 +23,9 @@
 - (instancetype)initWithKeyword:(NSString *)keyword
 {
     if ( self = [super init] ) {
+        
+        self.fromType = StreamFromTypeDefault;
+        
         self.keyword = keyword;
     }
     return self;

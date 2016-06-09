@@ -73,6 +73,9 @@
 
 #import "UserService.h"
 
+#import "Stream.h"
+#import "StreamTable.h"
+
 // 用户模块
 #import "UserModule.h"
 

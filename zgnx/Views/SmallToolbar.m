@@ -19,11 +19,11 @@
 @end
 @implementation SmallToolbar
 
-- (instancetype)initWithVideoInfo:(id)videoInfo
+- (instancetype)initWithStream:(Stream *)aStream
 {
     if ( self = [super init] ) {
         [self setup];
-        self.videoInfo = videoInfo;
+        self.stream = aStream;
     }
     return self;
 }
@@ -55,18 +55,18 @@
     [self addSubview:self.titleLabel];
 }
 
-- (void)setVideoInfo:(id)videoInfo
+- (void)setStream:(Stream *)stream
 {
-    _videoInfo = videoInfo;
+    _stream = stream;
     
-    if ( [_videoInfo[@"type"] integerValue] == 1 ) {
+    if ( [stream.type integerValue] == 1 ) {
         self.likeButton.hidden = YES;
     } else {
         self.likeButton.hidden = NO;
-        self.likeButton.selected = [videoInfo[@"liked"] boolValue];
+        self.likeButton.selected = [stream.liked boolValue];
     }
     
-    self.titleLabel.text = _videoInfo[@"title"];
+    self.titleLabel.text = stream.title;
 }
 
 - (void)layoutSubviews

@@ -10,10 +10,13 @@
 #import "Defines.h"
 #import <UIImageView+AFNetworking.h>
 #import "StaticToolbar.h"
-#import "ViewHistory.h"
-#import "ViewHistoryTable.h"
+//#import "ViewHistory.h"
+//#import "ViewHistoryTable.h"
+//#import "Stream.h"
+#import "Defines.h"
 
 NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
+NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotification";
 
 @interface VideoCell ()
 
@@ -27,7 +30,10 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
 @property (nonatomic, strong) UIImageView* msgIconView;
 @property (nonatomic, strong) UILabel*     msgCountLabel;
 
-@property (nonatomic, strong, readwrite) NSMutableDictionary *cellData;
+//@property (nonatomic, strong, readwrite) NSMutableDictionary *cellData;
+@property (nonatomic, strong, readwrite) Stream *stream;
+
+@property (nonatomic, strong) UIButton *deleteButton;
 
 @end
 
@@ -42,27 +48,51 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     return self;
 }
 
+- (void)doEdit
+{
+    self.deleteButton.hidden = NO;
+}
+
+- (void)doneEdit
+{
+    self.deleteButton.hidden = YES;
+}
+
 - (void)configData:(id)data
 {
     if ( [data isKindOfClass:[NSDictionary class]] ) {
-        self.cellData = [NSMutableDictionary dictionaryWithDictionary:data];
-        self.cellData[@"from_type"] = @(0);
-    } else {
-        ViewHistory *obj = (ViewHistory *)data;
-        NSDictionary* newData = [obj dictionaryRepresentationWithTable:nil];
-        self.cellData = [NSMutableDictionary dictionaryWithDictionary:newData];
-        self.cellData[@"from_type"] = @(1);
+        self.stream = [[Stream alloc] initWithDictionary:data];
+    } else if ( [data isKindOfClass:[Stream class]] ) {
+        self.stream = data;
     }
     
-    self.titleLabel.text = self.cellData[@"title"];
+    if ( self.stream.fromType == StreamFromTypeHistory ) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(doEdit)
+                                                     name:@"kStartEditNotification"
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(doneEdit)
+                                                     name:@"kEndEditNotification"
+                                                   object:nil];
+        
+        self.deleteButton.hidden = !self.stream.isEditing;
+    }
+    
+    NSLog(@"sid: %@", self.stream.stream_id);
+    
+    self.titleLabel.text = self.stream.title;
 
     self.coverImageView.image = nil;
     self.coverImageView.userInteractionEnabled = NO;
     self.coverImageView.backgroundColor = [UIColor grayColor];
     
+    NSURL *url = [NSURL URLWithString:self.stream.cover_image];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
     __weak typeof(self) weakSelf = self;
-    [self.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:
-                                                 [NSURL URLWithString:self.cellData[@"cover_image"]]]
+    [self.coverImageView setImageWithURLRequest:request
                                placeholderImage:nil
                                         success:
      ^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
@@ -73,14 +103,13 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
                                             
     }];
     
-    self.viewCountLabel.text = [self.cellData[@"view_count"] description];
-    self.msgCountLabel.text  = [self.cellData[@"msg_count"] description];
+    self.viewCountLabel.text = [self.stream.view_count description];
+    self.msgCountLabel.text  = [self.stream.msg_count description];
 //    self.msgCountLabel.hidden = YES;
 }
 
 - (void)dealloc
 {
-    self.cellData   = nil;
     self.didSelectItem = nil;
 }
 
@@ -109,6 +138,11 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
     self.msgIconView.center = CGPointMake(self.msgCountLabel.left - 5
                                           - self.msgIconView.width/2,
                                           self.msgCountLabel.midY);
+    
+    if ( self.stream.fromType == StreamFromTypeHistory ) {
+        self.deleteButton.center = CGPointMake(self.containerView.width / 2,
+                                               self.containerView.height / 2);
+    }
 }
 
 + (CGRect)calcuContainerViewFrame
@@ -204,6 +238,23 @@ NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotifica
         [self.containerView addSubview:_msgCountLabel];
     }
     return _msgCountLabel;
+}
+
+- (UIButton *)deleteButton
+{
+    if ( !_deleteButton ) {
+        _deleteButton = AWCreateImageButton(@"his_delete.png", self, @selector(delete));
+        [self.containerView addSubview:_deleteButton];
+    }
+    
+    [self.containerView bringSubviewToFront:_deleteButton];
+    
+    return _deleteButton;
+}
+
+- (void)delete
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kVideoCellDidDeleteNotification object:self];
 }
 
 - (void)tap

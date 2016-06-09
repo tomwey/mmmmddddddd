@@ -14,7 +14,7 @@
 
 @interface ViewHistoryService () <APIManagerDelegate>
 
-@property (nonatomic, strong) ViewHistoryTable* vhTable;
+@property (nonatomic, strong) StreamTable* vhTable;
 
 @property (nonatomic, strong) APIManager* apiManager;
 
@@ -24,34 +24,19 @@
 
 @implementation ViewHistoryService
 
-//+ (instancetype)sharedInstance
-//{
-//    static ViewHistoryService* instance = nil;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        if ( !instance ) {
-//            instance = [[ViewHistoryService alloc] init];
-//        }
-//    });
-//    return instance;
-//}
-//
-//- (instancetype)init
-//{
-//    if ( self = [super init] ) {
-//        self.vhTable = [[ViewHistoryTable alloc] init];
-//    }
-//    return self;
-//}
-
-- (void)saveRecord:(ViewHistory *)vh needSyncServer:(BOOL)flag
+- (void)saveRecord:(Stream *)vh needSyncServer:(BOOL)flag
 {
     NSError* error = nil;
     
-    NSInteger count = [[self.vhTable countWithWhereCondition:@"stream_id = :sid"
-                                            conditionParams:@{ @"sid": vh.stream_id }
-                                                      error:nil] integerValue];
-    if ( count > 0 ) {
+//    NSInteger count = [[self.vhTable countWithWhereCondition:@"stream_id = :sid"
+//                                            conditionParams:@{ @"sid": [NSString stringWithFormat:@"'%@'", vh.stream_id] }
+//                                                      error:&error] integerValue];
+    Stream *stream = (Stream *)[self.vhTable findFirstRowWithWhereCondition: @"stream_id = :sid"
+                                                  conditionParams:@{ @"sid": [NSString stringWithFormat:@"'%@'", vh.stream_id] }
+                                                       isDistinct:YES
+                                                            error:&error];
+    if ( stream ) {
+        vh.identifier = stream.identifier;
         [self.vhTable updateRecord:vh error:&error];
     } else {
         [self.vhTable insertRecord:vh error:&error];
@@ -61,12 +46,14 @@
         NSLog(@"error: %@", error);
     }
     
+    User *user = [[UserService sharedInstance] currentUser];
+    NSString *token = user.authToken ?: @"";
     if ( flag ) {
         [self.apiManager sendRequest:APIRequestCreate(API_VIEW_HISTORY_CREATE,
                                                       RequestMethodPost,
                                                       @{
-                                                        @"token": vh.loginedUser ? vh.loginedUser.authToken ?: @"" : @"",
-                                                        @"viewable_id": vh.video_id ?: @(-1),
+                                                        @"token": token,
+                                                        @"viewable_id": vh.id_,
                                                         @"progress": vh.currentPlaybackTime ?: @(0),
                                                         @"type" : vh.type ?: @(2),
                                                         })];
@@ -74,23 +61,34 @@
     
 }
 
-- (void)deleteRecord:(ViewHistory *)vh needSyncServer:(BOOL)flag
+- (void)dealloc
+{
+    self.apiManager.delegate = nil;
+    [self.apiManager cancelRequest];
+}
+
+- (BOOL)deleteRecord:(Stream *)vh needSyncServer:(BOOL)flag
 {
     NSError* error = nil;
     [self.vhTable deleteRecord:vh error:&error];
     if ( error ) {
         NSLog(@"error: %@", error);
+        return NO;
     }
+    
+    User *user = [[UserService sharedInstance] currentUser];
+    NSString *token = user.authToken ?: @"";
     
     if ( flag ) {
         [self.apiManager sendRequest:APIRequestCreate(API_VIEW_HISTORY_DELETE,
                                                       RequestMethodPost,
                                                       @{
-                                                        @"token": vh.loginedUser ? vh.loginedUser.authToken ?: @"" : @"",
-                                                        @"viewable_id": vh.vid ?: @(-1),
+                                                        @"token": token,
+                                                        @"viewable_id": vh.id_,
                                                         @"type" : vh.type ?: @(2),
                                                         })];
     }
+    return YES;
 }
 
 - (void)loadRecordsForUser:(User *)user page:(NSInteger)page completion:(void (^)(id result, NSError* error))completion
@@ -98,7 +96,7 @@
     self.responseCallback = completion;
     
     CTPersistanceCriteria* criteria = [[CTPersistanceCriteria alloc] init];
-    criteria.orderBy = @"vid";
+    criteria.orderBy = @"identifier";
     criteria.isDESC = YES;
     criteria.isDistinct = YES;
     
@@ -167,10 +165,10 @@
     }
 }
 
-- (ViewHistoryTable *)vhTable
+- (StreamTable *)vhTable
 {
     if ( !_vhTable ) {
-        _vhTable = [[ViewHistoryTable alloc] init];
+        _vhTable = [[StreamTable alloc] init];
     }
     return _vhTable;
 }

@@ -114,9 +114,11 @@
 
 - (void)cellDidSelect:(NSNotification *)noti
 {
-    id cellData = [noti.object cellData];
+//    id cellData = [noti.object cellData];
+    Stream *stream = [noti.object stream];
+    stream.fromType = StreamFromTypeDefault;
     
-    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:cellData fromType:0];
+    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:stream];
     [self presentViewController:vc animated:YES completion:nil];
 }
 

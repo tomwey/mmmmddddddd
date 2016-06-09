@@ -10,10 +10,14 @@
 #import <AWTableView/AWTableDataConfig.h>
 
 FOUNDATION_EXTERN NSString * const kVideoCellDidSelectNotification;
+FOUNDATION_EXTERN NSString * const kVideoCellDidDeleteNotification;
 
+@class Stream;
 @interface VideoCell : UITableViewCell <AWTableDataConfig>
 
-@property (nonatomic, strong, readonly) id cellData;
+//@property (nonatomic, strong, readonly) id cellData;
+
+@property (nonatomic, strong, readonly) Stream *stream;
 
 @property (nonatomic, copy) void (^didSelectItem)(VideoCell* cell);
 

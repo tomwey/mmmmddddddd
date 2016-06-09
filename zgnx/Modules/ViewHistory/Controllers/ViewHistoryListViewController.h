@@ -8,8 +8,11 @@
 
 #import "CommonVODListViewController.h"
 
+@class Stream;
 @interface ViewHistoryListViewController : CommonVODListViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken;
+
+- (BOOL)removeStream:(Stream *)aStream;
 
 @end

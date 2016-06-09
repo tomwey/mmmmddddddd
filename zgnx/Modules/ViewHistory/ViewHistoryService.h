@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class ViewHistory;
+@class Stream;
 @class User;
 @interface ViewHistoryService : NSObject
 
 //+ (instancetype)sharedInstance;
 
-- (void)saveRecord:(ViewHistory *)vh needSyncServer:(BOOL)flag;
+- (void)saveRecord:(Stream *)vh needSyncServer:(BOOL)flag;
 
-- (void)deleteRecord:(ViewHistory *)vh needSyncServer:(BOOL)flag;
+- (BOOL)deleteRecord:(Stream *)vh needSyncServer:(BOOL)flag;
 
 - (void)loadRecordsForUser:(User *)user page:(NSInteger)page completion:(void (^)(id result, NSError* error))completion;
 

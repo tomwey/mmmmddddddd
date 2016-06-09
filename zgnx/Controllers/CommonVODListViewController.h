@@ -7,6 +7,7 @@
 //
 
 #import "BaseNavBarViewController.h"
+#import "Stream.h"
 
 @class AWTableViewDataSource;
 @interface CommonVODListViewController : BaseNavBarViewController
@@ -19,5 +20,7 @@
  * 每一次loadDataForPage调用完成，回调一次下面的方法
  */
 - (void)finishLoading:(NSArray *)result error:(NSError *)error;
+
+@property (nonatomic, assign) NSInteger fromType;
 
 @end

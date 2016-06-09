@@ -14,8 +14,11 @@ typedef NS_ENUM(NSInteger, VideoFromType) {
     VideoFromTypeLike    = 2,
 };
 
+@class Stream;
 @interface VideoStreamDetailViewController : UIViewController
 
-- (instancetype)initWithStreamData:(id)streamData fromType:(VideoFromType)fromType;
+//- (instancetype)initWithStreamData:(id)streamData fromType:(VideoFromType)fromType;
+
+- (instancetype)initWithStream:(Stream *)aStream;
 
 @end

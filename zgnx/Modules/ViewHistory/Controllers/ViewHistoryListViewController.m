@@ -9,10 +9,14 @@
 #import "ViewHistoryListViewController.h"
 #import "Defines.h"
 #import "ViewHistoryService.h"
+#import "VideoCell.h"
 
 @interface ViewHistoryListViewController ()
 
 @property (nonatomic, strong) ViewHistoryService *vhService;
+@property (nonatomic, strong) UIButton *editButton;
+
+@property (nonatomic, assign) BOOL isEditing;
 
 @end
 @implementation ViewHistoryListViewController
@@ -29,8 +33,48 @@
 {
     [super viewDidLoad];
     
+    self.fromType = StreamFromTypeHistory;
+    
     self.navBar.title = @"历史记录";
     
+    self.editButton = AWCreateTextButton(CGRectMake(0, 0, 40, 40),
+                                         @"编辑",
+                                         [UIColor whiteColor],
+                                         self,
+                                         @selector(edit));
+    self.navBar.rightItem = self.editButton;
+}
+
+- (BOOL)removeStream:(Stream *)aStream
+{
+    if ( !self.vhService ) {
+        self.vhService = [[ViewHistoryService alloc] init];
+    }
+    
+    return [self.vhService deleteRecord:aStream needSyncServer:YES];
+}
+
+- (void)edit
+{
+    if ( [[self.editButton currentTitle] isEqualToString:@"编辑"] ) {
+        [self.editButton setTitle:@"完成" forState:UIControlStateNormal];
+        self.isEditing = YES;
+        [self doEdit];
+    } else {
+        [self.editButton setTitle:@"编辑" forState:UIControlStateNormal];
+        self.isEditing = NO;
+        [self done];
+    }
+}
+
+- (void)doEdit
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kStartEditNotification" object:nil];
+}
+
+- (void)done
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kEndEditNotification" object:nil];
 }
 
 /**
@@ -48,6 +92,10 @@
     [self.vhService loadRecordsForUser:[[UserService sharedInstance] currentUser]
                                   page:page
                             completion:^(id result, NSError *error) {
+                                [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                    Stream *stream = (Stream *)obj;
+                                    stream.isEditing = weakSelf.isEditing;
+                                }];
                                 [weakSelf finishLoading:result error:error];
                             }];
 }

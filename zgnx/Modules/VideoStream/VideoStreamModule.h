@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "CTMediator.h"
 
+@class Stream;
 @interface CTMediator (VideoStreamModule)
 
-- (UIViewController *)CTMediator_openVideoStreamVCWithData:(id)data fromType:(NSInteger)type;
+- (UIViewController *)CTMediator_openVideoStreamVCWithStream:(Stream *)aStream;
 
 @end

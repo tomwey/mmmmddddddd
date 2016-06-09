@@ -14,11 +14,14 @@ typedef NS_ENUM(NSInteger, ToolbarButtonTag) {
     ToolbarButtonTagLike  = 102,
 };
 
+@class Stream;
 @interface SmallToolbar : UIView
 
-- (instancetype)initWithVideoInfo:(id)videoInfo;
+- (instancetype)initWithStream:(Stream *)aStream;
 
-@property (nonatomic, strong) id videoInfo;
+//@property (nonatomic, strong) id videoInfo;
+
+@property (nonatomic, strong) Stream *stream;
 
 @property (nonatomic, copy) void (^toolbarButtonDidTapBlock)(UIButton* sender);
 

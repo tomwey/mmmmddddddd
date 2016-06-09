@@ -8,12 +8,13 @@
 
 #import "VideoStreamModule.h"
 #import "VideoStreamDetailViewController.h"
+#import "Stream.h"
 
 @implementation CTMediator (VideoStreamModule)
 
-- (UIViewController *)CTMediator_openVideoStreamVCWithData:(id)data fromType:(NSInteger)type
+- (UIViewController *)CTMediator_openVideoStreamVCWithStream:(Stream *)aStream
 {
-    UIViewController* vc = [[VideoStreamDetailViewController alloc] initWithStreamData:data fromType:type];
+    UIViewController* vc = [[VideoStreamDetailViewController alloc] initWithStream:aStream];
 //    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
 //    nav.navigationBarHidden = YES;
     return vc;

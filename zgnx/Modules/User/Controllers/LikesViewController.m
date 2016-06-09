@@ -23,7 +23,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.fromType = StreamFromTypeLike;
+    
     self.navBar.title = @"我的收藏";
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(needReloadData)
+                                                 name:@"kNeedReloadDataNotification"
+                                               object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)needReloadData
+{
+    [self loadDataForPage:1];
 }
 
 - (void)loadDataForPage:(NSInteger)page

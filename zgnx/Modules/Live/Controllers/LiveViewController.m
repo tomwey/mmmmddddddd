@@ -191,7 +191,8 @@
     
     __weak typeof(self) weakSelf = self;
     cell.didSelectItem = ^(VideoCell* cell) {
-        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithData:obj fromType:0];
+        cell.stream.fromType = StreamFromTypeDefault;
+        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:cell.stream];
         [weakSelf presentViewController:vc animated:YES completion:nil];
     };
     

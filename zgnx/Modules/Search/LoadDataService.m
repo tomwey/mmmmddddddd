@@ -21,6 +21,8 @@
 - (void)dealloc
 {
     self.responseCallback = nil;
+    self.apiManager.delegate = nil;
+    [self.apiManager cancelRequest];
 }
 
 - (void)GET:(NSString *)api

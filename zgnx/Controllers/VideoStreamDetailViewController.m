@@ -9,8 +9,6 @@
 #import "VideoStreamDetailViewController.h"
 #import "Defines.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "TabsControl.h"
-#import "PlayerToolbar.h"
 #import "SmallToolbar.h"
 #import "VideoPlayer.h"
 #import "ButtonGroup.h"
@@ -20,11 +18,11 @@
 #import "ViewHistoryService.h"
 #import "ViewHistory.h"
 #import "LoadDataService.h"
+#import "Stream.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
-//@property (nonatomic, strong) MPMoviePlayerController* player;
-@property (nonatomic, strong) id streamData;
+//@property (nonatomic, strong) id streamData;
 
 @property (nonatomic, copy) NSArray* tabsDataSource;
 
@@ -45,6 +43,8 @@
 
 @property (nonatomic, strong) LoadDataService *likeService;
 
+@property (nonatomic, strong) Stream *stream;
+
 @end
 
 @implementation VideoStreamDetailViewController
@@ -53,17 +53,20 @@
 {
     if ( self = [super init] ) {
         NSLog(@"%@", streamData);
-        self.streamData = streamData;
+//        self.streamData = streamData;
         
-        NSInteger type = streamData[@"from_type"] ? [streamData[@"from_type"] integerValue] : 0;
-        self.videoFromType = type;
+//        NSInteger type = streamData[@"from_type"] ? [streamData[@"from_type"] integerValue] : 0;
+//        self.videoFromType = type;
     }
     return self;
 }
 
-- (NSInteger)videoType
+- (instancetype)initWithStream:(Stream *)aStream
 {
-    return [self.streamData[@"type"] integerValue];
+    if ( self = [super init] ) {
+        self.stream = aStream;
+    }
+    return self;
 }
 
 - (void)viewDidLoad
@@ -73,20 +76,20 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     NSString* videoUrl = nil;
-    NSInteger type = [self.streamData[@"type"] integerValue];
-    if ( type == 1 ) {
-        videoUrl = [[self.streamData[@"video_file"] description] length] == 0 ?
-                    [self.streamData[@"hls_url"] description] : [self.streamData[@"video_file"] description];
+//    NSInteger type = [self.streamData[@"type"] integerValue];
+    if ( [self.stream.type integerValue] == 1 ) {
+        videoUrl = [self.stream.video_file length] == 0 ?
+                    self.stream.hls_url : self.stream.video_file;
         
     } else {
-        videoUrl = [self.streamData[@"video_file"] description];
+        videoUrl = self.stream.video_file;
     }
     
 //    NSURL* fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"test.mp4" ofType:nil]];
     self.playerView = [[VideoPlayer alloc] initWithContentURL:[NSURL URLWithString:videoUrl]];
     [self.view addSubview:self.playerView];
     
-    if ( [[self.streamData[@"video_file"] description] length] > 0 ) {
+    if ( [self.stream.video_file length] > 0 ) {
         self.playerView.playerType = VideoPlayerTypeVOD;
     } else {
         self.playerView.playerType = VideoPlayerTypeLiving;
@@ -159,7 +162,7 @@
 
 - (void)initToolbar
 {
-    self.toolbar = [[SmallToolbar alloc] initWithVideoInfo:self.streamData];
+    self.toolbar = [[SmallToolbar alloc] initWithStream:self.stream];
     [self.view addSubview:self.toolbar];
     self.toolbar.position = CGPointMake(0, self.playerView.bottom);
     self.toolbar.backgroundColor = AWColorFromRGB(186,186,186);
@@ -207,7 +210,7 @@
 {
     if (!_introView) {
         _introView = [[VideoIntroView alloc] init];
-        [_introView setBody:self.streamData[@"body"]];
+        [_introView setBody:self.stream.body];
     }
     return _introView;
 }
@@ -217,7 +220,7 @@
     NSMutableArray* items = [NSMutableArray array];
     UIButton* likeBtn = AWCreateImageButton(@"btn_like.png", self, @selector(doLike:));
     [likeBtn setImage:[UIImage imageNamed:@"btn_liked.png"] forState:UIControlStateSelected];
-    likeBtn.selected = [self.streamData[@"liked"] boolValue];
+    likeBtn.selected = [self.stream.liked boolValue];
     [items addObject:likeBtn];
     
     UIButton* shareBtn = AWCreateImageButton(@"btn_share.png", self, @selector(doShare));
@@ -252,13 +255,27 @@
     __weak typeof(self) me = self;
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     [self.likeService POST:uri params:@{ @"token": user.authToken ?: @"",
-                                         @"likeable_id": self.streamData[@"id"],
-                                         @"type": self.streamData[@"type"] ?: @"",
+                                         @"likeable_id": self.stream.id_,
+                                         @"type": self.stream.type ?: @"",
                                          } completion:^(id result, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:me.contentView animated:YES];
         if ( !error ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kNeedReloadDataNotification" object:nil];
+            if ( [uri isEqualToString:API_USER_LIKE] ) {
+                me.stream.liked = @(1);
+                sender.selected = YES;
+            } else {
+                me.stream.liked = @(0);
+                sender.selected = NO;
+            }
         } else {
-            sender.selected = !sender.selected;
+            if ( [uri isEqualToString:API_USER_LIKE] ) {
+                me.stream.liked = @(0);
+                sender.selected = NO;
+            } else {
+                me.stream.liked = @(1);
+                sender.selected = YES;
+            }
         }
     }];
 }
@@ -287,20 +304,16 @@
         [self gotoFullscreen];
     } else {
         // 记录观看历史
-        if ( self.videoFromType == VideoFromTypeDefault &&
-            [self videoType] == 2) {
+        if ( self.stream.fromType == StreamFromTypeDefault &&
+            [self.stream.type integerValue] == 2) {
             if ( !self.vhService ) {
                 self.vhService = [[ViewHistoryService alloc] init];
             }
             
-            ViewHistory* vh = [[ViewHistory alloc] init];
-            [vh objectRepresentationWithDictionary:self.streamData];
+            self.stream.currentPlaybackTime =
+            [@(self.playerView.currentPlaybackTime) description];
             
-            vh.currentPlaybackTime = @(self.playerView.currentPlaybackTime);
-            vh.video_id = self.streamData[@"id"];
-            vh.loginedUser = [[UserService sharedInstance] currentUser];
-            
-            [self.vhService saveRecord:vh needSyncServer:YES];
+            [self.vhService saveRecord:self.stream needSyncServer:YES];
         }
         
         [self dismissViewControllerAnimated:YES completion:nil];

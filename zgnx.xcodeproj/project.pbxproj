@@ -103,6 +103,10 @@
 		97A4AA781CFFE0070045A69B /* LoadDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA771CFFE0070045A69B /* LoadDataService.m */; };
 		97A4AA7E1CFFF5570045A69B /* SearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA7D1CFFF5570045A69B /* SearchBar.m */; };
 		97A4AA811CFFF86F0045A69B /* SearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA801CFFF86F0045A69B /* SearchResultView.m */; };
+		9929986D1D09B3B600704FBA /* Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986C1D09B3B600704FBA /* Stream.m */; };
+		992998701D09B6C400704FBA /* StreamTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986F1D09B6C400704FBA /* StreamTable.m */; };
+		992998731D09CCD300704FBA /* his_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998711D09CCD300704FBA /* his_delete.png */; };
+		992998741D09CCD300704FBA /* his_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998721D09CCD300704FBA /* his_delete@2x.png */; };
 		9957F3851CFAA766003C8B96 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3841CFAA766003C8B96 /* UserService.m */; };
 		9957F3881CFAA9B3003C8B96 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3871CFAA9B3003C8B96 /* User.m */; };
 		9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */; };
@@ -349,6 +353,12 @@
 		97A4AA7D1CFFF5570045A69B /* SearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBar.m; sourceTree = "<group>"; };
 		97A4AA7F1CFFF86F0045A69B /* SearchResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultView.h; sourceTree = "<group>"; };
 		97A4AA801CFFF86F0045A69B /* SearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultView.m; sourceTree = "<group>"; };
+		9929986B1D09B3B600704FBA /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
+		9929986C1D09B3B600704FBA /* Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stream.m; sourceTree = "<group>"; };
+		9929986E1D09B6C400704FBA /* StreamTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamTable.h; sourceTree = "<group>"; };
+		9929986F1D09B6C400704FBA /* StreamTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamTable.m; sourceTree = "<group>"; };
+		992998711D09CCD300704FBA /* his_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = his_delete.png; sourceTree = "<group>"; };
+		992998721D09CCD300704FBA /* his_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "his_delete@2x.png"; sourceTree = "<group>"; };
 		9957F3831CFAA766003C8B96 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		9957F3841CFAA766003C8B96 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9957F3861CFAA9B3003C8B96 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = zgnx/Modules/User/User.h; sourceTree = SOURCE_ROOT; };
@@ -829,6 +839,7 @@
 				9756ED6D1CF431860083B90C /* Extensions */,
 				9756ED611CF430890083B90C /* Controllers */,
 				99754ED51CFB15F2007FA577 /* Views */,
+				9929986A1D09B39800704FBA /* Models */,
 				9756ED5D1CF42B520083B90C /* Defines.h */,
 				9756E8451CE01D1E0083B90C /* AppDelegate.h */,
 				9756E8461CE01D1E0083B90C /* AppDelegate.m */,
@@ -880,6 +891,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		9929986A1D09B39800704FBA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9929986B1D09B3B600704FBA /* Stream.h */,
+				9929986C1D09B3B600704FBA /* Stream.m */,
+				9929986E1D09B6C400704FBA /* StreamTable.h */,
+				9929986F1D09B6C400704FBA /* StreamTable.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		99754E491CFAD9F7007FA577 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -894,6 +916,8 @@
 		99754E4A1CFADA13007FA577 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				992998711D09CCD300704FBA /* his_delete.png */,
+				992998721D09CCD300704FBA /* his_delete@2x.png */,
 				998C9E771D01B8B40040E84B /* column_btn_jmjs_n.png */,
 				998C9E781D01B8B40040E84B /* column_btn_jmjs_n@2x.png */,
 				998C9E791D01B8B40040E84B /* column_btn_jmjs_s.png */,
@@ -1147,6 +1171,7 @@
 				99754EC91CFAF474007FA577 /* Default@2x.png in Resources */,
 				99754E821CFADBB8007FA577 /* tab_live_n@2x.png in Resources */,
 				972A1B0A1D0122050059E530 /* btn_pause@3x.png in Resources */,
+				992998731D09CCD300704FBA /* his_delete.png in Resources */,
 				972A1B001D011D2D0059E530 /* btn_play.png in Resources */,
 				972A24351D010C570036D166 /* btn_share.png in Resources */,
 				99754EB61CFAEB89007FA577 /* tags_comment@3x.png in Resources */,
@@ -1215,6 +1240,7 @@
 				99754EBE1CFAF2AD007FA577 /* btn_play@2x.png in Resources */,
 				99754E921CFADBB8007FA577 /* tab_ranked_s@3x.png in Resources */,
 				99754EB31CFAEB89007FA577 /* tags_collection@3x.png in Resources */,
+				992998741D09CCD300704FBA /* his_delete@2x.png in Resources */,
 				972A242E1D010C1F0036D166 /* btn_like@3x.png in Resources */,
 				99754E8A1CFADBB8007FA577 /* tab_me_s.png in Resources */,
 				99754E811CFADBB8007FA577 /* tab_live_n.png in Resources */,
@@ -1356,6 +1382,7 @@
 				99754EFC1CFB4734007FA577 /* AboutViewController.m in Sources */,
 				974EBE911CF582B2000DE692 /* ViewHistoryModule.m in Sources */,
 				99754EF91CFB472A007FA577 /* FeedbackViewController.m in Sources */,
+				9929986D1D09B3B600704FBA /* Stream.m in Sources */,
 				974EBE741CF58014000DE692 /* CustomNavBar.m in Sources */,
 				9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */,
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,
@@ -1372,6 +1399,7 @@
 				97A4A8041CF69F080045A69B /* VODService.m in Sources */,
 				998C9E731CFF3EF40040E84B /* BannerView.m in Sources */,
 				99754EE41CFB405E007FA577 /* LoginViewController.m in Sources */,
+				992998701D09B6C400704FBA /* StreamTable.m in Sources */,
 				99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */,
 				97A4AA371CFBF3F10045A69B /* UIViewController+AWService.m in Sources */,
 				97A4AA401CFC1CE00045A69B /* Toast.m in Sources */,
