@@ -44,18 +44,31 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     if ( self = [super initWithStyle:style reuseIdentifier:reuseIdentifier] ) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(updateStream:)
+                                                     name:@"kNeedReloadDataNotification"
+                                                   object:nil];
     }
     return self;
 }
 
 - (void)doEdit
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.deleteButton.hidden = NO;
 }
 
 - (void)doneEdit
 {
     self.deleteButton.hidden = YES;
+}
+
+- (void)updateStream:(NSNotification *)noti
+{
+    if ( [self.stream.stream_id isEqualToString:[noti.object stream_id]] ) {
+        self.stream.liked = [noti.object liked];
+    }
 }
 
 - (void)configData:(id)data

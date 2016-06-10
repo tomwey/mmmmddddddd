@@ -77,6 +77,18 @@
                                                object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kVideoCellDidSelectNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kVideoCellDidDeleteNotification
+                                                  object:nil];
+}
+
 - (void)cellDidDelete:(NSNotification *)noti
 {
     Stream *stream = [noti.object stream];
@@ -101,13 +113,6 @@
     [self.tableView reloadData];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)videoDidSelect:(NSNotification *)noti
 {
     Stream *stream = [noti.object stream];
@@ -120,6 +125,7 @@
 - (void)loadDataForPage:(NSInteger)page
 {
     if ( page == 1 ) {
+        self.tableView.hidden = YES;
         [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     }
     
@@ -175,6 +181,7 @@
                 self.dataSource.dataSource = temp1;
             }
             
+            self.tableView.hidden = NO;
             [self.tableView reloadData];
         }
     }

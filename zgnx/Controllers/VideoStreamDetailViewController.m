@@ -260,7 +260,6 @@
                                          } completion:^(id result, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:me.contentView animated:YES];
         if ( !error ) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"kNeedReloadDataNotification" object:nil];
             if ( [uri isEqualToString:API_USER_LIKE] ) {
                 me.stream.liked = @(1);
                 sender.selected = YES;
@@ -268,6 +267,7 @@
                 me.stream.liked = @(0);
                 sender.selected = NO;
             }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kNeedReloadDataNotification" object:me.stream];
         } else {
             if ( [uri isEqualToString:API_USER_LIKE] ) {
                 me.stream.liked = @(0);

@@ -14,6 +14,7 @@
 @interface LikesViewController () <ReloadDelegate>
 
 @property (nonatomic, strong) LoadDataService* dataService;
+@property (nonatomic, assign) BOOL needReloadData;
 
 @end
 
@@ -24,10 +25,11 @@
     // Do any additional setup after loading the view.
     
     self.fromType = StreamFromTypeLike;
+    self.needReloadData = NO;
     
     self.navBar.title = @"我的收藏";
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(needReloadData)
+                                             selector:@selector(updateData)
                                                  name:@"kNeedReloadDataNotification"
                                                object:nil];
 }
@@ -37,9 +39,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)needReloadData
+- (void)viewWillAppear:(BOOL)animated
 {
-    [self loadDataForPage:1];
+    [super viewWillAppear:animated];
+    
+    if ( self.needReloadData ) {
+        [self loadDataForPage:1];
+    }
+}
+
+- (void)updateData
+{
+    self.needReloadData = YES;
 }
 
 - (void)loadDataForPage:(NSInteger)page
