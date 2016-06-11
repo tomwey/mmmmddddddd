@@ -107,6 +107,8 @@
 		992998701D09B6C400704FBA /* StreamTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986F1D09B6C400704FBA /* StreamTable.m */; };
 		992998731D09CCD300704FBA /* his_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998711D09CCD300704FBA /* his_delete.png */; };
 		992998741D09CCD300704FBA /* his_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998721D09CCD300704FBA /* his_delete@2x.png */; };
+		992998771D0C200700704FBA /* Bilibili.m in Sources */ = {isa = PBXBuildFile; fileRef = 992998761D0C200700704FBA /* Bilibili.m */; };
+		9929987A1D0C219C00704FBA /* BiliCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 992998791D0C219C00704FBA /* BiliCell.m */; };
 		9957F3851CFAA766003C8B96 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3841CFAA766003C8B96 /* UserService.m */; };
 		9957F3881CFAA9B3003C8B96 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3871CFAA9B3003C8B96 /* User.m */; };
 		9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */; };
@@ -359,6 +361,10 @@
 		9929986F1D09B6C400704FBA /* StreamTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamTable.m; sourceTree = "<group>"; };
 		992998711D09CCD300704FBA /* his_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = his_delete.png; sourceTree = "<group>"; };
 		992998721D09CCD300704FBA /* his_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "his_delete@2x.png"; sourceTree = "<group>"; };
+		992998751D0C200700704FBA /* Bilibili.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bilibili.h; sourceTree = "<group>"; };
+		992998761D0C200700704FBA /* Bilibili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bilibili.m; sourceTree = "<group>"; };
+		992998781D0C219C00704FBA /* BiliCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliCell.h; sourceTree = "<group>"; };
+		992998791D0C219C00704FBA /* BiliCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliCell.m; sourceTree = "<group>"; };
 		9957F3831CFAA766003C8B96 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		9957F3841CFAA766003C8B96 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9957F3861CFAA9B3003C8B96 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = zgnx/Modules/User/User.h; sourceTree = SOURCE_ROOT; };
@@ -898,6 +904,8 @@
 				9929986C1D09B3B600704FBA /* Stream.m */,
 				9929986E1D09B6C400704FBA /* StreamTable.h */,
 				9929986F1D09B6C400704FBA /* StreamTable.m */,
+				992998751D0C200700704FBA /* Bilibili.h */,
+				992998761D0C200700704FBA /* Bilibili.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1078,6 +1086,8 @@
 				998C9E8C1D01C50E0040E84B /* BiliView.m */,
 				998C9E8E1D01C54F0040E84B /* VideoIntroView.h */,
 				998C9E8F1D01C54F0040E84B /* VideoIntroView.m */,
+				992998781D0C219C00704FBA /* BiliCell.h */,
+				992998791D0C219C00704FBA /* BiliCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1404,7 +1414,9 @@
 				97A4AA371CFBF3F10045A69B /* UIViewController+AWService.m in Sources */,
 				97A4AA401CFC1CE00045A69B /* Toast.m in Sources */,
 				9957F3851CFAA766003C8B96 /* UserService.m in Sources */,
+				9929987A1D0C219C00704FBA /* BiliCell.m in Sources */,
 				974EBE1F1CF54B62000DE692 /* VideoStreamListViewController.m in Sources */,
+				992998771D0C200700704FBA /* Bilibili.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class Bilibili;
 @interface BiliView : UIView
+
+@property (nonatomic, copy) NSString *streamId;
+
+@property (nonatomic, copy) void (^didSendBiliBlock)(BiliView *view, Bilibili *bili);
 
 @end

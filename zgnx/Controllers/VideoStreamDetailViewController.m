@@ -45,6 +45,8 @@
 
 @property (nonatomic, strong) Stream *stream;
 
+@property (nonatomic, strong) BiliView *biliView;
+
 @end
 
 @implementation VideoStreamDetailViewController
@@ -199,10 +201,16 @@
 
 - (UIView *)panelView:(PanelView *)panelView viewAtIndex:(NSUInteger)index
 {
-    if ( index == 1 ) {
-        return self.introView;
-    } else {
-        return [[UIView alloc] init];
+    switch (index) {
+        case 0:
+            return self.biliView;
+        case 1:
+            return self.introView;
+        case 2:
+            return [[UIView alloc] init];
+            
+        default:
+            return [[UIView alloc] init];
     }
 }
 
@@ -213,6 +221,16 @@
         [_introView setBody:self.stream.body];
     }
     return _introView;
+}
+
+- (BiliView *)biliView
+{
+    if ( !_biliView ) {
+        _biliView = [[BiliView alloc] init];
+        _biliView.streamId = @"2";
+    }
+    
+    return _biliView;
 }
 
 - (void)addExtraItemsInControl
