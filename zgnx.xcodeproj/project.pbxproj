@@ -109,6 +109,7 @@
 		992998741D09CCD300704FBA /* his_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998721D09CCD300704FBA /* his_delete@2x.png */; };
 		992998771D0C200700704FBA /* Bilibili.m in Sources */ = {isa = PBXBuildFile; fileRef = 992998761D0C200700704FBA /* Bilibili.m */; };
 		9929987A1D0C219C00704FBA /* BiliCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 992998791D0C219C00704FBA /* BiliCell.m */; };
+		9929987F1D0C6F2B00704FBA /* libMQTTKit-dms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9929987D1D0C6F2B00704FBA /* libMQTTKit-dms.a */; };
 		9957F3851CFAA766003C8B96 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3841CFAA766003C8B96 /* UserService.m */; };
 		9957F3881CFAA9B3003C8B96 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3871CFAA9B3003C8B96 /* User.m */; };
 		9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */; };
@@ -365,6 +366,9 @@
 		992998761D0C200700704FBA /* Bilibili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bilibili.m; sourceTree = "<group>"; };
 		992998781D0C219C00704FBA /* BiliCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliCell.h; sourceTree = "<group>"; };
 		992998791D0C219C00704FBA /* BiliCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliCell.m; sourceTree = "<group>"; };
+		9929987C1D0C6F2B00704FBA /* DMS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMS.h; sourceTree = "<group>"; };
+		9929987D1D0C6F2B00704FBA /* libMQTTKit-dms.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMQTTKit-dms.a"; sourceTree = "<group>"; };
+		9929987E1D0C6F2B00704FBA /* MQTTKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQTTKit.h; sourceTree = "<group>"; };
 		9957F3831CFAA766003C8B96 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		9957F3841CFAA766003C8B96 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		9957F3861CFAA9B3003C8B96 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = zgnx/Modules/User/User.h; sourceTree = SOURCE_ROOT; };
@@ -494,6 +498,7 @@
 			files = (
 				9756E8811CE04BFF0083B90C /* AssetsLibrary.framework in Frameworks */,
 				8E1924CB6785D8D27F8C6CED /* libPods-zgnx.a in Frameworks */,
+				9929987F1D0C6F2B00704FBA /* libMQTTKit-dms.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,6 +844,7 @@
 		9756E8411CE01D1E0083B90C /* zgnx */ = {
 			isa = PBXGroup;
 			children = (
+				9929987B1D0C6F2B00704FBA /* MQTTSDK */,
 				974EBE711CF58008000DE692 /* CustomNavBar */,
 				974EBE201CF55DE6000DE692 /* CTMediator */,
 				974EBE4E1CF57921000DE692 /* Modules */,
@@ -908,6 +914,16 @@
 				992998761D0C200700704FBA /* Bilibili.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		9929987B1D0C6F2B00704FBA /* MQTTSDK */ = {
+			isa = PBXGroup;
+			children = (
+				9929987C1D0C6F2B00704FBA /* DMS.h */,
+				9929987D1D0C6F2B00704FBA /* libMQTTKit-dms.a */,
+				9929987E1D0C6F2B00704FBA /* MQTTKit.h */,
+			);
+			path = MQTTSDK;
 			sourceTree = "<group>";
 		};
 		99754E491CFAD9F7007FA577 /* Resources */ = {
@@ -1516,6 +1532,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
+					"$(PROJECT_DIR)/zgnx/MQTTSDK",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1560,6 +1577,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
+					"$(PROJECT_DIR)/zgnx/MQTTSDK",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.testd.zgnx;
 				PRODUCT_NAME = "$(TARGET_NAME)";

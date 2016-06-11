@@ -216,6 +216,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.biliField resignFirstResponder];
     self.biliField.text = @"";
     
+    Bilibili *bili = [self internalAddMessage:msg];
+    
+    if ( self.didSendBiliBlock ) {
+        self.didSendBiliBlock(self, bili);
+    }
+}
+
+- (Bilibili *)internalAddMessage:(NSString *)msg
+{
     User *user = [[UserService sharedInstance] currentUser];
     Bilibili *bili = [[Bilibili alloc] init];
     bili.streamId = self.streamId;
@@ -237,9 +246,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     
     [self sendDataToServer:bili];
     
-    if ( self.didSendBiliBlock ) {
-        self.didSendBiliBlock(self, bili);
-    }
+    return bili;
+}
+
+- (void)addMessage:(NSString *)msg
+{
+    [self internalAddMessage:msg];
 }
 
 - (void)sendDataToServer:(Bilibili *)bili

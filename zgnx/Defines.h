@@ -60,6 +60,8 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UIImageView+AFNetworking.h"
 
+#import "DMS.h"
+
 // 扩展
 #import "UIViewController+AWFactoryMethods.h"
 #import "UIViewController+CreateTabBarItem.h"

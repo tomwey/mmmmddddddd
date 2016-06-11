@@ -15,4 +15,6 @@
 
 @property (nonatomic, copy) void (^didSendBiliBlock)(BiliView *view, Bilibili *bili);
 
+- (void)addMessage:(NSString *)msg;
+
 @end

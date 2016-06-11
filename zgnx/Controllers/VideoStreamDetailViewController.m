@@ -227,7 +227,10 @@
 {
     if ( !_biliView ) {
         _biliView = [[BiliView alloc] init];
-        _biliView.streamId = @"2";
+        _biliView.streamId = self.stream.stream_id;
+        _biliView.didSendBiliBlock = ^(BiliView *view, Bilibili *bili) {
+            // 如果开启了弹幕功能，就发送弹幕
+        };
     }
     
     return _biliView;
