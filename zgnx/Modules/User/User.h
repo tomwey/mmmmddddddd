@@ -16,6 +16,8 @@
 @property (nonatomic, copy) NSString* authToken;
 @property (nonatomic, copy) NSString* avatarUrl;
 @property (nonatomic, copy) NSString* code;
+@property (nonatomic, copy) NSNumber* sentMoney;
+@property (nonatomic, copy) NSNumber* receiptMoney;
 
 - (instancetype)initWithDictionary:(NSDictionary *)jsonResult;
 

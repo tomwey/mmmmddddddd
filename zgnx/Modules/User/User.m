@@ -17,6 +17,8 @@
         self.authToken = jsonResult[@"token"];
         self.avatarUrl = jsonResult[@"avatar"];
         self.mobile = jsonResult[@"mobile"];
+        self.sentMoney = jsonResult[@"sent_money"];
+        self.receiptMoney = jsonResult[@"receipt_money"];
     }
     return self;
 }
@@ -26,6 +28,8 @@
     [aCoder encodeObject:self.nickname ?: @"" forKey:@"nickname"];
     [aCoder encodeObject:self.authToken ?: @"" forKey:@"token"];
     [aCoder encodeObject:self.avatarUrl ?: @"" forKey:@"avatar"];
+    [aCoder encodeObject:self.sentMoney ?: @"" forKey:@"sent_money"];
+    [aCoder encodeObject:self.receiptMoney ?: @"" forKey:@"receipt_money"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -34,6 +38,8 @@
     user.nickname = [[aDecoder decodeObjectForKey:@"nickname"] description];
     user.authToken = [[aDecoder decodeObjectForKey:@"token"] description];
     user.avatarUrl = [[aDecoder decodeObjectForKey:@"avatar"] description];
+    user.sentMoney = [aDecoder decodeObjectForKey:@"sent_money"];
+    user.receiptMoney = [aDecoder decodeObjectForKey:@"receipt_money"];
     return user;
 }
 
@@ -46,6 +52,8 @@
     user.authToken = self.authToken;
     user.avatarUrl = self.avatarUrl;
     user.code = self.code;
+    user.sentMoney = self.sentMoney;
+    user.receiptMoney = self.receiptMoney;
     return user;
 }
 

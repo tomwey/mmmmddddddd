@@ -146,12 +146,18 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.allowLoading = YES;
     
     if ( error ) {
-        [self.tableView showErrorOrEmptyMessage:@"Oops, 加载出错了！点击刷新"
-                                 reloadDelegate:self];
+        if ( self.currentPage == 1 ) {
+            [self.tableView showErrorOrEmptyMessage:@"Oops, 加载出错了！点击刷新"
+                                     reloadDelegate:self];
+        }
+        
     } else {
         NSArray *data = [result objectForKey:@"data"];
         if ( [data count] == 0 ) {
-            [self.tableView showErrorOrEmptyMessage:@"没有消息，赶快抢沙发吧！" reloadDelegate:nil];
+            if ( self.currentPage == 1 ) {
+                [self.tableView showErrorOrEmptyMessage:@"没有消息，赶快抢沙发吧！" reloadDelegate:nil];
+            }
+            
         } else {
             
             self.hasNextPage = [data count] >= kPageSize;

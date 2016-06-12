@@ -34,6 +34,8 @@
 #define API_USER_CANCEL_LIKE       @"/user/cancel_like"
 #define API_BILI                   @"/bilibilis"
 #define API_SEND_BILI              @"/bilibilis"
+#define API_GRANT_SENT             @"/grants/sent"
+#define API_GRANT_RECEIPT          @"/grants/receipt"
 
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
@@ -69,6 +71,7 @@
 #import "UITableView+RefreshControl.h"
 
 #import "LoadMoreView.h"
+#import "AWModalAlert.h"
 #import <AWRefresh/UIScrollView+AWRefresh.h>
 
 #import "CTMediator.h"

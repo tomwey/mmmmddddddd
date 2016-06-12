@@ -108,7 +108,7 @@
              completion(!error);
          }
          
-         if ( error ) {
+         if ( error && pageNo == 1 ) {
              self.hasNextPage = NO;
              [self.tableView showErrorOrEmptyMessage:@"Oops, 加载失败了！点击重试" reloadDelegate:self];
              return;

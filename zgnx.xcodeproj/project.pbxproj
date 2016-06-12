@@ -207,6 +207,9 @@
 		998C9EB21D01CB590040E84B /* AppIcon87x87.png in Resources */ = {isa = PBXBuildFile; fileRef = 998C9EA11D01CB590040E84B /* AppIcon87x87.png */; };
 		998C9EB41D01D11A0040E84B /* intro.tpl in Resources */ = {isa = PBXBuildFile; fileRef = 998C9EB31D01D11A0040E84B /* intro.tpl */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
+		99FF5EC21D0DA3EC0078B22B /* GrantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */; };
+		99FF5EC51D0DA5600078B22B /* AWModalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC41D0DA5600078B22B /* AWModalAlert.m */; };
+		99FF5EC81D0DBE6B0078B22B /* GrantCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC71D0DBE6B0078B22B /* GrantCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -488,6 +491,12 @@
 		998C9EB31D01D11A0040E84B /* intro.tpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = intro.tpl; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
+		99FF5EC01D0DA3EC0078B22B /* GrantsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrantsViewController.h; sourceTree = "<group>"; };
+		99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrantsViewController.m; sourceTree = "<group>"; };
+		99FF5EC31D0DA5600078B22B /* AWModalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWModalAlert.h; sourceTree = "<group>"; };
+		99FF5EC41D0DA5600078B22B /* AWModalAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWModalAlert.m; sourceTree = "<group>"; };
+		99FF5EC61D0DBE6B0078B22B /* GrantCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrantCell.h; path = zgnx/Modules/User/Controllers/GrantCell.h; sourceTree = SOURCE_ROOT; };
+		99FF5EC71D0DBE6B0078B22B /* GrantCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrantCell.m; path = zgnx/Modules/User/Controllers/GrantCell.m; sourceTree = SOURCE_ROOT; };
 		A1D32B9AF838FF0721BFC625 /* Pods-zgnx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.release.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -579,6 +588,8 @@
 				99754EFB1CFB4734007FA577 /* AboutViewController.m */,
 				97A4AA311CFBEB730045A69B /* UpdatePasswordViewController.h */,
 				97A4AA321CFBEB730045A69B /* UpdatePasswordViewController.m */,
+				99FF5EC01D0DA3EC0078B22B /* GrantsViewController.h */,
+				99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -599,6 +610,8 @@
 				9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */,
 				99754EFD1CFC4D1D007FA577 /* CustomTextField.h */,
 				99754EFE1CFC4D1D007FA577 /* CustomTextField.m */,
+				99FF5EC61D0DBE6B0078B22B /* GrantCell.h */,
+				99FF5EC71D0DBE6B0078B22B /* GrantCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1084,6 +1097,8 @@
 		99754ED51CFB15F2007FA577 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				99FF5EC31D0DA5600078B22B /* AWModalAlert.h */,
+				99FF5EC41D0DA5600078B22B /* AWModalAlert.m */,
 				97A4AA3E1CFC1CE00045A69B /* Toast.h */,
 				97A4AA3F1CFC1CE00045A69B /* Toast.m */,
 				97A4AA1A1CFBD46F0045A69B /* PlayerToolbar.h */,
@@ -1379,6 +1394,7 @@
 				974EBE191CF44F81000DE692 /* UIViewController+CreateTabBarItem.m in Sources */,
 				99754EEA1CFB4152007FA577 /* WalletViewController.m in Sources */,
 				99754EFF1CFC4D1D007FA577 /* CustomTextField.m in Sources */,
+				99FF5EC81D0DBE6B0078B22B /* GrantCell.m in Sources */,
 				97A4AA491CFD28E20045A69B /* ViewHistoryTable.m in Sources */,
 				998C9E901D01C54F0040E84B /* VideoIntroView.m in Sources */,
 				974EBEA31CF59F7F000DE692 /* CatalogService.m in Sources */,
@@ -1400,6 +1416,7 @@
 				99754EF61CFB46CB007FA577 /* LikesViewController.m in Sources */,
 				99754EE11CFB403E007FA577 /* UserProfileViewController.m in Sources */,
 				97A4AA1C1CFBD46F0045A69B /* PlayerToolbar.m in Sources */,
+				99FF5EC21D0DA3EC0078B22B /* GrantsViewController.m in Sources */,
 				97A4A8071CF6A1C80045A69B /* VideoCell.m in Sources */,
 				9756ED7B1CF4473D0083B90C /* VideoStreamDetailViewController.m in Sources */,
 				97A4A80D1CF6DBE70045A69B /* VODListView.m in Sources */,
@@ -1410,6 +1427,7 @@
 				99754EF91CFB472A007FA577 /* FeedbackViewController.m in Sources */,
 				9929986D1D09B3B600704FBA /* Stream.m in Sources */,
 				974EBE741CF58014000DE692 /* CustomNavBar.m in Sources */,
+				99FF5EC51D0DA5600078B22B /* AWModalAlert.m in Sources */,
 				9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */,
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,
 				974EBEA01CF5946E000DE692 /* Catalog.m in Sources */,

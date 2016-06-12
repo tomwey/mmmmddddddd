@@ -140,11 +140,21 @@
             UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openWalletVCForUser:nil];
             
             [nav pushViewController:vc animated:YES];
+        } else if ( indexPath.section == 0 && indexPath.row == 1 ) {
+            UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openGrantsVC];
+            [nav pushViewController:vc animated:YES];
         } else if ( indexPath.section == 2 && indexPath.row == 0 ) {
-            [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
-                
-            }];
-            [self loadData];
+            
+            [AWModalAlert showWithTitle:@"你确定吗？" message:@""
+                           cancelButton:nil
+                           otherButtons:@[@"确定", @"取消"] result:^(NSUInteger buttonIndex) {
+                               if ( buttonIndex == 0 ) {
+                                   [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
+                                       
+                                   }];
+                                   [self loadData];
+                               }
+                           }];
         } else {
             [self didSelectAtIndexPath:indexPath];
         }

@@ -17,6 +17,7 @@
 #import "UploadVideoViewController.h"
 #import "WalletViewController.h"
 #import "UpdatePasswordViewController.h"
+#import "GrantsViewController.h"
 
 @implementation CTMediator (UserModule)
 
@@ -37,6 +38,11 @@
 - (UIViewController *)CTMediator_openSignupVC
 {
     return [[SignupViewController alloc] init];
+}
+
+- (UIViewController *)CTMediator_openGrantsVC
+{
+    return [[GrantsViewController alloc] init];
 }
 
 - (UIViewController *)CTMediator_openLoginVC

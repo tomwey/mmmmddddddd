@@ -17,6 +17,7 @@
 - (UIViewController *)CTMediator_openUserVCWithAuthToken:(NSString *)authToken;
 
 - (UIViewController *)CTMediator_openSignupVC;
+- (UIViewController *)CTMediator_openGrantsVC;
 
 - (UIViewController *)CTMediator_openLoginVC;
 
