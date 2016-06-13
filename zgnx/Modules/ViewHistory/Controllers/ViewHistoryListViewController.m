@@ -93,7 +93,13 @@
                                   page:page
                             completion:^(id result, NSError *error) {
                                 [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                                    Stream *stream = (Stream *)obj;
+                                    Stream *stream = nil;
+                                    if ( [obj isKindOfClass:[NSDictionary class]] ) {
+                                        stream = [[Stream alloc] initWithDictionary:obj];
+                                    } else {
+                                        stream = (Stream *)obj;
+                                    }
+//                                    Stream *stream = (Stream *)obj;
                                     stream.isEditing = weakSelf.isEditing;
                                 }];
                                 [weakSelf finishLoading:result error:error];
