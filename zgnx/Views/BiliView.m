@@ -86,8 +86,8 @@
     CGRect frame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
 //    CGFloat top -= CGRectGetHeight(frame);
     [UIView animateWithDuration:.25 animations:^{
-        self.biliField.top -= CGRectGetHeight(frame);
-        self.sendButton.top -= CGRectGetHeight(frame);
+        self.biliField.top -= CGRectGetHeight(frame) + 5;
+        self.sendButton.top -= CGRectGetHeight(frame) + 5;
     }];
 }
 
@@ -190,6 +190,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         _biliField = [[CustomTextField alloc] init];
         [self addSubview:_biliField];
         _biliField.returnKeyType = UIReturnKeyDone;
+        _biliField.autocorrectionType = UITextAutocorrectionTypeNo;
         _biliField.delegate = self;
     }
     return _biliField;

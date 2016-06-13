@@ -51,7 +51,11 @@
 {
     if ( self = [super init] ) {
         
+        self.backgroundColor = [UIColor blackColor];
+        
         self.playerMode = VideoPlayerModeDefault;
+        
+//        NSURL *url = [NSURL URLWithString:@"rtmp://1.live.126.net/live/047e35c3e9984b3bb929dac3064aa98d"];
         
         self.livePlayer = [[NELivePlayerController alloc] initWithContentURL:url];
         [self.livePlayer setScalingMode:NELPMovieScalingModeAspectFit];
@@ -133,6 +137,8 @@
         [self addNotifications];
         
         [self.livePlayer prepareToPlay];
+        
+        [self.bufferingIndicator startAnimating];
         
     }
     return self;
@@ -476,6 +482,8 @@
             break;
             
         case NELPMovieFinishReasonPlaybackError:
+            [self.bufferingIndicator stopAnimating];
+            
             [[[UIAlertView alloc] initWithTitle:@"注意"
                                         message:@"播放失败"
                                        delegate:nil

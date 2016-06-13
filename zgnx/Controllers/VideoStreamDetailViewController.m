@@ -83,21 +83,22 @@
 //    NSInteger type = [self.streamData[@"type"] integerValue];
     if ( [self.stream.type integerValue] == 1 ) {
         videoUrl = [self.stream.video_file length] == 0 ?
-                    self.stream.hls_url : self.stream.video_file;
+                    self.stream.rtmp_url : self.stream.video_file;
         
     } else {
         videoUrl = self.stream.video_file;
     }
     
-    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"test1.mp4" ofType:nil]];
-//    [NSURL URLWithString:videoUrl]
+//    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"test1.mp4" ofType:nil]];
+    NSURL* url = [NSURL URLWithString:videoUrl];
     self.playerView = [[VideoPlayerView alloc] initWithContentURL:url params:nil];
     [self.view addSubview:self.playerView];
+    
     if ( [self.stream.type integerValue] == 1 ) {
         if ( [self.stream.video_file length] == 0 ) {
-            self.playerView.mediaType = VideoPlayerMediaTypeVOD;
-        } else {
             self.playerView.mediaType = VideoPlayerMediaTypeLive;
+        } else {
+            self.playerView.mediaType = VideoPlayerMediaTypeVOD;
         }
     } else {
         self.playerView.mediaType = VideoPlayerMediaTypeVOD;
@@ -118,8 +119,6 @@
     self.playerView.didTogglePlayerModeBlock = ^(VideoPlayerView *view, VideoPlayerMode mode) {
         [me gotoFullscreen];
     };
-    
-//    self.playerView.shouldAutoplay = YES;
     
     self.playerView.frame = CGRectMake(0, 0, self.view.width, self.view.width * 0.618);
     
@@ -261,6 +260,7 @@
     [items addObject:danmu];
     
 //    self.playerView.extraItemsInControl = items;
+    [self.playerView addExtraItemsAtBottomControl:items];
 }
 
 - (void)doLike:(UIButton *)sender
