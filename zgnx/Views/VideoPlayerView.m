@@ -299,6 +299,12 @@
     } else {
         self.progressSlider.value = 0.0f;
     }
+    
+    if ( [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
+        [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
+    } else {
+        [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - 
