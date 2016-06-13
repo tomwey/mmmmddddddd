@@ -38,7 +38,27 @@
   completion:(void (^)(id result, NSError* error))completion
 {
     self.responseCallback = completion;
-    [self.apiManager sendRequest:APIRequestCreate(api, RequestMethodPost, params)];
+    
+    NSMutableDictionary *newParams = [[NSMutableDictionary alloc] init];
+    NSMutableArray *fileParams = [NSMutableArray array];
+    [params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ( [obj isKindOfClass:[NSData class]] ) {
+            APIFileParam *param = [[APIFileParam alloc] initWithFileData:obj
+                                                                    name:key
+                                                                fileName:[NSString stringWithFormat:@"%@.jpg",key]
+                                                                mimeType:@"image/jpeg"];
+            [fileParams addObject:param];
+        } else {
+            [newParams setObject:obj forKey:key];
+        }
+    }];
+    
+    APIRequest *request = APIRequestCreate(api, RequestMethodPost, nil);
+    request.params = newParams;
+    if ( [fileParams count] > 0 ) {
+        request.fileParams = fileParams;
+    }
+    [self.apiManager sendRequest:request];
 }
 
 /** 网络请求开始 */
