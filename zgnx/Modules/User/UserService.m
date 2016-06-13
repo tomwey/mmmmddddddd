@@ -221,7 +221,7 @@
             [self saveUser:user];
             
             self.responseCallback(user, nil);
-            self.responseCallback = nil;
+//            self.responseCallback = nil;
         }
     } else if ( self.noDataManager == manager ) {
         if ( self.noDataCallback ) {

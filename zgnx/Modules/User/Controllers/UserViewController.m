@@ -11,6 +11,7 @@
 #import "UserService.h"
 #import "UserProfileView.h"
 #import <AWTableView/UITableView+RemoveBlankCells.h>
+#import "LoadDataService.h"
 
 @interface UserViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -22,6 +23,7 @@
 @property (nonatomic, weak) UserProfileView* profileView;
 
 @end
+
 @implementation UserViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken
@@ -69,6 +71,7 @@
         UIViewController* vc = [[CTMediator sharedInstance] CTMediator_updateProfile:view.user];
         [weakSelf presentViewController:vc animated:YES completion:nil];
     };
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -99,6 +102,7 @@
          self.dataSource = result;
          [self.tableView reloadData];
      }];
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
