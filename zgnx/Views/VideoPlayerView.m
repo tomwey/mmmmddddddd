@@ -38,11 +38,14 @@
 @property (nonatomic, strong) NSTimer *progressTimer;
 @property (nonatomic, strong) NSTimer *autoHideTimer;
 
-@property (nonatomic, assign) VideoPlayerMode playerMode;
+//@property (nonatomic, assign) VideoPlayerMode playerMode;
 
 @end
 
 @implementation VideoPlayerView
+
+#define kUpdatePlayProgressTimerInterval 0.5
+#define kAutoHideTimerInterval           8.0
 
 - (instancetype)initWithContentURL:(NSURL *)url params:(NSDictionary *)params
 {
@@ -75,8 +78,8 @@
         
         self.topControlView = [[UIView alloc] init];
         [self.controlOverlay addSubview:self.topControlView];
-        self.topControlView.backgroundColor = [UIColor blackColor];
-        self.topControlView.alpha = 0.8;
+        self.topControlView.backgroundColor = [UIColor clearColor];
+//        self.topControlView.alpha = 0.8;
         
         self.bottomControlView = [[UIView alloc] init];
         [self.controlOverlay addSubview:self.bottomControlView];
@@ -105,11 +108,14 @@
         // 进度条
         self.progressSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
         [self.bottomControlView addSubview:self.progressSlider];
-        [self.progressSlider addTarget:self action:@selector(updateProgress) forControlEvents:UIControlEventValueChanged];
+
+        [self.progressSlider setThumbImage:
+         [UIImage imageNamed:@"btn_player_slider_thumb.png"]
+                                  forState:UIControlStateNormal];
         
-        [[UISlider appearance] setThumbImage:[UIImage imageNamed:@"btn_player_slider_thumb"] forState:UIControlStateNormal];
-        [[UISlider appearance] setMaximumTrackImage:[UIImage imageNamed:@"btn_player_slider_all"] forState:UIControlStateNormal];
-        [[UISlider appearance] setMinimumTrackImage:[UIImage imageNamed:@"btn_player_slider_buffered.png"] forState:UIControlStateNormal];
+        [self.progressSlider addTarget:self action:@selector(sliderStartDrag) forControlEvents:UIControlEventTouchDown];
+        [self.progressSlider addTarget:self action:@selector(sliderMoving) forControlEvents:UIControlEventTouchDragInside];
+        [self.progressSlider addTarget:self action:@selector(sliderEndDrag) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
         
         // 总时间
         self.totalTimeLabel = AWCreateLabel(CGRectZero,
@@ -126,28 +132,24 @@
         
         [self addNotifications];
         
-        // 添加播放进度定时器
-        self.progressTimer = [NSTimer timerWithTimeInterval:0.5
-                                                     target:self
-                                                   selector:@selector(updatePlayProgress)
-                                                   userInfo:nil
-                                                    repeats:YES];
-        [self.progressTimer setFireDate:[NSDate distantFuture]];
-        [[NSRunLoop currentRunLoop] addTimer:self.progressTimer forMode:NSRunLoopCommonModes];
-        
-        // 添加自动隐藏定时器
-        self.autoHideTimer = [NSTimer timerWithTimeInterval:5.0
-                                                     target:self
-                                                   selector:@selector(autoHide)
-                                                   userInfo:nil
-                                                    repeats:YES];
-        [self.autoHideTimer setFireDate:[NSDate distantFuture]];
-        [[NSRunLoop currentRunLoop] addTimer:self.autoHideTimer forMode:NSRunLoopCommonModes];
-        
         [self.livePlayer prepareToPlay];
         
     }
     return self;
+}
+
+- (void)setMediaType:(VideoPlayerMediaType)mediaType
+{
+    _mediaType = mediaType;
+    
+    if ( _mediaType == VideoPlayerMediaTypeVOD ) {
+        [self.livePlayer setBufferStrategy:NELPAntiJitter];
+        self.progressSlider.userInteractionEnabled = YES;
+    } else {
+        [self.livePlayer setBufferStrategy:NELPLowDelay];
+        self.progressSlider.userInteractionEnabled = NO;
+        self.progressSlider.value = 0.0f;
+    }
 }
 
 - (void)layoutSubviews
@@ -225,6 +227,29 @@
                                                object:self.livePlayer];
 }
 
+- (void)sliderStartDrag
+{
+    [self.autoHideTimer setFireDate:[NSDate distantFuture]];
+    [self.progressTimer setFireDate:[NSDate distantFuture]];
+}
+
+- (void)sliderMoving
+{
+    NSInteger inCurrentPos = round(self.progressSlider.value);
+    self.currentTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d",
+                                  (int) ( inCurrentPos / 3600 ),
+                                  (int) ( inCurrentPos / 60 ),
+                                  (int) ( inCurrentPos % 60 )];
+}
+
+- (void)sliderEndDrag
+{
+    [self.livePlayer setCurrentPlaybackTime:self.progressSlider.value];
+    
+    [self.autoHideTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoHideTimerInterval]];
+    [self.progressTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kUpdatePlayProgressTimerInterval]];
+}
+
 - (void)updatePlayProgress
 {
     [self syncUIStatus];
@@ -238,11 +263,11 @@
     [self.autoHideTimer setFireDate:[NSDate distantFuture]];
 }
 
-- (void)dealloc
-{
-    [self.livePlayer shutdown];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+//- (void)dealloc
+//{
+//    [self.livePlayer shutdown];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//}
 
 - (void)addExtraItemsAtBottomControl:(NSArray<UIView *> *)items
 {
@@ -313,8 +338,8 @@
 {
     self.controlOverlay.hidden = NO;
     
-    [self.autoHideTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:5.0]];
-    [self.progressTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+    [self.autoHideTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoHideTimerInterval]];
+    [self.progressTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kUpdatePlayProgressTimerInterval]];
     
     [self syncUIStatus];
 }
@@ -333,6 +358,10 @@
             [self.progressTimer invalidate];
             
             [self.livePlayer shutdown];
+            [self.livePlayer.view removeFromSuperview];
+            self.livePlayer = nil;
+            
+            [[NSNotificationCenter defaultCenter] removeObserver:self];
             
             self.didShutdownPlayerBlock(self);
         }
@@ -344,7 +373,7 @@
 - (void)play
 {
     if ( [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
-        [self.livePlayer shutdown];
+        [self.livePlayer pause];
         
         [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
         
@@ -353,6 +382,8 @@
         [self.livePlayer play];
         
         [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
+        
+        [self.progressTimer setFireDate:[NSDate date]];
         
         [self syncUIStatus];
     }
@@ -368,6 +399,17 @@
     
     if ( self.didTogglePlayerModeBlock ) {
         self.didTogglePlayerModeBlock(self, self.playerMode);
+    }
+}
+
+- (void)setPlayerMode:(VideoPlayerMode)playerMode
+{
+    _playerMode = playerMode;
+    
+    if ( playerMode == VideoPlayerModeDefault ) {
+        [self.scaleButton setImage:[UIImage imageNamed:@"btn_player_scale01.png"] forState:UIControlStateNormal];
+    } else {
+        [self.scaleButton setImage:[UIImage imageNamed:@"btn_player_scale02.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -391,7 +433,12 @@
     
     [self syncUIStatus];
     
-    [self.livePlayer play]; //开始播放
+    self.controlOverlay.hidden = NO;
+    
+    if ( self.mediaType == VideoPlayerMediaTypeVOD ) {
+        [self.progressTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kUpdatePlayProgressTimerInterval]];
+        [self.autoHideTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoHideTimerInterval]];
+    }
 }
 
 - (void)NeLivePlayerloadStateChanged:(NSNotification*)notification
@@ -421,6 +468,10 @@
                                           delegate:nil
                                  cancelButtonTitle:nil
                                  otherButtonTitles:@"OK", nil] show];
+            } else {
+                [self syncUIStatus];
+                
+                [self.progressTimer setFireDate:[NSDate distantFuture]];
             }
             break;
             
@@ -448,9 +499,9 @@
 - (void)NELivePlayerReleaseSuccess:(NSNotification*)notification
 {
     NSLog(@"resource release success!");
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:NELivePlayerReleaseSueecssNotification
-                                                  object:self.livePlayer];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                    name:NELivePlayerReleaseSueecssNotification
+//                                                  object:self.livePlayer];
 }
 
 #pragma mark -
@@ -469,6 +520,34 @@
         _topExtraItems = [[NSMutableArray alloc] init];
     }
     return _topExtraItems;
+}
+
+- (NSTimer *)progressTimer
+{
+    if ( !_progressTimer ) {
+        _progressTimer = [NSTimer timerWithTimeInterval:kUpdatePlayProgressTimerInterval
+                                                 target:self
+                                               selector:@selector(updatePlayProgress)
+                                               userInfo:nil
+                                                repeats:YES];
+        [_progressTimer setFireDate:[NSDate distantFuture]];
+        [[NSRunLoop currentRunLoop] addTimer:_progressTimer forMode:NSRunLoopCommonModes];
+    }
+    return _progressTimer;
+}
+
+- (NSTimer *)autoHideTimer
+{
+    if ( !_autoHideTimer ) {
+        _autoHideTimer = [NSTimer timerWithTimeInterval:kAutoHideTimerInterval
+                                                 target:self
+                                               selector:@selector(autoHide)
+                                               userInfo:nil
+                                                repeats:YES];
+        [_autoHideTimer setFireDate:[NSDate distantFuture]];
+        [[NSRunLoop currentRunLoop] addTimer:_autoHideTimer forMode:NSRunLoopCommonModes];
+    }
+    return _autoHideTimer;
 }
 
 @end

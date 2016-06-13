@@ -19,6 +19,7 @@
 #import "ViewHistory.h"
 #import "LoadDataService.h"
 #import "Stream.h"
+#import "VideoPlayerView.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -28,7 +29,8 @@
 
 @property (nonatomic, strong) UIButton* backButton;
 
-@property (nonatomic, strong) VideoPlayer* playerView;
+//@property (nonatomic, strong) VideoPlayer* playerView;
+@property (nonatomic, strong) VideoPlayerView *playerView;
 
 @property (nonatomic, strong) SmallToolbar* toolbar;
 
@@ -87,36 +89,41 @@
         videoUrl = self.stream.video_file;
     }
     
-//    NSURL* fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"test.mp4" ofType:nil]];
-    self.playerView = [[VideoPlayer alloc] initWithContentURL:[NSURL URLWithString:videoUrl]];
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"test1.mp4" ofType:nil]];
+//    [NSURL URLWithString:videoUrl]
+    self.playerView = [[VideoPlayerView alloc] initWithContentURL:url params:nil];
     [self.view addSubview:self.playerView];
-    
-    if ( [self.stream.video_file length] > 0 ) {
-        self.playerView.playerType = VideoPlayerTypeVOD;
+    if ( [self.stream.type integerValue] == 1 ) {
+        if ( [self.stream.video_file length] == 0 ) {
+            self.playerView.mediaType = VideoPlayerMediaTypeVOD;
+        } else {
+            self.playerView.mediaType = VideoPlayerMediaTypeLive;
+        }
     } else {
-        self.playerView.playerType = VideoPlayerTypeLiving;
+        self.playerView.mediaType = VideoPlayerMediaTypeVOD;
     }
     
-    self.playerView.shouldAutoplay = YES;
+    
+//    if ( [self.stream.video_file length] > 0 ) {
+//        self.playerView.mediaType = VideoPlayerMediaTypeVOD;
+//    } else {
+//        self.playerView.mediaType = VideoPlayerMediaTypeLive;
+//    }
+    
+    __weak typeof(self) me = self;
+    self.playerView.didShutdownPlayerBlock = ^(VideoPlayerView *view) {
+        [me dismissViewControllerAnimated:YES completion:nil];
+    };
+    
+    self.playerView.didTogglePlayerModeBlock = ^(VideoPlayerView *view, VideoPlayerMode mode) {
+        [me gotoFullscreen];
+    };
+    
+//    self.playerView.shouldAutoplay = YES;
     
     self.playerView.frame = CGRectMake(0, 0, self.view.width, self.view.width * 0.618);
     
-    [self addExtraItemsInControl];
-    
-    __weak typeof(self)weakSelf = self;
-    self.playerView.didHideControlCallback = ^(VideoPlayer* player, BOOL hidden) {
-        weakSelf.backButton.hidden = hidden;
-    };
-    self.playerView.didClickFullscreenCallback = ^(VideoPlayer *player) {
-        [weakSelf gotoFullscreen];
-    };
-    
-    // 返回按钮
-    self.backButton = AWCreateImageButton(@"live_v_btn_back.png",
-                                          self,
-                                          @selector(back));
-    [self.view addSubview:self.backButton];
-    self.backButton.position = CGPointMake(10, 10);
+//    [self addExtraItemsInControl];
     
     // 竖屏工具条
     [self initToolbar];
@@ -127,7 +134,8 @@
 
 - (void)dealloc
 {
-    [self.playerView finishPlaying];
+//    [self.playerView finishPlaying];
+//    [self.playerView shutdown];
     self.playerView = nil;
 }
 
@@ -252,7 +260,7 @@
     danmu.selected = YES;
     [items addObject:danmu];
     
-    self.playerView.extraItemsInControl = items;
+//    self.playerView.extraItemsInControl = items;
 }
 
 - (void)doLike:(UIButton *)sender
@@ -321,24 +329,24 @@
 
 - (void)back
 {
-    if ( self.playerView.fullscreen ) {
-        [self gotoFullscreen];
-    } else {
-        // 记录观看历史
-        if ( self.stream.fromType == StreamFromTypeDefault &&
-            [self.stream.type integerValue] == 2) {
-            if ( !self.vhService ) {
-                self.vhService = [[ViewHistoryService alloc] init];
-            }
-            
-            self.stream.currentPlaybackTime =
-            [@(self.playerView.currentPlaybackTime) description];
-            
-            [self.vhService saveRecord:self.stream needSyncServer:YES];
-        }
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+//    if ( self.playerView.fullscreen ) {
+//        [self gotoFullscreen];
+//    } else {
+//        // 记录观看历史
+//        if ( self.stream.fromType == StreamFromTypeDefault &&
+//            [self.stream.type integerValue] == 2) {
+//            if ( !self.vhService ) {
+//                self.vhService = [[ViewHistoryService alloc] init];
+//            }
+//            
+////            self.stream.currentPlaybackTime =
+////            [@(self.playerView.currentPlaybackTime) description];
+//            
+//            [self.vhService saveRecord:self.stream needSyncServer:YES];
+//        }
+//        
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }
 }
 
 - (BOOL)shouldAutorotate
@@ -364,7 +372,8 @@
     CGRectMake(0, 0, self.view.height, self.view.width) :
     CGRectMake(0, 0, self.view.width, self.view.width * 0.618);
     
-    self.playerView.fullscreen = UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+//    self.playerView.fullscreen = UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+    self.playerView.playerMode = UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ? VideoPlayerModeFullscreen : VideoPlayerModeDefault;
     
     [UIView animateWithDuration:duration animations:^{
         self.playerView.frame = frame;
@@ -392,7 +401,9 @@
     
     self.toolbar.hidden = size.width > size.height;
 
-    self.playerView.fullscreen = self.toolbar.hidden;
+//    self.playerView.fullscreen = self.toolbar.hidden;
+    
+    self.playerView.playerMode = self.toolbar.hidden ? VideoPlayerModeFullscreen : VideoPlayerModeDefault;
     
     self.buttonGroup.hidden = self.panelView.hidden = self.toolbar.hidden;
     

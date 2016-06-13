@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, VideoPlayerMediaType) {
 - (instancetype)initWithContentURL:(NSURL *)url params:(NSDictionary *)params;
 
 @property (nonatomic, assign) VideoPlayerMediaType mediaType;
+@property (nonatomic, assign) VideoPlayerMode playerMode;
 
 @property (nonatomic, copy) void (^didShutdownPlayerBlock)(VideoPlayerView *view);
 @property (nonatomic, copy) void (^didTogglePlayerModeBlock)(VideoPlayerView *view, VideoPlayerMode playerMode);
