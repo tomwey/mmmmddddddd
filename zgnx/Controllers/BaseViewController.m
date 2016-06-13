@@ -29,4 +29,9 @@
     return UIInterfaceOrientationPortrait;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end

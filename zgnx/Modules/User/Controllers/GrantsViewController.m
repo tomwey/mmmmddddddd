@@ -9,6 +9,7 @@
 #import "GrantsViewController.h"
 #import "Defines.h"
 #import "LoadDataService.h"
+#import "GrantTableHeaderView.h"
 
 @interface GrantsViewController () <UITableViewDelegate, ReloadDelegate>
 
@@ -16,6 +17,10 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) AWTableViewDataSource *dataSource;
 @property (nonatomic, strong) LoadDataService *dataService;
+@property (nonatomic, strong) LoadDataService *loadUserDataService;
+
+@property (nonatomic, strong) User *latestUser;
+@property (nonatomic, strong) GrantTableHeaderView *tableHeaderView;
 
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, assign) BOOL hasNextPage;
@@ -59,21 +64,55 @@
     
     [self.tableView removeBlankCells];
     
+    self.tableHeaderView = [[GrantTableHeaderView alloc] init];
+    self.tableHeaderView.grantType = GrantTypeSent;
+    self.tableView.tableHeaderView = self.tableHeaderView;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self loadData];
+        [self loadAllData];
     });
+}
+
+- (void)loadAllData
+{
+    if ( self.loadUserDataService == nil ) {
+        self.loadUserDataService = [[LoadDataService alloc] init];
+    }
+    
+    [self.tableView removeErrorOrEmptyTips];
+    
+    __weak typeof(self) me = self;
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    
+    NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+    [self.loadUserDataService GET:API_USER_LOAD_PROFILE
+                           params:@{ @"token": token }
+                       completion:^(id result, NSError *error)
+     {
+         [MBProgressHUD hideHUDForView:me.contentView animated:NO];
+         if ( error ) {
+             [me.tableView showErrorOrEmptyMessage:@"加载出错，点击重试~" reloadDelegate:self];
+         } else {
+             me.latestUser = [[User alloc] initWithDictionary:[result objectForKey:@"data"]];
+             [me loadData];
+         }
+     }];
 }
 
 - (void)valueChanged:(id)sender
 {
     self.currentPage = 1;
+    
+    self.tableHeaderView.grantType = self.segmentedControl.selectedSegmentIndex;
+    
     [self loadData];
 }
 
 - (void)reloadDataForErrorOrEmpty;
 {
     self.currentPage = 1;
-    [self loadData];
+//    [self loadData];
+    [self loadAllData];
 }
 
 - (void)loadData
@@ -89,6 +128,8 @@
         [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     }
     
+    __weak typeof(self) me = self;
+    
     NSString *uri = self.segmentedControl.selectedSegmentIndex == 0
     ? API_GRANT_SENT
     : API_GRANT_RECEIPT;
@@ -101,34 +142,37 @@
                             }
                completion:
      ^(id result, NSError *error) {
-         [MBProgressHUD hideHUDForView:self.contentView animated:YES];
-         self.allowLoading = YES;
+         [MBProgressHUD hideAllHUDsForView:me.contentView animated:YES];
+         me.allowLoading = YES;
          if ( error ) {
-             if ( self.currentPage == 1 ) {
-                 [self.tableView showErrorOrEmptyMessage:@"加载出错，点击重试~" reloadDelegate:self];
+             if ( me.currentPage == 1 ) {
+                 [me.tableView showErrorOrEmptyMessage:@"加载出错，点击重试~" reloadDelegate:me];
              }
-             self.hasNextPage = NO;
+             me.hasNextPage = NO;
          } else {
              NSArray *data = [result objectForKey:@"data"];
              if ( [data count] == 0 ) {
-                 self.hasNextPage = NO;
+                 me.hasNextPage = NO;
                  
-                 if ( self.currentPage == 1 ) {
-                     [self.tableView showErrorOrEmptyMessage:@"Oops, 没有数据~" reloadDelegate:nil];
+                 if ( me.currentPage == 1 ) {
+                     [me.tableView showErrorOrEmptyMessage:@"Oops, 没有数据~" reloadDelegate:nil];
                  }
              } else {
-                 self.hasNextPage = [data count] == kPageSize;
+                 me.hasNextPage = [data count] == kPageSize;
                  
-                 if ( self.currentPage == 1 ) {
-                     self.dataSource.dataSource = data;
+                 if ( me.currentPage == 1 ) {
+                     me.dataSource.dataSource = data;
                  } else {
-                     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
+                     NSMutableArray *temp = [NSMutableArray arrayWithArray:me.dataSource.dataSource];
                      [temp addObjectsFromArray:data];
-                     self.dataSource.dataSource = temp;
+                     me.dataSource.dataSource = temp;
                  }
                  
-                 self.tableView.hidden = NO;
-                 [self.tableView reloadData];
+                 me.tableView.hidden = NO;
+                 
+                 [me.tableHeaderView setUser:self.latestUser];
+                 
+                 [me.tableView reloadData];
              }
          }
      }];

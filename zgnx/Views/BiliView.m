@@ -116,7 +116,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     _streamId = streamId;
     
-    [self loadData];
+    if ( [streamId length] > 0 ) {
+        [self loadData];
+    }
 }
 
 - (void)loadData

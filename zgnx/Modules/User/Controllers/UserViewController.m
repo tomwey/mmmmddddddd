@@ -11,8 +11,9 @@
 #import "UserService.h"
 #import "UserProfileView.h"
 #import <AWTableView/UITableView+RemoveBlankCells.h>
+#import "LoadDataService.h"
 
-@interface UserViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface UserViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView* tableView;
 @property (nonatomic, strong) NSArray* dataSource;
@@ -21,7 +22,10 @@
 
 @property (nonatomic, weak) UserProfileView* profileView;
 
+@property (nonatomic, assign) BOOL needReloadUserProfile;
+
 @end
+
 @implementation UserViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken
@@ -43,6 +47,7 @@
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.needReloadUserProfile = NO;
     
     if ( [self respondsToSelector:@selector(setEdgesForExtendedLayout:)] ) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -64,11 +69,21 @@
     
     self.profileView = upv;
     
-    __weak typeof(self) weakSelf = self;
     self.profileView.didClickBlock = ^(UserProfileView* view) {
         UIViewController* vc = [[CTMediator sharedInstance] CTMediator_updateProfile:view.user];
-        [weakSelf presentViewController:vc animated:YES completion:nil];
+        UINavigationController *nav = (UINavigationController *)[AWAppWindow() rootViewController];
+        [nav pushViewController:vc animated:YES];
     };
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadUserProfile)
+                                                 name:@"kReloadUserProfileNotification"
+                                               object:nil];
+}
+
+- (void)reloadUserProfile
+{
+    self.needReloadUserProfile = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,6 +104,26 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ( self.needReloadUserProfile ) {
+        [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+        
+        NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+        [[UserService sharedInstance] loadUserProfileForAuthToken:token completion:^(User *aUser, NSError *error) {
+            self.needReloadUserProfile = NO;
+            [MBProgressHUD hideHUDForView:self.contentView animated:YES];
+            
+            if ( !error ) {
+                self.profileView.user = [[UserService sharedInstance] currentUser];
+            }
+        }];
+    }
+    
+}
+
 - (void)loadData
 {
     self.profileView.user = [[UserService sharedInstance] currentUser];
@@ -99,6 +134,7 @@
          self.dataSource = result;
          [self.tableView reloadData];
      }];
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -144,22 +180,27 @@
             UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openGrantsVC];
             [nav pushViewController:vc animated:YES];
         } else if ( indexPath.section == 2 && indexPath.row == 0 ) {
-            
-            [AWModalAlert showWithTitle:@"你确定吗？" message:@""
-                           cancelButton:nil
-                           otherButtons:@[@"确定", @"取消"] result:^(NSUInteger buttonIndex) {
-                               if ( buttonIndex == 0 ) {
-                                   [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
-                                       
-                                   }];
-                                   [self loadData];
-                               }
-                           }];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"您确定吗？"
+                                       message:@""
+                                      delegate:self
+                             cancelButtonTitle:nil
+                             otherButtonTitles:@"确定", @"取消", nil];
+            [alert show];
         } else {
             [self didSelectAtIndexPath:indexPath];
         }
     } else {
         [self didSelectAtIndexPath:indexPath];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ( buttonIndex == 0 ) {
+        [[UserService sharedInstance] logoutWithAuthToken:nil completion:^(id result, NSError *error) {
+            
+                                               }];
+                                               [self loadData];
     }
 }
 

@@ -207,7 +207,7 @@
         self.apiManager = [[APIManager alloc] initWithDelegate:self];
     }
     
-    [self.apiManager sendRequest:APIRequestCreate(API_USER_UPDATE_PROFILE, RequestMethodGet, @{ @"token" : authToken } )];
+    [self.apiManager sendRequest:APIRequestCreate(API_USER_UPDATE_NICKNAME, RequestMethodGet, @{ @"token" : authToken } )];
 }
 
 /** 网络请求成功回调 */
@@ -221,7 +221,7 @@
             [self saveUser:user];
             
             self.responseCallback(user, nil);
-            self.responseCallback = nil;
+//            self.responseCallback = nil;
         }
     } else if ( self.noDataManager == manager ) {
         if ( self.noDataCallback ) {
