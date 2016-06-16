@@ -68,7 +68,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     NSString* videoUrl = nil;
-//    NSInteger type = [self.streamData[@"type"] integerValue];
     if ( [self.stream.type integerValue] == 1 ) {
         videoUrl = [self.stream.video_file length] == 0 ?
                     self.stream.rtmp_url : self.stream.video_file;
@@ -91,13 +90,6 @@
     } else {
         self.playerView.mediaType = VideoPlayerMediaTypeVOD;
     }
-    
-    
-//    if ( [self.stream.video_file length] > 0 ) {
-//        self.playerView.mediaType = VideoPlayerMediaTypeVOD;
-//    } else {
-//        self.playerView.mediaType = VideoPlayerMediaTypeLive;
-//    }
     
     __weak typeof(self) me = self;
     self.playerView.didShutdownPlayerBlock = ^(VideoPlayerView *view) {

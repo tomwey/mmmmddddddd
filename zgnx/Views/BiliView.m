@@ -126,6 +126,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.tableView removeErrorOrEmptyTips];
     self.tableView.hidden = YES;
     
+    NSLog(@"page: %d", self.currentPage);
+    
     if ( self.loadService == nil ) {
         self.loadService = [[LoadDataService alloc] init];
     }
@@ -134,7 +136,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.loadService GET:API_BILI
                    params:@{ @"sid": _streamId ?: @"",
                              @"page": @(self.currentPage),
-                             @"size": @(kPageSize),
+                             @"size": @(30),
                              }
                completion:^(id result, NSError *error)
     {
@@ -162,7 +164,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             
         } else {
             
-            self.hasNextPage = [data count] >= kPageSize;
+            self.hasNextPage = [data count] >= 30;
             
             if ( self.currentPage == 1 ) {
                 self.dataSource.dataSource = data;
