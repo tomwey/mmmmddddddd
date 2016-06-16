@@ -26,6 +26,7 @@
 #define API_BANNERS                @"/banners"
 #define API_HOT_KEYWORDS           @"/search/hot_keywords"
 #define API_VIDEOS_MORE_LIKED      @"/videos/more_liked"
+#define API_HOT_SEARCHES           @"/hot_searches"
 #define API_KEYWORDS_LIST          @"/search/kw_list"
 #define API_SEARCH_VIDEOS          @"/search"
 #define API_VIEW_HISTORY_CREATE    @"/view_histories/create"

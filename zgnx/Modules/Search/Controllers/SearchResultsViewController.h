@@ -10,6 +10,7 @@
 
 @interface SearchResultsViewController : CommonVODListViewController
 
-- (instancetype)initWithKeyword:(NSString *)keyword;
+- (instancetype)initWithKeyword:(NSString *)keyword
+                      videoType:(NSUInteger)videoType;
 
 @end

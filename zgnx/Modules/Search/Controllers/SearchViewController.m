@@ -45,7 +45,7 @@
 {
     [super viewDidLoad];
     
-    self.navBar.title = @"搜索";
+    self.navBar.title = self.videoType == 1 ? @"直播搜索" : @"推荐搜索";
     
     SearchBar* searchBar = [[SearchBar alloc] init];
     [self.contentView addSubview:searchBar];
@@ -83,6 +83,8 @@
             NSLog(@"select item: %@", selectItem);
             [weakSelf openBanner:selectItem];
         }];
+        
+        self.searchView.videoType = self.videoType;
         [self.searchView startLoading:^(HotSearchView *view) {
             //
             [weakSelf setupTableHeaderView];
@@ -92,6 +94,31 @@
         
         [self startLoadForPage:1];
     });
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(openStreamDetail:)
+                                                 name:kVideoCellDidSelectNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kVideoCellDidSelectNotification
+                                                  object:nil];
+}
+
+- (void)openStreamDetail:(NSNotification *)noti
+{
+    UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:[noti.object stream]];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -163,7 +190,7 @@
 
 - (void)doSearch:(NSString *)keyword
 {
-    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openSearchResultsVCWithParams:@{ @"keyword":keyword }];
+    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openSearchResultsVCWithParams:@{ @"keyword":keyword, @"type": @(self.videoType) }];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -179,8 +206,11 @@
     }
     
     __weak typeof(self) weakSelf = self;
-    [self.dataService GET:API_VIDEOS_MORE_LIKED params:@{ @"page": @(page),
-                                                          @"token": [[UserService sharedInstance] currentUser].authToken ?: @"" } completion:^(id result, NSError *error) {
+    [self.dataService GET:API_HOT_SEARCHES params:@{ @"page": @(page),
+                                                     @"token": [[UserService sharedInstance] currentUser].authToken ?: @"",
+                                                     @"size": @(kPageSize),
+                                                     @"type": @(self.videoType)
+                                                     } completion:^(id result, NSError *error) {
 //        NSArray* data = result[@"data"];
         if ( error ) {
             NSLog(@"Error: %@", error);
@@ -208,7 +238,7 @@
     if ( !_likeTipLabel ) {
         _likeTipLabel = AWCreateLabel(CGRectMake(10, 0, self.contentView.width - 20,
                                                  40),
-                                      @"  关注最多",
+                                      @"  猜你喜欢",
                                       NSTextAlignmentLeft,
                                       nil,
                                       nil);

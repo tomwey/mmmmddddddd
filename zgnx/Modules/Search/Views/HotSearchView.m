@@ -70,7 +70,9 @@
     
     [self.apiManager sendRequest:APIRequestCreate(API_HOT_KEYWORDS,
                                                   RequestMethodGet,
-                                                  @{ @"size": @(self.rows * self.columns) })];
+                                                  @{ @"size": @(self.rows * self.columns),
+                                                     @"type": @(self.videoType),
+                                                    })];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -153,6 +155,7 @@
                 [self addSubview:kwLabel];
                 kwLabel.adjustsFontSizeToFitWidth = YES;
                 kwLabel.tag = 100 + index;
+                kwLabel.userInteractionEnabled = YES;
                 
                 UIButton* btn = AWCreateImageButton(nil, self, @selector(btnClicked:));
                 [kwLabel addSubview:btn];

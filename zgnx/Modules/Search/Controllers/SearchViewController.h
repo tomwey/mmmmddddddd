@@ -10,4 +10,6 @@
 
 @interface SearchViewController : BaseNavBarViewController
 
+@property (nonatomic, assign) NSUInteger videoType;
+
 @end

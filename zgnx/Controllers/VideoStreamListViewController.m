@@ -26,7 +26,8 @@
 
 - (void)gotoSearch
 {
-    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openSearchVC];
+    NSInteger index = [NSStringFromClass([self class]) isEqualToString:@"LiveViewController"] ? 1 : 2;
+    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openSearchVCWithVideoType:index];
 //    [self presentViewController:vc animated:YES completion:nil];
     UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
     [nav pushViewController:vc animated:YES];

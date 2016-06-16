@@ -12,6 +12,8 @@
 
 - (instancetype)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns;
 
+@property (nonatomic, assign) NSUInteger videoType;
+
 - (void)startLoading:(void (^)(HotSearchView *view))completion selectCallback:(void (^)(id selectItem))selectCallback;
 
 @end

@@ -12,14 +12,16 @@
 
 @implementation CTMediator (SearchModule)
 
-- (UIViewController *)CTMediator_openSearchVC
+- (UIViewController *)CTMediator_openSearchVCWithVideoType:(NSUInteger)vType
 {
-    return [[SearchViewController alloc] init];
+    SearchViewController *svc = [[SearchViewController alloc] init];
+    svc.videoType = vType;
+    return svc;
 }
 
 - (UIViewController *)CTMediator_openSearchResultsVCWithParams:(NSDictionary *)params
 {
-    return [[SearchResultsViewController alloc] initWithKeyword:params[@"keyword"]];
+    return [[SearchResultsViewController alloc] initWithKeyword:params[@"keyword"] videoType:[params[@"type"] integerValue]];
 }
 
 @end

@@ -11,7 +11,7 @@
 
 @interface CTMediator (SearchModule)
 
-- (UIViewController *)CTMediator_openSearchVC;
+- (UIViewController *)CTMediator_openSearchVCWithVideoType:(NSUInteger)vType;
 
 - (UIViewController *)CTMediator_openSearchResultsVCWithParams:(NSDictionary *)params;
 
