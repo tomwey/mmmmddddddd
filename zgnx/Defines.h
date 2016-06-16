@@ -22,7 +22,7 @@
 #define API_SEND_FEEDBACK          @"/feedbacks"
 #define API_USER_CODE              @"/auth_codes"
 #define API_USER_UPDATE_PASSWORD   @"/user/update_password"
-#define API_USER_LIKED_VIDEOS      @"/user/liked_videos"
+#define API_USER_LIKED_VIDEOS      @"/user/favorites"
 #define API_BANNERS                @"/banners"
 #define API_HOT_KEYWORDS           @"/search/hot_keywords"
 #define API_VIDEOS_MORE_LIKED      @"/videos/more_liked"

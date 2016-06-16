@@ -131,7 +131,7 @@
 
 - (void)loadServerDataForUser:(User *)user page:(NSInteger)page subError:(NSError *)error
 {
-    page = page >= 1 ?: 1;
+//    page = page >= 1 ?: 1;
     [self.apiManager sendRequest:APIRequestCreate(API_VIEW_HISTORY_LIST, RequestMethodGet, @{ @"token": user.authToken ?: @"",
                                                                                               @"page": @(page),
                                                                                               @"size": @(kPageSize)

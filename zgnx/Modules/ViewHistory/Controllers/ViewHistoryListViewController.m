@@ -92,17 +92,21 @@
     [self.vhService loadRecordsForUser:[[UserService sharedInstance] currentUser]
                                   page:page
                             completion:^(id result, NSError *error) {
+                                NSMutableArray *temp = [NSMutableArray array];
                                 [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                                     Stream *stream = nil;
                                     if ( [obj isKindOfClass:[NSDictionary class]] ) {
-                                        stream = [[Stream alloc] initWithDictionary:obj];
+                                        
+                                        stream = [[Stream alloc] initWithDictionary:obj[@"video"]];
+                                        stream.currentPlaybackTime = [obj[@"play_progress"] description];
                                     } else {
                                         stream = (Stream *)obj;
                                     }
 //                                    Stream *stream = (Stream *)obj;
                                     stream.isEditing = weakSelf.isEditing;
+                                    [temp addObject:stream];
                                 }];
-                                [weakSelf finishLoading:result error:error];
+                                [weakSelf finishLoading:temp error:error];
                             }];
 }
 
