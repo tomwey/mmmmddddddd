@@ -53,18 +53,6 @@
 
 @implementation VideoStreamDetailViewController
 
-- (instancetype)initWithStreamData:(id)streamData fromType:(VideoFromType)fromType
-{
-    if ( self = [super init] ) {
-        NSLog(@"%@", streamData);
-//        self.streamData = streamData;
-        
-//        NSInteger type = streamData[@"from_type"] ? [streamData[@"from_type"] integerValue] : 0;
-//        self.videoFromType = type;
-    }
-    return self;
-}
-
 - (instancetype)initWithStream:(Stream *)aStream
 {
     if ( self = [super init] ) {
@@ -129,13 +117,6 @@
     
     // 分栏视图控件
     [self initTabPage];
-}
-
-- (void)dealloc
-{
-//    [self.playerView finishPlaying];
-//    [self.playerView shutdown];
-    self.playerView = nil;
 }
 
 - (void)initTabPage
