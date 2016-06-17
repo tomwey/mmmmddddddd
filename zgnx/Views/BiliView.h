@@ -17,4 +17,6 @@
 
 - (void)addMessage:(NSString *)msg;
 
+- (void)hideKeyboard;
+
 @end

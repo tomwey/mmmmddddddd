@@ -49,6 +49,12 @@
 
 @property (nonatomic, strong) BiliView *biliView;
 
+@property (nonatomic, strong) NSArray *extraButtons;
+
+@property (nonatomic, strong) UIButton *biliButton;
+@property (nonatomic, strong) UIButton *likeButton;
+@property (nonatomic, strong) UIButton *favoriteButton;
+
 @end
 
 @implementation VideoStreamDetailViewController
@@ -215,26 +221,6 @@
     return _biliView;
 }
 
-- (void)addExtraItemsInControl
-{
-    NSMutableArray* items = [NSMutableArray array];
-    UIButton* likeBtn = AWCreateImageButton(@"btn_like.png", self, @selector(doLike:));
-    [likeBtn setImage:[UIImage imageNamed:@"btn_liked.png"] forState:UIControlStateSelected];
-    likeBtn.selected = [self.stream.liked boolValue];
-    [items addObject:likeBtn];
-    
-    UIButton* shareBtn = AWCreateImageButton(@"btn_share.png", self, @selector(doShare));
-    [items addObject:shareBtn];
-    
-    UIButton* danmu = AWCreateImageButton(@"danmu.png", self, @selector(openOrCloseBili:));
-    [danmu setImage:[UIImage imageNamed:@"danmu_h.png"] forState:UIControlStateSelected];
-    danmu.selected = YES;
-    [items addObject:danmu];
-    
-//    self.playerView.extraItemsInControl = items;
-    [self.playerView addExtraItemsAtBottomControl:items];
-}
-
 - (void)doLike:(UIButton *)sender
 {
     User* user = [[UserService sharedInstance] currentUser];
@@ -288,6 +274,7 @@
 
 - (void)openOrCloseBili:(UIButton *)sender
 {
+    sender.selected = !sender.selected;
     
 }
 
@@ -321,6 +308,55 @@
 //    }
 }
 
+- (NSArray *)extraButtons
+{
+    if ( !_extraButtons ) {
+        _extraButtons = [[NSArray alloc] initWithObjects:self.biliButton,self.likeButton, self.favoriteButton, nil];
+    }
+    return _extraButtons;
+}
+
+- (UIButton *)biliButton
+{
+    if ( !_biliButton ) {
+        _biliButton = AWCreateImageButton(@"btn_bili_open.png",
+                                          self, @selector(openOrCloseBili:));
+        [_biliButton setImage:[UIImage imageNamed:@"btn_bili_close.png"]
+                     forState:UIControlStateSelected];
+        _biliButton.selected = NO;
+    }
+    
+    return _biliButton;
+}
+
+- (UIButton *)likeButton
+{
+    if ( !_likeButton ) {
+        _likeButton = AWCreateImageButton(@"tags_zan_n.png",
+                                          self, @selector(doLike:));
+        [_likeButton setImage:[UIImage imageNamed:@"tags_zan_y.png"]
+                     forState:UIControlStateSelected];
+    }
+    
+    _likeButton.selected = [self.stream.liked boolValue];
+    
+    return _likeButton;
+}
+
+- (UIButton *)favoriteButton
+{
+    if ( !_favoriteButton ) {
+        _favoriteButton = AWCreateImageButton(@"btn_favorite.png",
+                                          self, @selector(doFavorite:));
+        [_favoriteButton setImage:[UIImage imageNamed:@"btn_favorited.png"]
+                     forState:UIControlStateSelected];
+    }
+    
+    _favoriteButton.selected = [self.stream.favorited boolValue];
+    
+    return _favoriteButton;
+}
+
 - (BOOL)shouldAutorotate
 {
     return YES;
@@ -347,6 +383,12 @@
 //    self.playerView.fullscreen = UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
     self.playerView.playerMode = UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ? VideoPlayerModeFullscreen : VideoPlayerModeDefault;
     
+    if ( self.playerView.playerMode == VideoPlayerModeFullscreen ) {
+        [self.playerView addExtraItemsAtBottomControl:self.extraButtons];
+    } else {
+        [self.playerView addExtraItemsAtBottomControl:nil];
+    }
+    
     [UIView animateWithDuration:duration animations:^{
         self.playerView.frame = frame;
         self.backButton.position = CGPointMake(10, 10);
@@ -355,6 +397,7 @@
     if ( UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ) {
 //        self.tabsControl.hidden = YES;
         self.buttonGroup.hidden = self.panelView.hidden = YES;
+        [self.biliView hideKeyboard];
     } else {
 //        self.tabsControl.hidden = NO;
         self.buttonGroup.hidden = self.panelView.hidden = NO;
@@ -373,11 +416,19 @@
     
     self.toolbar.hidden = size.width > size.height;
 
-//    self.playerView.fullscreen = self.toolbar.hidden;
-    
     self.playerView.playerMode = self.toolbar.hidden ? VideoPlayerModeFullscreen : VideoPlayerModeDefault;
     
+    if ( self.playerView.playerMode == VideoPlayerModeFullscreen ) {
+        [self.playerView addExtraItemsAtBottomControl:self.extraButtons];
+    } else {
+        [self.playerView addExtraItemsAtBottomControl:nil];
+    }
+    
     self.buttonGroup.hidden = self.panelView.hidden = self.toolbar.hidden;
+    
+    if ( self.panelView.hidden ) {
+        [self.biliView hideKeyboard];
+    }
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //

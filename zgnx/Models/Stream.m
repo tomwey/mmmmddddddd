@@ -25,6 +25,7 @@
         self.stream_id = jsonResult[@"stream_id"];
         self.created_on = jsonResult[@"created_on"];
         self.liked = jsonResult[@"liked"];
+        self.favorited = jsonResult[@"favorited"];
         self.rtmp_url = jsonResult[@"rtmp_url"];
         self.hls_url = jsonResult[@"hls_url"];
     }

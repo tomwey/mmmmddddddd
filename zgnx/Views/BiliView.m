@@ -55,6 +55,10 @@
         
         self.tableView.backgroundColor = BG_COLOR_GRAY;
         
+        self.toolbar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
+        self.toolbar.backgroundColor = [UIColor whiteColor];
+        [self addSubview:self.toolbar];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(willShowKeyboard:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -74,13 +78,20 @@
 {
     [super layoutSubviews];
     
-    self.biliField.frame = CGRectMake(0, self.height - 37, self.width - self.sendButton.width - 20, 37);
+    self.toolbar.frame = CGRectMake(0, self.height - 50,
+                                    self.width
+                                    , 50);
     
-    self.sendButton.position = CGPointMake(self.width - self.sendButton.width - 10,
+    
+    
+    self.biliField.frame = CGRectMake(10, self.toolbar.height / 2 - 34/2,
+                                      self.toolbar.width - self.sendButton.width - 30, 34);
+    
+    self.sendButton.position = CGPointMake(self.toolbar.width - self.sendButton.width - 10,
                                            self.biliField.midY - self.sendButton.height / 2);
     
     self.tableView.frame = CGRectMake(0, 0, self.width,
-                                      self.height - 37);
+                                      self.height - 50);
 }
 
 - (void)willShowKeyboard:(NSNotification *)noti
@@ -89,8 +100,7 @@
 //    CGFloat top -= CGRectGetHeight(frame);
     NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     [UIView animateWithDuration:duration animations:^{
-        self.biliField.top -= CGRectGetHeight(frame) + 5;
-        self.sendButton.top = self.biliField.midY - self.sendButton.height / 2;
+        self.toolbar.top -= CGRectGetHeight(frame) - 1;
     }];
 }
 
@@ -98,9 +108,13 @@
 {
     NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     [UIView animateWithDuration:duration animations:^{
-        self.biliField.top = self.height - 37;
-        self.sendButton.top = self.biliField.midY - self.sendButton.height / 2;
+        self.toolbar.top = self.height - self.toolbar.height;
     }];
+}
+
+- (void)hideKeyboard
+{
+    [self.biliField resignFirstResponder];
 }
 
 - (void)tableView:(UITableView *)tableView
@@ -194,9 +208,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ( !_biliField ) {
         _biliField = [[CustomTextField alloc] init];
-        [self addSubview:_biliField];
+        [self.toolbar addSubview:_biliField];
         _biliField.returnKeyType = UIReturnKeyDone;
         _biliField.autocorrectionType = UITextAutocorrectionTypeNo;
+        _biliField.placeholder = @"说两句...";
         _biliField.delegate = self;
     }
     return _biliField;
@@ -206,7 +221,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ( !_sendButton ) {
         _sendButton = AWCreateImageButton(@"btn_send.png", self, @selector(send));
-        [self addSubview:_sendButton];
+        [self.toolbar addSubview:_sendButton];
     }
     return _sendButton;
 }

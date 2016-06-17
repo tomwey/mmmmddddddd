@@ -193,7 +193,7 @@
     // 布局其他额外控件
     [self.bottomExtraItems enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIView *view = (UIView *)obj;
-        view.position = CGPointMake(left - 10 - view.width, self.bottomControlView.height / 2.0 - view.height / 2.0);
+        view.position = CGPointMake(left - 15 - view.width, self.bottomControlView.height / 2.0 - view.height / 2.0);
         left = view.left;
     }];
     
