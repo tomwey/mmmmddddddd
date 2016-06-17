@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, ToolbarButtonTag) {
-    ToolbarButtonTagBili  = 100,
-    ToolbarButtonTagShare = 101,
-    ToolbarButtonTagLike  = 102,
+    ToolbarButtonTagBili     = 100,
+    ToolbarButtonTagFavorite = 101,
+    ToolbarButtonTagLike     = 102,
 };
 
 @class Stream;

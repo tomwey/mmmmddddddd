@@ -28,6 +28,8 @@
 @property (nonatomic, assign) BOOL allowLoading;
 @property (nonatomic, assign) BOOL currentPage;
 
+@property (nonatomic, strong) UIView *toolbar;
+
 @end
 @implementation BiliView
 
@@ -72,10 +74,10 @@
 {
     [super layoutSubviews];
     
-    self.biliField.frame = CGRectMake(0, self.height - 37, self.width - 50, 37);
+    self.biliField.frame = CGRectMake(0, self.height - 37, self.width - self.sendButton.width - 20, 37);
     
-    self.sendButton.frame = CGRectMake(self.biliField.right + 5,
-                                       self.biliField.top, 40, 37);
+    self.sendButton.position = CGPointMake(self.width - self.sendButton.width - 10,
+                                           self.biliField.midY - self.sendButton.height / 2);
     
     self.tableView.frame = CGRectMake(0, 0, self.width,
                                       self.height - 37);
@@ -85,17 +87,19 @@
 {
     CGRect frame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
 //    CGFloat top -= CGRectGetHeight(frame);
-    [UIView animateWithDuration:.25 animations:^{
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:duration animations:^{
         self.biliField.top -= CGRectGetHeight(frame) + 5;
-        self.sendButton.top -= CGRectGetHeight(frame) + 5;
+        self.sendButton.top = self.biliField.midY - self.sendButton.height / 2;
     }];
 }
 
 - (void)willHideKeyboard:(NSNotification *)noti
 {
-    [UIView animateWithDuration:0.25 animations:^{
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:duration animations:^{
         self.biliField.top = self.height - 37;
-        self.sendButton.top = self.height - 37;
+        self.sendButton.top = self.biliField.midY - self.sendButton.height / 2;
     }];
 }
 
@@ -201,11 +205,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (UIButton *)sendButton
 {
     if ( !_sendButton ) {
-        _sendButton = AWCreateImageButton(nil, self, @selector(send));
+        _sendButton = AWCreateImageButton(@"btn_send.png", self, @selector(send));
         [self addSubview:_sendButton];
-        [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
-        [_sendButton setTitleColor:[UIColor blackColor]
-                          forState:UIControlStateNormal];
     }
     return _sendButton;
 }

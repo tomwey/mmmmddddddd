@@ -9,6 +9,7 @@
 #import "ButtonGroup.h"
 #import <AWUITools/AWUITools.h>
 #import <AWGeometry/UIView+AWGeometry.h>
+#import "Defines.h"
 
 @interface ButtonGroup ()
 
@@ -50,15 +51,30 @@
     self.buttonsContainer.frame = self.bounds;
     
     CGFloat left = 0;
-    for (NSInteger index = 0; index < [self.buttonNormalImages count]; index ++) {
+    NSArray *titles = @[@"弹幕", @"节目介绍", @"赏一个"];
+    CGFloat width = self.width / 3;
+    for (NSInteger index = 0; index < 3; index ++) {
         UIButton* btn = (UIButton *)[self.buttonsContainer viewWithTag:100 + index];
         if ( !btn ) {
-            btn = AWCreateImageButton(self.buttonNormalImages[index], self, @selector(btnClicked:));
+            btn = AWCreateImageButton(nil, self, @selector(btnClicked:));
             btn.tag = 100 + index;
-            
-            if ( index < [self.buttonSelectedImages count] ) {
-                [btn setImage:[UIImage imageNamed:self.buttonSelectedImages[index]] forState:UIControlStateSelected];
+            btn.frame = CGRectMake(0, 0, width, self.height);
+//            if ( index < [self.buttonSelectedImages count] ) {
+//                [btn setImage:[UIImage imageNamed:self.buttonSelectedImages[index]] forState:UIControlStateSelected];
+//            }
+            [btn setTitle:titles[index] forState:UIControlStateNormal];
+            if ( index < 2 ) {
+                btn.backgroundColor = [UIColor whiteColor];
+                [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            } else {
+                btn.backgroundColor = AWColorFromRGB(239,16,17);
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             }
+            
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, btn.height - 2, btn.width, 2)];
+            [btn addSubview:line];
+            line.backgroundColor = AWColorFromRGB(181, 181, 181);
+            line.tag = 1111;
             
             [self.buttonsContainer addSubview:btn];
         }
@@ -68,6 +84,8 @@
         if ( index == self.selectedIndex ) {
             btn.selected = YES;
             self.lastButton = btn;
+            UIView *line = [btn viewWithTag:1111];
+            line.backgroundColor = AWColorFromRGB(252, 181, 3);
         }
     }
     
@@ -86,7 +104,7 @@
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
 {
-    if ( [self.buttonNormalImages count] == 0 ) return;
+//    if ( [self.buttonNormalImages count] == 0 ) return;
     
     UIButton *currentBtn = [self.buttonsContainer viewWithTag:100 + selectedIndex];
     if ( currentBtn == self.lastButton ) {
@@ -94,7 +112,11 @@
     }
     
     self.lastButton.selected = NO;
+    [[self.lastButton viewWithTag:1111] setBackgroundColor:AWColorFromRGB(181, 181, 181)];
+    
     currentBtn.selected      = YES;
+    [[currentBtn viewWithTag:1111] setBackgroundColor:AWColorFromRGB(252, 181, 3)];
+    
     self.lastButton = currentBtn;
     
     _selectedIndex = selectedIndex;

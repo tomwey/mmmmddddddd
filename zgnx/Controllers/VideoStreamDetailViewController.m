@@ -113,13 +113,13 @@
 
 - (void)initTabPage
 {
-    NSArray* normalImages = @[@"column_btn_tm_n.png",
-                              @"column_btn_jmjs_n.png",
-                              @"column_btn_syg.png"];
+    NSArray* normalImages = nil;//@[@"column_btn_tm_n.png",
+                            //@"column_btn_jmjs_n.png",
+                            //@"column_btn_syg.png"];
     
-    NSArray* selectedImages = @[@"column_btn_tm_s.png",
-                              @"column_btn_jmjs_s.png",
-                              @"column_btn_syg.png"];
+    NSArray* selectedImages = nil;//@[@"column_btn_tm_s.png",
+                              //@"column_btn_jmjs_s.png",
+                              //@"column_btn_syg.png"];
     
     self.buttonGroup = [[ButtonGroup alloc] initWithFrame:
                         CGRectMake(0, self.toolbar.bottom, self.view.width, 44)
@@ -147,7 +147,6 @@
     self.toolbar = [[SmallToolbar alloc] initWithStream:self.stream];
     [self.view addSubview:self.toolbar];
     self.toolbar.position = CGPointMake(0, self.playerView.bottom);
-    self.toolbar.backgroundColor = AWColorFromRGB(186,186,186);
     
     __weak typeof(self)weakSelf = self;
     self.toolbar.toolbarButtonDidTapBlock = ^(UIButton* sender) {
@@ -162,9 +161,9 @@
                 [weakSelf doLike:sender];
             }
                 break;
-            case ToolbarButtonTagShare:
+            case ToolbarButtonTagFavorite:
             {
-                [weakSelf doShare];
+                [weakSelf doFavorite:sender];
             }
                 break;
                 
@@ -282,7 +281,7 @@
     }];
 }
 
-- (void)doShare
+- (void)doFavorite:(UIButton *)sender
 {
     
 }
