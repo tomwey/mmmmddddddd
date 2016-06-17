@@ -20,6 +20,7 @@
 #import "LoadDataService.h"
 #import "Stream.h"
 #import "VideoPlayerView.h"
+#import "GrantView.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -48,6 +49,7 @@
 @property (nonatomic, strong) Stream *stream;
 
 @property (nonatomic, strong) BiliView *biliView;
+@property (nonatomic, strong) GrantView *grantView;
 
 @property (nonatomic, strong) NSArray *extraButtons;
 
@@ -133,6 +135,15 @@
                                      buttonSelectedImages:selectedImages];
     [self.view addSubview:self.buttonGroup];
     
+    UIButton *grantButton = AWCreateImageButton(nil, self, @selector(gotoGrant));
+    grantButton.frame = CGRectMake(0, 0, self.view.width / 3, 44);
+    [self.buttonGroup addSubview:grantButton];
+    grantButton.left = self.view.width - grantButton.width;
+    grantButton.backgroundColor = AWColorFromRGB(239,16,17);
+    
+    [grantButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [grantButton setTitle:@"赏一个" forState:UIControlStateNormal];
+    
     __weak typeof(self)weakSelf = self;
     self.buttonGroup.didSelectItemBlock = ^(ButtonGroup *group) {
         weakSelf.panelView.selectedIndex = group.selectedIndex;
@@ -146,6 +157,11 @@
                                       self.view.height - self.buttonGroup.bottom);
     self.panelView.dataSource = self;
     self.panelView.selectedIndex = 0;
+}
+
+- (void)gotoGrant
+{
+    [[[GrantView alloc] init] showInView:self.view];
 }
 
 - (void)initToolbar
@@ -192,7 +208,7 @@
         case 1:
             return self.introView;
         case 2:
-            return [[UIView alloc] init];
+            return self.grantView;
             
         default:
             return [[UIView alloc] init];
@@ -205,6 +221,9 @@
         _introView = [[VideoIntroView alloc] init];
         [_introView setBody:self.stream.body];
     }
+    
+    [self.biliView hideKeyboard];
+    
     return _introView;
 }
 
@@ -219,6 +238,17 @@
     }
     
     return _biliView;
+}
+
+- (GrantView *)grantView
+{
+    if ( !_grantView ) {
+        _grantView = [[GrantView alloc] init];
+    }
+    
+    [self.biliView hideKeyboard];
+    
+    return _grantView;
 }
 
 - (void)doLike:(UIButton *)sender

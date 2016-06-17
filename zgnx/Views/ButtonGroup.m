@@ -53,7 +53,7 @@
     CGFloat left = 0;
     NSArray *titles = @[@"弹幕", @"节目介绍", @"赏一个"];
     CGFloat width = self.width / 3;
-    for (NSInteger index = 0; index < 3; index ++) {
+    for (NSInteger index = 0; index < 2; index ++) {
         UIButton* btn = (UIButton *)[self.buttonsContainer viewWithTag:100 + index];
         if ( !btn ) {
             btn = AWCreateImageButton(nil, self, @selector(btnClicked:));

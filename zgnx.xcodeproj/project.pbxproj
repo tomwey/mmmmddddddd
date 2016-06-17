@@ -222,6 +222,7 @@
 		998C9EB21D01CB590040E84B /* AppIcon87x87.png in Resources */ = {isa = PBXBuildFile; fileRef = 998C9EA11D01CB590040E84B /* AppIcon87x87.png */; };
 		998C9EB41D01D11A0040E84B /* intro.tpl in Resources */ = {isa = PBXBuildFile; fileRef = 998C9EB31D01D11A0040E84B /* intro.tpl */; };
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
+		99DE49631D1452080027BB7C /* GrantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DE49621D1452080027BB7C /* GrantView.m */; };
 		99FF5EC21D0DA3EC0078B22B /* GrantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */; };
 		99FF5EC51D0DA5600078B22B /* AWModalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC41D0DA5600078B22B /* AWModalAlert.m */; };
 		99FF5EC81D0DBE6B0078B22B /* GrantCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC71D0DBE6B0078B22B /* GrantCell.m */; };
@@ -540,6 +541,8 @@
 		998C9EB31D01D11A0040E84B /* intro.tpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = intro.tpl; sourceTree = "<group>"; };
 		99AD498A1CF5E73500F7BC6D /* PagerTabStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripper.h; sourceTree = "<group>"; };
 		99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerTabStripper.m; sourceTree = "<group>"; };
+		99DE49611D1452080027BB7C /* GrantView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrantView.h; sourceTree = "<group>"; };
+		99DE49621D1452080027BB7C /* GrantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrantView.m; sourceTree = "<group>"; };
 		99FF5EC01D0DA3EC0078B22B /* GrantsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrantsViewController.h; sourceTree = "<group>"; };
 		99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrantsViewController.m; sourceTree = "<group>"; };
 		99FF5EC31D0DA5600078B22B /* AWModalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWModalAlert.h; sourceTree = "<group>"; };
@@ -1269,6 +1272,8 @@
 				978EF6231D0E92F40091B053 /* NELivePlayerControl.m */,
 				978EF5F61D0E8BF90091B053 /* VideoPlayerView.h */,
 				978EF5F71D0E8BF90091B053 /* VideoPlayerView.m */,
+				99DE49611D1452080027BB7C /* GrantView.h */,
+				99DE49621D1452080027BB7C /* GrantView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1564,6 +1569,7 @@
 				998C9E901D01C54F0040E84B /* VideoIntroView.m in Sources */,
 				974EBEA31CF59F7F000DE692 /* CatalogService.m in Sources */,
 				99754EA71CFAE9F6007FA577 /* StaticToolbar.m in Sources */,
+				99DE49631D1452080027BB7C /* GrantView.m in Sources */,
 				97A4A80A1CF6D0E10045A69B /* SwipeView.m in Sources */,
 				974EBE551CF57A4D000DE692 /* UserModule.m in Sources */,
 				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
