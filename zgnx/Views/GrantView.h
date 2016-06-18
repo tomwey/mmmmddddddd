@@ -11,5 +11,9 @@
 @interface GrantView : UIView
 
 - (void)showInView:(UIView *)view;
+- (void)dismiss;
+
+@property (nonatomic, copy) void (^didPayBlock)(CGFloat money, NSString *password);
+@property (nonatomic, copy) void (^didCancelBlock)(void);
 
 @end

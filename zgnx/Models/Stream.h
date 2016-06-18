@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CTPersistance/CTPersistance.h>
+#import "User.h"
 
 typedef NS_ENUM(NSInteger, StreamFromType) {
     StreamFromTypeDefault = 1,
@@ -40,6 +41,8 @@ typedef NS_ENUM(NSInteger, StreamFromType) {
 @property (nonatomic, assign) NSInteger fromType;
 
 @property (nonatomic, assign) BOOL isEditing;
+
+@property (nonatomic, strong) User *user;
 
 - (instancetype)initWithDictionary:(NSDictionary *)jsonResult;
 

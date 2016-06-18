@@ -28,6 +28,8 @@
         self.favorited = jsonResult[@"favorited"];
         self.rtmp_url = jsonResult[@"rtmp_url"];
         self.hls_url = jsonResult[@"hls_url"];
+        
+        self.user = [[User alloc] initWithDictionary:jsonResult[@"user"]];
     }
     return self;
 }

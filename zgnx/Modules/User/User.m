@@ -13,6 +13,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)jsonResult
 {
     if ( self = [super init] ) {
+        self.id_ = jsonResult[@"id"];
         self.nickname = jsonResult[@"nickname"];
         self.authToken = jsonResult[@"token"];
         self.avatarUrl = jsonResult[@"avatar"];
@@ -25,6 +26,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [aCoder encodeObject:self.id_ ?: @"" forKey:@"id"];
     [aCoder encodeObject:self.nickname ?: @"" forKey:@"nickname"];
     [aCoder encodeObject:self.authToken ?: @"" forKey:@"token"];
     [aCoder encodeObject:self.avatarUrl ?: @"" forKey:@"avatar"];
@@ -35,6 +37,7 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     User* user = [[User alloc] init];
+    user.id_ = [aDecoder decodeObjectForKey:@"id"];
     user.nickname = [[aDecoder decodeObjectForKey:@"nickname"] description];
     user.authToken = [[aDecoder decodeObjectForKey:@"token"] description];
     user.avatarUrl = [[aDecoder decodeObjectForKey:@"avatar"] description];
@@ -46,6 +49,7 @@
 - (id)copyWithZone:(nullable NSZone *)zone;
 {
     User* user = [[User alloc] init];
+    user.id_ = self.id_;
     user.mobile = self.mobile;
     user.password = self.password;
     user.nickname = self.nickname;

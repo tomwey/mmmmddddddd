@@ -45,6 +45,8 @@
 @property (nonatomic, strong) ViewHistoryService *vhService;
 
 @property (nonatomic, strong) LoadDataService *likeService;
+@property (nonatomic, strong) LoadDataService *favoriteService;
+@property (nonatomic, strong) LoadDataService *payService;
 
 @property (nonatomic, strong) Stream *stream;
 
@@ -57,6 +59,8 @@
 @property (nonatomic, strong) UIButton *likeButton;
 @property (nonatomic, strong) UIButton *favoriteButton;
 
+@property (nonatomic, assign) BOOL allowRotation;
+
 @end
 
 @implementation VideoStreamDetailViewController
@@ -65,6 +69,7 @@
 {
     if ( self = [super init] ) {
         self.stream = aStream;
+        self.allowRotation = YES;
     }
     return self;
 }
@@ -161,7 +166,56 @@
 
 - (void)gotoGrant
 {
-    [[[GrantView alloc] init] showInView:self.view];
+    User* user = [[UserService sharedInstance] currentUser];
+    if ( !user ) {
+        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
+        [self presentViewController:vc animated:YES completion:nil];
+        return;
+    }
+    
+    self.allowRotation = NO;
+    GrantView *gView = [[GrantView alloc] init];
+    
+    __weak typeof(gView) weakGV = gView;
+    __weak typeof(self) me = self;
+    gView.didCancelBlock = ^{
+        self.allowRotation = YES;
+    };
+    gView.didPayBlock = ^(CGFloat money, NSString *password){
+        if ( money < 0.01 ) {
+            [[[UIAlertView alloc] initWithTitle:@"至少需要一角钱"
+                                       message:@""
+                                      delegate:nil
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles: nil] show];
+            return;
+        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        NSString *token = user.authToken ?: @"";
+        NSString *pass = [NSString stringWithFormat:@"f765a3873ffafdeeeedad552f6b659881047e1553fd18f34905a7260a547306b459f43d79c7c5529a1de9b4a2719d4248abcc26eb9af446e25e7dd62b53a9394%@", password];
+        NSString *passString = [[pass dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
+        [self.payService POST:API_USER_GRANT
+                       params:@{ @"token": token,
+                                 @"money": @(money),
+                                 @"pay_password": passString,
+                                 @"to": self.stream.user.id_ ?: @"",
+                                 }
+                   completion:^(id result, NSError *error) {
+                       [MBProgressHUD hideHUDForView:me.view animated:YES];
+                       if ( error ) {
+                           [[[UIAlertView alloc] initWithTitle:error.domain
+                                                       message:@""
+                                                      delegate:nil
+                                             cancelButtonTitle:@"OK"
+                                             otherButtonTitles: nil] show];
+                       } else {
+                           [weakGV dismiss];
+                       }
+                       
+        }];
+    };
+    [gView showInView:self.view];
 }
 
 - (void)initToolbar
@@ -262,10 +316,10 @@
     
     NSString* uri = nil;
     if ( sender.selected == NO ) {
-        // 收藏
+        // 点赞
         uri = API_USER_LIKE;
     } else {
-        // 取消收藏
+        // 取消点赞
         uri = API_USER_CANCEL_LIKE;
     }
     
@@ -299,7 +353,48 @@
 
 - (void)doFavorite:(UIButton *)sender
 {
+    User* user = [[UserService sharedInstance] currentUser];
+    if ( !user ) {
+        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
+        [self presentViewController:vc animated:YES completion:nil];
+        return;
+    }
     
+    NSString* uri = nil;
+    if ( sender.selected == NO ) {
+        // 收藏
+        uri = API_USER_FAVORITE;
+    } else {
+        // 取消收藏
+        uri = API_USER_CANCEL_FAVORITE;
+    }
+    
+    __weak typeof(self) me = self;
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    [self.likeService POST:uri params:@{ @"token": user.authToken ?: @"",
+                                         @"favorite_id": self.stream.id_,
+                                         @"type": self.stream.type ?: @"",
+     } completion:^(id result, NSError *error) {
+         [MBProgressHUD hideAllHUDsForView:me.contentView animated:YES];
+         if ( !error ) {
+             if ( [uri isEqualToString:API_USER_FAVORITE] ) { // 收藏成功
+                 me.stream.favorited = @(1);
+                 sender.selected = YES;
+             } else { // 取消收藏成功
+                 me.stream.favorited = @(0);
+                 sender.selected = NO;
+             }
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"kNeedReloadDataNotification" object:me.stream];
+         } else {
+             if ( [uri isEqualToString:API_USER_FAVORITE] ) { // 收藏失败
+                 me.stream.favorited = @(0);
+                 sender.selected = NO;
+             } else { // 取消收藏失败
+                 me.stream.favorited = @(1);
+                 sender.selected = YES;
+             }
+         }
+     }];
 }
 
 - (void)openOrCloseBili:(UIButton *)sender
@@ -314,6 +409,22 @@
         _likeService = [[LoadDataService alloc] init];
     }
     return _likeService;
+}
+
+- (LoadDataService *)favoriteService
+{
+    if ( !_favoriteService ) {
+        _favoriteService = [[LoadDataService alloc] init];
+    }
+    return _favoriteService;
+}
+
+- (LoadDataService *)payService
+{
+    if ( !_payService ) {
+        _payService = [[LoadDataService  alloc] init];
+    }
+    return _payService;
 }
 
 - (void)back
@@ -389,7 +500,7 @@
 
 - (BOOL)shouldAutorotate
 {
-    return YES;
+    return self.allowRotation;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations

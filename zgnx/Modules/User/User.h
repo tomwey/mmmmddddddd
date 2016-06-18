@@ -10,6 +10,7 @@
 
 @interface User : NSObject <NSCoding, NSCopying>
 
+@property (nonatomic, copy) NSNumber* id_;
 @property (nonatomic, copy) NSString* mobile;
 @property (nonatomic, copy) NSString* password;
 @property (nonatomic, copy) NSString* nickname;

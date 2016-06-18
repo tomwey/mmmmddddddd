@@ -120,7 +120,15 @@
 
 - (void)pay
 {
-    
+    if ( self.didPayBlock ) {
+        self.didPayBlock([self.moneyField.text floatValue],
+                         self.payPasswordField.text);
+    }
+}
+
+- (void)dismiss
+{
+    [self cancel];
 }
 
 - (void)cancel
@@ -133,6 +141,9 @@
         self.contentView.center = CGPointMake(self.width / 2,
                                               -self.contentView.height / 2);
     } completion:^(BOOL finished) {
+        if ( self.didCancelBlock ) {
+            self.didCancelBlock();
+        }
         [self removeFromSuperview];
     }];
 }
