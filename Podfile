@@ -12,4 +12,5 @@ pod 'AWAPIManager'
 pod 'AWUITools'
 pod 'MBProgressHUD'
 pod 'CTPersistance'
+pod 'Qiniu', '~> 7.0'
 end
