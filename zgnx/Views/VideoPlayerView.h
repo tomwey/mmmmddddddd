@@ -28,6 +28,9 @@ typedef NS_ENUM(NSInteger, VideoPlayerMediaType) {
 @property (nonatomic, copy) void (^didShutdownPlayerBlock)(VideoPlayerView *view);
 @property (nonatomic, copy) void (^didTogglePlayerModeBlock)(VideoPlayerView *view, VideoPlayerMode playerMode);
 
+/** 历史弹幕消息 */
+@property (nonatomic, copy) NSArray *bilibiliHistories;
+
 /**
  * 控件位置相对于全屏切换按钮从右往左依次排列，控件之间的间距为10
  */
@@ -37,5 +40,15 @@ typedef NS_ENUM(NSInteger, VideoPlayerMediaType) {
  * 控件位置相对于视图宽度从右往左依次排列，控件之间的间距为10
  */
 - (void)addExtraItemsAtTopControl:(NSArray<UIView *> *)items;
+
+/**
+ * 打开弹幕
+ */
+- (void)openBilibili:(BOOL)yesOrNo;
+
+/**
+ * 显示弹幕
+ */
+- (void)showBilibili:(NSString *)msg;
 
 @end

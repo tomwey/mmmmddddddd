@@ -186,6 +186,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             
             if ( self.currentPage == 1 ) {
                 self.dataSource.dataSource = data;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kBiliHistoryDidLoadNotification" object:data];
             } else {
                 NSMutableArray *temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
                 [temp addObjectsFromArray:data];
@@ -293,7 +294,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     __weak typeof(self) me = self;
     [service POST:API_SEND_BILI
                     params:@{ @"content": bili.content,
-                              @"stream_id": bili.streamId,
+                              @"stream_id": bili.streamId ?: @"",
                               @"token": [[UserService sharedInstance] currentUser].authToken ?: @"",
                               }
                 completion:^(id result, NSError *error) {

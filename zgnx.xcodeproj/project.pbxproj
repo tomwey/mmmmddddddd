@@ -121,6 +121,7 @@
 		97A4AA781CFFE0070045A69B /* LoadDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA771CFFE0070045A69B /* LoadDataService.m */; };
 		97A4AA7E1CFFF5570045A69B /* SearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA7D1CFFF5570045A69B /* SearchBar.m */; };
 		97A4AA811CFFF86F0045A69B /* SearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA801CFFF86F0045A69B /* SearchResultView.m */; };
+		97F28AED1D1A1BB700F8A02B /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */; };
 		9929986D1D09B3B600704FBA /* Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986C1D09B3B600704FBA /* Stream.m */; };
 		992998701D09B6C400704FBA /* StreamTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986F1D09B6C400704FBA /* StreamTable.m */; };
 		992998731D09CCD300704FBA /* his_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998711D09CCD300704FBA /* his_delete.png */; };
@@ -412,6 +413,8 @@
 		97A4AA7D1CFFF5570045A69B /* SearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBar.m; sourceTree = "<group>"; };
 		97A4AA7F1CFFF86F0045A69B /* SearchResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultView.h; sourceTree = "<group>"; };
 		97A4AA801CFFF86F0045A69B /* SearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultView.m; sourceTree = "<group>"; };
+		97F28AEB1D1A1BB700F8A02B /* CustomURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomURLProtocol.h; sourceTree = "<group>"; };
+		97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomURLProtocol.m; sourceTree = "<group>"; };
 		9929986B1D09B3B600704FBA /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		9929986C1D09B3B600704FBA /* Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stream.m; sourceTree = "<group>"; };
 		9929986E1D09B6C400704FBA /* StreamTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamTable.h; sourceTree = "<group>"; };
@@ -1095,6 +1098,8 @@
 				9929986F1D09B6C400704FBA /* StreamTable.m */,
 				992998751D0C200700704FBA /* Bilibili.h */,
 				992998761D0C200700704FBA /* Bilibili.m */,
+				97F28AEB1D1A1BB700F8A02B /* CustomURLProtocol.h */,
+				97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1574,6 +1579,7 @@
 				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
 				97A4AA781CFFE0070045A69B /* LoadDataService.m in Sources */,
 				97A4A9F11CF7D5110045A69B /* BaseNavBarViewController.m in Sources */,
+				97F28AED1D1A1BB700F8A02B /* CustomURLProtocol.m in Sources */,
 				97A4AA811CFFF86F0045A69B /* SearchResultView.m in Sources */,
 				9957F3881CFAA9B3003C8B96 /* User.m in Sources */,
 				99754ED41CFB05E2007FA577 /* UITableView+RefreshControl.m in Sources */,

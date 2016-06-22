@@ -38,7 +38,15 @@
 @property (nonatomic, strong) NSTimer *progressTimer;
 @property (nonatomic, strong) NSTimer *autoHideTimer;
 
+@property (nonatomic, strong) NSTimer *biliTimer;
+
 //@property (nonatomic, assign) VideoPlayerMode playerMode;
+
+@property (nonatomic, strong) UIView *biliContainer;
+
+@property (nonatomic, assign) BOOL biliOpening;
+
+@property (nonatomic, assign) NSUInteger biliIndex;
 
 @end
 
@@ -71,6 +79,12 @@
         [self addSubview:self.mediaControl];
         
         self.mediaControl.delegatePlayer = self.livePlayer;
+        
+        // 存放弹幕
+        self.biliContainer = [[UIView alloc] initWithFrame:self.mediaControl.bounds];
+        [self.mediaControl addSubview:self.biliContainer];
+        self.biliContainer.userInteractionEnabled = NO;
+        
         
         // 控制
         self.controlOverlay = [[UIControl alloc] init];
@@ -140,6 +154,7 @@
         
         [self.bufferingIndicator startAnimating];
         
+        self.biliOpening = YES;
     }
     return self;
 }
@@ -165,6 +180,7 @@
     self.livePlayer.view.frame = self.bounds;
     self.mediaControl.frame    = self.bounds;
     self.controlOverlay.frame  = self.bounds;
+    self.biliContainer.frame   = self.mediaControl.bounds;
     
     self.bufferingIndicator.center = CGPointMake(self.width / 2, self.height / 2);
     
@@ -254,6 +270,73 @@
     
     [self.autoHideTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoHideTimerInterval]];
     [self.progressTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kUpdatePlayProgressTimerInterval]];
+}
+
+- (void)openBilibili:(BOOL)yesOrNo
+{
+    self.biliOpening = yesOrNo;
+}
+
+- (void)setBiliOpening:(BOOL)biliOpening
+{
+    _biliOpening = biliOpening;
+    
+    if ( biliOpening ) {
+        self.biliContainer.hidden = NO;
+        [self.biliTimer setFireDate:[NSDate date]];
+    } else {
+        [self.biliTimer setFireDate:[NSDate distantFuture]];
+        
+        self.biliContainer.hidden = YES;
+        
+        self.biliIndex = 0;
+        
+        for (UIView *view in [self.biliContainer subviews]) {
+            [view removeFromSuperview];
+        }
+        
+        
+    }
+}
+
+- (void)showBilibili:(NSString *)msg
+{
+    UILabel *label = AWCreateLabel(CGRectZero,
+                                   msg,
+                                   NSTextAlignmentLeft,
+                                   nil,
+                                   [UIColor whiteColor]);
+    [label sizeToFit];
+    [self.biliContainer addSubview:label];
+    
+    int maxHeight = (self.height * 0.382);
+    
+    CGFloat dty = arc4random_uniform(maxHeight) + 5;
+    label.position = CGPointMake(self.width + 5, dty);
+    
+    [UIView animateWithDuration:5.0
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+        label.position = CGPointMake(- label.width - 5, dty);
+    } completion:^(BOOL finished) {
+        [label removeFromSuperview];
+    }];
+}
+
+- (void)loadAndShowBilibili
+{
+    if ( [self.bilibiliHistories count] > 0 && self.biliIndex == [self.bilibiliHistories count] ) {
+        [self.biliTimer invalidate];
+        
+        return;
+    }
+    
+    if ( self.biliIndex < [self.bilibiliHistories count] ) {
+        NSString *msg = self.bilibiliHistories[self.biliIndex];
+        [self showBilibili:msg];
+        self.biliIndex ++;
+    }
 }
 
 - (void)updatePlayProgress
@@ -362,6 +445,7 @@
             
             [self.autoHideTimer invalidate];
             [self.progressTimer invalidate];
+            [self.biliTimer invalidate];
             
             [self.livePlayer shutdown];
             [self.livePlayer.view removeFromSuperview];
@@ -514,6 +598,19 @@
 
 #pragma mark -
 #pragma mark Getters and Setters
+- (NSTimer *)biliTimer
+{
+    if ( !_biliTimer ) {
+        _biliTimer = [NSTimer timerWithTimeInterval:2.0
+                                             target:self
+                                           selector:@selector(loadAndShowBilibili)
+                                           userInfo:nil
+                                            repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_biliTimer forMode:NSRunLoopCommonModes];
+        [_biliTimer setFireDate:[NSDate distantFuture]];
+    }
+    return _biliTimer;
+}
 - (NSMutableArray *)bottomExtraItems
 {
     if ( !_bottomExtraItems ) {

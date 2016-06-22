@@ -21,6 +21,7 @@
 #import "Stream.h"
 #import "VideoPlayerView.h"
 #import "GrantView.h"
+#import "Bilibili.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -122,6 +123,14 @@
     
     // 分栏视图控件
     [self initTabPage];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(biliHistoryDidLoad:)
+                                                 name:@"kBiliHistoryDidLoadNotification"
+                                               object:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self biliHistoryDidLoad:nil];
+    });
 }
 
 - (void)initTabPage
@@ -286,8 +295,10 @@
     if ( !_biliView ) {
         _biliView = [[BiliView alloc] init];
         _biliView.streamId = self.stream.stream_id;
+        __weak typeof(self) me = self;
         _biliView.didSendBiliBlock = ^(BiliView *view, Bilibili *bili) {
             // 如果开启了弹幕功能，就发送弹幕
+            [me.playerView showBilibili:bili.content];
         };
     }
     
@@ -401,6 +412,39 @@
 {
     sender.selected = !sender.selected;
     
+    [self.playerView openBilibili:!sender.selected];
+}
+
+- (void)biliHistoryDidLoad:(NSNotification *)noti
+{
+    NSArray *bilis = noti.object;
+    NSMutableArray *tempArr = [NSMutableArray array];
+    [bilis enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *bili = nil;
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            bili = obj[@"content"];
+        } else if ( [obj isKindOfClass:[Bilibili class]] ) {
+            bili = [obj content];
+        }
+        [tempArr insertObject:bili atIndex:0];
+    }];
+    
+#if DEBUG
+    if ( [tempArr count] == 0 ) {
+        for (int i = 0; i<30; i++) {
+            if ( arc4random_uniform(10) % 2 == 0 ) {
+                [tempArr addObject:@"Hi, 不错哦～"];
+            } else {
+                [tempArr addObject:[NSString stringWithFormat:@"this is cool bili %d", i]];
+            }
+            
+        }
+    }
+#endif
+    
+    self.playerView.bilibiliHistories = tempArr;
+    
+    NSLog(@"bili msg: %@", tempArr);
 }
 
 - (LoadDataService *)likeService
@@ -591,6 +635,11 @@
 {
     [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)gotoFullscreen
