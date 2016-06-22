@@ -7,17 +7,27 @@
 		<key>CTPersistance.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
+		</dict>
+		<key>HappyDNS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
 		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 		<key>Pods-zgnx.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+		<key>Qiniu.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -33,6 +43,16 @@
 			<true/>
 		</dict>
 		<key>410B25DF16EA5C5B3E2698F74F9625FB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4D7C9EF9866627F869A9DB4159928E4C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9015EA1AF65A812F5535F98C21FAC3C3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -73,6 +93,11 @@
 			<true/>
 		</dict>
 		<key>FE2F1D7B9D9FCEA148517E4657B243F4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FFC3F6A6F4BC074C378D2D629E0F2D9C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

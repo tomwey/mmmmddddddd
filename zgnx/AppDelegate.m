@@ -36,25 +36,25 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-//    UINavigationController* nav = [[UINavigationController alloc] init];
-//    nav.navigationBarHidden = YES;
-//    
-//    UITabBarController* tabBarController = [[UITabBarController alloc] init];
-//    tabBarController.tabBar.barTintColor = [UIColor whiteColor];
-//    tabBarController.viewControllers = @[
-//                                         [[CTMediator sharedInstance] CTMediator_openVODVC],
-//                                         [[CTMediator sharedInstance] CTMediator_openLiveVC],
-//                                         [[CTMediator sharedInstance] CTMediator_openUserVCWithAuthToken:nil],
-//                                         ];
-//    [nav pushViewController:tabBarController animated:NO];
-//    
-//    self.window.rootViewController = nav;
-    TestViewController* tvc = [[TestViewController alloc] init];
-    self.window.rootViewController = tvc;
+    UINavigationController* nav = [[UINavigationController alloc] init];
+    nav.navigationBarHidden = YES;
+    
+    UITabBarController* tabBarController = [[UITabBarController alloc] init];
+    tabBarController.tabBar.barTintColor = [UIColor whiteColor];
+    tabBarController.viewControllers = @[
+                                         [[CTMediator sharedInstance] CTMediator_openVODVC],
+                                         [[CTMediator sharedInstance] CTMediator_openLiveVC],
+                                         [[CTMediator sharedInstance] CTMediator_openUserVCWithAuthToken:nil],
+                                         ];
+    [nav pushViewController:tabBarController animated:NO];
+    
+    self.window.rootViewController = nav;
+//    TestViewController* tvc = [[TestViewController alloc] init];
+//    self.window.rootViewController = tvc;
     
     [self.window makeKeyAndVisible];
     
-    [NSURLProtocol registerClass:[CustomURLProtocol class]];
+//    [NSURLProtocol registerClass:[CustomURLProtocol class]];
     
     return YES;
 }

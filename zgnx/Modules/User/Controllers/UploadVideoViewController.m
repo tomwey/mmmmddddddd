@@ -98,12 +98,15 @@
     QNUploadOption *option = [[QNUploadOption alloc] initWithProgressHandler:^(NSString *key, float percent) {
         NSLog(@"percent: %f", percent);
         
-        self.nextButton.hidden = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.nextButton.hidden = YES;
+            
+            self.progressView.hidden = NO;
+            self.progressView.progress = percent;
+            
+            self.videoNameLabel.hidden = YES;
+        });
         
-        self.progressView.hidden = NO;
-        self.progressView.progress = percent;
-        
-        self.videoNameLabel.hidden = YES;
     }];
     
     NSString *token = self.uploadInfo[@"token"];
@@ -117,12 +120,14 @@
         NSLog(@"info: %@, key: %@, resp: %@", info, key, resp);
 //        [me.progressView removeFromSuperview];
         
-        me.nextButton.hidden = NO;
-        
-        me.progressView.hidden = YES;
-        
-        me.videoNameLabel.hidden = NO;
-        me.videoNameLabel.text = me.uploadInfo[@"filename"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            me.nextButton.hidden = NO;
+            
+            me.progressView.hidden = YES;
+            
+            me.videoNameLabel.hidden = NO;
+            me.videoNameLabel.text = @"上传完成，请点击下一步！";//me.uploadInfo[@"filename"];
+        });
     }
                          option:option];
     
@@ -190,7 +195,7 @@
     }
     
     self.videoPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    self.videoPicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+    self.videoPicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
     
     [self presentViewController:self.videoPicker animated:YES completion:nil];
 }
@@ -261,7 +266,7 @@
 - (UIProgressView *)progressView
 {
     if ( !_progressView ) {
-        _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+        _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         [self.contentView addSubview:_progressView];
         
         _progressView.frame = self.selectVideoButton.frame;
@@ -276,10 +281,13 @@
     if ( !_videoNameLabel ) {
         _videoNameLabel = AWCreateLabel(self.progressView.frame,
                                         nil,
-                                        NSTextAlignmentLeft,
+                                        NSTextAlignmentCenter,
                                         nil,
                                         [UIColor blackColor]);
         _videoNameLabel.height = 34;
+//        _videoNameLabel.width = self.contentView.width;
+        _videoNameLabel.width  = self.contentView.width;
+        _videoNameLabel.left   = 0;
         
         [self.contentView addSubview:_videoNameLabel];
     }
