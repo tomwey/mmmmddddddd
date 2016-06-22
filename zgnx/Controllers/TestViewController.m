@@ -12,6 +12,7 @@
 #import <QiniuSDK.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface TestViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -48,9 +49,9 @@
     UIImagePickerController *videoPicker = [[UIImagePickerController alloc] init];
     videoPicker.delegate = self;
     videoPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
-//    videoPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     videoPicker.mediaTypes = @[(NSString*)kUTTypeMovie, (NSString*)kUTTypeVideo, (NSString*)kUTTypeMPEG4];
     videoPicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
+    videoPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     [self presentViewController:videoPicker animated:YES completion:nil];
 }
 

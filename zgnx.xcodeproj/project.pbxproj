@@ -123,6 +123,7 @@
 		97A4AA811CFFF86F0045A69B /* SearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA801CFFF86F0045A69B /* SearchResultView.m */; };
 		97F28AED1D1A1BB700F8A02B /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */; };
 		97F28AF21D1A6C8800F8A02B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */; };
+		97F28AF51D1A90F300F8A02B /* UploadFinalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AF41D1A90F300F8A02B /* UploadFinalViewController.m */; };
 		9929986D1D09B3B600704FBA /* Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986C1D09B3B600704FBA /* Stream.m */; };
 		992998701D09B6C400704FBA /* StreamTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986F1D09B6C400704FBA /* StreamTable.m */; };
 		992998731D09CCD300704FBA /* his_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998711D09CCD300704FBA /* his_delete.png */; };
@@ -417,6 +418,8 @@
 		97F28AEB1D1A1BB700F8A02B /* CustomURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomURLProtocol.h; sourceTree = "<group>"; };
 		97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomURLProtocol.m; sourceTree = "<group>"; };
 		97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		97F28AF31D1A90F300F8A02B /* UploadFinalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFinalViewController.h; sourceTree = "<group>"; };
+		97F28AF41D1A90F300F8A02B /* UploadFinalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFinalViewController.m; sourceTree = "<group>"; };
 		9929986B1D09B3B600704FBA /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		9929986C1D09B3B600704FBA /* Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stream.m; sourceTree = "<group>"; };
 		9929986E1D09B6C400704FBA /* StreamTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamTable.h; sourceTree = "<group>"; };
@@ -576,6 +579,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9756E8811CE04BFF0083B90C /* AssetsLibrary.framework in Frameworks */,
 				97F28AF21D1A6C8800F8A02B /* MobileCoreServices.framework in Frameworks */,
 				978EF5F51D0E8B2F0091B053 /* AudioToolbox.framework in Frameworks */,
 				978EF5F31D0E8B270091B053 /* VideoToolbox.framework in Frameworks */,
@@ -598,7 +602,6 @@
 				978EF5D51D0E89860091B053 /* libssl.a in Frameworks */,
 				978EF5D71D0E89860091B053 /* libswscale.a in Frameworks */,
 				978EF5D31D0E89860091B053 /* librtmp.a in Frameworks */,
-				9756E8811CE04BFF0083B90C /* AssetsLibrary.framework in Frameworks */,
 				978EF5D41D0E89860091B053 /* libspeex.a in Frameworks */,
 				978EF5CD1D0E89860091B053 /* libavresample.a in Frameworks */,
 				978EF5CF1D0E89860091B053 /* libcrypto.a in Frameworks */,
@@ -680,6 +683,8 @@
 				99754EE91CFB4152007FA577 /* WalletViewController.m */,
 				99754EF11CFB46BF007FA577 /* UploadVideoViewController.h */,
 				99754EF21CFB46BF007FA577 /* UploadVideoViewController.m */,
+				97F28AF31D1A90F300F8A02B /* UploadFinalViewController.h */,
+				97F28AF41D1A90F300F8A02B /* UploadFinalViewController.m */,
 				99754EF41CFB46CA007FA577 /* LikesViewController.h */,
 				99754EF51CFB46CA007FA577 /* LikesViewController.m */,
 				99754EF71CFB472A007FA577 /* FeedbackViewController.h */,
@@ -1627,6 +1632,7 @@
 				99754EE41CFB405E007FA577 /* LoginViewController.m in Sources */,
 				992998701D09B6C400704FBA /* StreamTable.m in Sources */,
 				99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */,
+				97F28AF51D1A90F300F8A02B /* UploadFinalViewController.m in Sources */,
 				97A4AA371CFBF3F10045A69B /* UIViewController+AWService.m in Sources */,
 				97A4AA401CFC1CE00045A69B /* Toast.m in Sources */,
 				9957F3851CFAA766003C8B96 /* UserService.m in Sources */,

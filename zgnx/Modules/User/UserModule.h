@@ -33,6 +33,8 @@
 
 - (UIViewController *)CTMediator_openUploadVCWithAuthToken:(NSString *)token;
 
+- (UIViewController *)CTMediator_openUploadFinalVCWithImage:(UIImage *)image filename:(NSString *)filename;
+
 - (UIViewController *)CTMediator_openLikesVCForUser:(User *)user;
 
 - (UIViewController *)CTMediator_openFeedbackVC;
