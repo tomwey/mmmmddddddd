@@ -289,7 +289,7 @@
         
         self.biliContainer.hidden = YES;
         
-        self.biliIndex = 0;
+//        self.biliIndex = 0;
         
         for (UIView *view in [self.biliContainer subviews]) {
             [view removeFromSuperview];

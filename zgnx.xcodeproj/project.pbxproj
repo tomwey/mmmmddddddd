@@ -122,6 +122,7 @@
 		97A4AA7E1CFFF5570045A69B /* SearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA7D1CFFF5570045A69B /* SearchBar.m */; };
 		97A4AA811CFFF86F0045A69B /* SearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A4AA801CFFF86F0045A69B /* SearchResultView.m */; };
 		97F28AED1D1A1BB700F8A02B /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */; };
+		97F28AF21D1A6C8800F8A02B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */; };
 		9929986D1D09B3B600704FBA /* Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986C1D09B3B600704FBA /* Stream.m */; };
 		992998701D09B6C400704FBA /* StreamTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986F1D09B6C400704FBA /* StreamTable.m */; };
 		992998731D09CCD300704FBA /* his_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998711D09CCD300704FBA /* his_delete.png */; };
@@ -415,6 +416,7 @@
 		97A4AA801CFFF86F0045A69B /* SearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultView.m; sourceTree = "<group>"; };
 		97F28AEB1D1A1BB700F8A02B /* CustomURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomURLProtocol.h; sourceTree = "<group>"; };
 		97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomURLProtocol.m; sourceTree = "<group>"; };
+		97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		9929986B1D09B3B600704FBA /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		9929986C1D09B3B600704FBA /* Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stream.m; sourceTree = "<group>"; };
 		9929986E1D09B6C400704FBA /* StreamTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamTable.h; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97F28AF21D1A6C8800F8A02B /* MobileCoreServices.framework in Frameworks */,
 				978EF5F51D0E8B2F0091B053 /* AudioToolbox.framework in Frameworks */,
 				978EF5F31D0E8B270091B053 /* VideoToolbox.framework in Frameworks */,
 				978EF5F11D0E8B200091B053 /* CoreVideo.framework in Frameworks */,
@@ -1286,6 +1289,7 @@
 		DA9DB71E0B10257512B562DC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */,
 				978EF5F41D0E8B2F0091B053 /* AudioToolbox.framework */,
 				978EF5F21D0E8B270091B053 /* VideoToolbox.framework */,
 				978EF5F01D0E8B200091B053 /* CoreVideo.framework */,

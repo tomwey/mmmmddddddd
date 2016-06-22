@@ -412,7 +412,7 @@
 {
     sender.selected = !sender.selected;
     
-    [self.playerView openBilibili:!sender.selected];
+    [self.playerView openBilibili:sender.selected];
 }
 
 - (void)biliHistoryDidLoad:(NSNotification *)noti
@@ -429,6 +429,7 @@
         [tempArr insertObject:bili atIndex:0];
     }];
     
+    // 加入测试数据
 #if DEBUG
     if ( [tempArr count] == 0 ) {
         for (int i = 0; i<30; i++) {
@@ -440,11 +441,10 @@
             
         }
     }
+    NSLog(@"bili msg: %@", tempArr);
 #endif
     
     self.playerView.bilibiliHistories = tempArr;
-    
-    NSLog(@"bili msg: %@", tempArr);
 }
 
 - (LoadDataService *)likeService
@@ -574,9 +574,13 @@
         [self.playerView addExtraItemsAtBottomControl:nil];
     }
     
+    [self.playerView openBilibili:NO];
+    
     [UIView animateWithDuration:duration animations:^{
         self.playerView.frame = frame;
         self.backButton.position = CGPointMake(10, 10);
+    } completion:^(BOOL finished) {
+        [self.playerView openBilibili:YES];
     }];
     
     if ( UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ) {
@@ -615,6 +619,8 @@
         [self.biliView hideKeyboard];
     }
     
+    [self.playerView openBilibili:NO];
+    
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //
         self.playerView.frame = frame;
@@ -622,6 +628,7 @@
         
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //
+        [self.playerView openBilibili:YES];
     }];
 }
 
