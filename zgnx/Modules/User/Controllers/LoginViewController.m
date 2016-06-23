@@ -156,8 +156,8 @@
                                            [MBProgressHUD hideHUDForView:self.contentView animated:YES];
                                            
                                            if (!error) {
-                                               
-                                               [self dismissViewControllerAnimated:YES completion:nil];
+                                               [SimpleToast showText:@"登录成功"];
+                                               [self.navigationController popViewControllerAnimated:YES];
                                            } else {
                                                [Toast showText:error.domain].backgroundColor = NAV_BAR_BG_COLOR;
                                            }
