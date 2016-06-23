@@ -22,6 +22,7 @@
 #import "VideoPlayerView.h"
 #import "GrantView.h"
 #import "Bilibili.h"
+#import "DMSManager.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -137,6 +138,22 @@
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [self biliHistoryDidLoad:nil];
 //    });
+    [self addDMSFunc];
+}
+
+- (void)addDMSFunc
+{
+    [[DMSManager sharedInstance] connect:^(BOOL succeed, NSError *error) {
+        //        NSLog(@"error:%@", error);
+        [[DMSManager sharedInstance] addMessageHandler:^(MQTTMessage *message) {
+            NSLog(@"msg: %@", message);
+        }];
+        [[DMSManager sharedInstance] subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
+            if ( succeed ) {
+                NSLog(@"订阅主题成功");
+            }
+        }];
+    }];
 }
 
 - (void)initTabPage
@@ -695,6 +712,12 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[DMSManager sharedInstance] unsubscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
+        
+    }];
+    [[DMSManager sharedInstance] disconnect:^(BOOL succeed, NSError *error) {
+        
+    }];
 }
 
 - (void)gotoFullscreen

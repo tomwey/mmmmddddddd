@@ -125,6 +125,7 @@
 		97F28AF21D1A6C8800F8A02B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */; };
 		97F28AF51D1A90F300F8A02B /* UploadFinalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AF41D1A90F300F8A02B /* UploadFinalViewController.m */; };
 		97F28AFB1D1B6B1E00F8A02B /* SimpleToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AFA1D1B6B1E00F8A02B /* SimpleToast.m */; };
+		97F28AFE1D1BBD3300F8A02B /* DMSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AFD1D1BBD3300F8A02B /* DMSManager.m */; };
 		9929986D1D09B3B600704FBA /* Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986C1D09B3B600704FBA /* Stream.m */; };
 		992998701D09B6C400704FBA /* StreamTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986F1D09B6C400704FBA /* StreamTable.m */; };
 		992998731D09CCD300704FBA /* his_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998711D09CCD300704FBA /* his_delete.png */; };
@@ -423,6 +424,8 @@
 		97F28AF41D1A90F300F8A02B /* UploadFinalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFinalViewController.m; sourceTree = "<group>"; };
 		97F28AF91D1B6B1E00F8A02B /* SimpleToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleToast.h; sourceTree = "<group>"; };
 		97F28AFA1D1B6B1E00F8A02B /* SimpleToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleToast.m; sourceTree = "<group>"; };
+		97F28AFC1D1BBD3300F8A02B /* DMSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSManager.h; sourceTree = "<group>"; };
+		97F28AFD1D1BBD3300F8A02B /* DMSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSManager.m; sourceTree = "<group>"; };
 		9929986B1D09B3B600704FBA /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		9929986C1D09B3B600704FBA /* Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stream.m; sourceTree = "<group>"; };
 		9929986E1D09B6C400704FBA /* StreamTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamTable.h; sourceTree = "<group>"; };
@@ -1103,6 +1106,8 @@
 		9929986A1D09B39800704FBA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				97F28AFC1D1BBD3300F8A02B /* DMSManager.h */,
+				97F28AFD1D1BBD3300F8A02B /* DMSManager.m */,
 				9929986B1D09B3B600704FBA /* Stream.h */,
 				9929986C1D09B3B600704FBA /* Stream.m */,
 				9929986E1D09B6C400704FBA /* StreamTable.h */,
@@ -1593,6 +1598,7 @@
 				974EBE771CF580F8000DE692 /* UserViewController.m in Sources */,
 				97A4AA781CFFE0070045A69B /* LoadDataService.m in Sources */,
 				97A4A9F11CF7D5110045A69B /* BaseNavBarViewController.m in Sources */,
+				97F28AFE1D1BBD3300F8A02B /* DMSManager.m in Sources */,
 				97F28AED1D1A1BB700F8A02B /* CustomURLProtocol.m in Sources */,
 				97A4AA811CFFF86F0045A69B /* SearchResultView.m in Sources */,
 				9957F3881CFAA9B3003C8B96 /* User.m in Sources */,

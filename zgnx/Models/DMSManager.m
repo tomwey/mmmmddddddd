@@ -10,10 +10,10 @@
 #import "DMS.h"
 #import "MQTTKit.h"
 
-#define CLIENT_ID @"4E50C97A-E36E-4FAC-9BEA-EA2367152191"
+#define CLIENT_ID @"zgnytv"
 #define MQTT_HOST @"mqtt.dms.aodianyun.com"
-#define PUB_KEY   @""
-#define SUB_KEY   @""
+#define PUB_KEY   @"pub_d09dca6da2aa60173712f7cb928c1ac2"
+#define SUB_KEY   @"sub_f6df56523b896fdb33b10e8846350961"
 
 @interface DMSManager ()
 
@@ -61,6 +61,7 @@
                     } else {
 //                        NSLog(@"连接拒绝！");
                         dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.dmsClient disconnectWithCompletionHandler:nil];
                             if ( completion ) {
                                 completion(NO, [NSError errorWithDomain:@"拒绝连接！" code:code userInfo:nil]);
                             }
