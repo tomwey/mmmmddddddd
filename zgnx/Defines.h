@@ -79,6 +79,7 @@
 #import "LoadMoreView.h"
 #import "AWModalAlert.h"
 #import <AWRefresh/UIScrollView+AWRefresh.h>
+#import "SimpleToast.h"
 
 #import "CTMediator.h"
 

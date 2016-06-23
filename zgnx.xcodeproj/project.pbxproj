@@ -124,6 +124,7 @@
 		97F28AED1D1A1BB700F8A02B /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */; };
 		97F28AF21D1A6C8800F8A02B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */; };
 		97F28AF51D1A90F300F8A02B /* UploadFinalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AF41D1A90F300F8A02B /* UploadFinalViewController.m */; };
+		97F28AFB1D1B6B1E00F8A02B /* SimpleToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F28AFA1D1B6B1E00F8A02B /* SimpleToast.m */; };
 		9929986D1D09B3B600704FBA /* Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986C1D09B3B600704FBA /* Stream.m */; };
 		992998701D09B6C400704FBA /* StreamTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9929986F1D09B6C400704FBA /* StreamTable.m */; };
 		992998731D09CCD300704FBA /* his_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 992998711D09CCD300704FBA /* his_delete.png */; };
@@ -420,6 +421,8 @@
 		97F28AF11D1A6C8800F8A02B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		97F28AF31D1A90F300F8A02B /* UploadFinalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFinalViewController.h; sourceTree = "<group>"; };
 		97F28AF41D1A90F300F8A02B /* UploadFinalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFinalViewController.m; sourceTree = "<group>"; };
+		97F28AF91D1B6B1E00F8A02B /* SimpleToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleToast.h; sourceTree = "<group>"; };
+		97F28AFA1D1B6B1E00F8A02B /* SimpleToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleToast.m; sourceTree = "<group>"; };
 		9929986B1D09B3B600704FBA /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		9929986C1D09B3B600704FBA /* Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stream.m; sourceTree = "<group>"; };
 		9929986E1D09B6C400704FBA /* StreamTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamTable.h; sourceTree = "<group>"; };
@@ -1263,6 +1266,8 @@
 				99FF5EC41D0DA5600078B22B /* AWModalAlert.m */,
 				97A4AA3E1CFC1CE00045A69B /* Toast.h */,
 				97A4AA3F1CFC1CE00045A69B /* Toast.m */,
+				97F28AF91D1B6B1E00F8A02B /* SimpleToast.h */,
+				97F28AFA1D1B6B1E00F8A02B /* SimpleToast.m */,
 				97A4AA1A1CFBD46F0045A69B /* PlayerToolbar.h */,
 				97A4AA1B1CFBD46F0045A69B /* PlayerToolbar.m */,
 				97A4AA4D1CFD70D80045A69B /* LoadMoreView.h */,
@@ -1351,7 +1356,6 @@
 				TargetAttributes = {
 					9756E83E1CE01D1E0083B90C = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = G25L5FCGHU;
 					};
 				};
 			};
@@ -1596,6 +1600,7 @@
 				974EBE971CF582F0000DE692 /* ViewHistoryListViewController.m in Sources */,
 				974EBE941CF582C6000DE692 /* SearchViewController.m in Sources */,
 				974EBE8F1CF582B2000DE692 /* SearchModule.m in Sources */,
+				97F28AFB1D1B6B1E00F8A02B /* SimpleToast.m in Sources */,
 				972A243A1D01121E0036D166 /* VideoPlayer.m in Sources */,
 				974EBE7D1CF581FC000DE692 /* VODListViewController.m in Sources */,
 				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,

@@ -10,13 +10,15 @@
 #import "Defines.h"
 #import "LoadDataService.h"
 
-@interface UploadFinalViewController ()
+@interface UploadFinalViewController () <UITextViewDelegate>
 
 @property (nonatomic, strong) UIImage *coverImage;
 @property (nonatomic, strong) NSString *filename;
 
 @property (nonatomic, strong) UITextField *titleField;
 @property (nonatomic, strong) UITextView  *bodyView;
+
+@property (nonatomic, strong) UILabel     *textViewPlaceholderLabel;
 
 @property (nonatomic, strong) LoadDataService *loadService;
 
@@ -39,6 +41,8 @@
     
     self.navBar.title = @"视频简介";
     
+    self.contentView.backgroundColor = [UIColor whiteColor];
+    
     self.navBar.rightItem = AWCreateTextButton(CGRectMake(0, 0, 40, 40),
                                                @"保存",
                                                [UIColor whiteColor],
@@ -49,8 +53,8 @@
                                                                     20,
                                                                     self.contentView.width - 40, 34)];
     [self.contentView addSubview:self.titleField];
-    self.titleField.placeholder = @" 输入视频标题（必填）";
-    self.titleField.layer.borderColor = [AWColorFromRGB(137,137,137) CGColor];
+    self.titleField.placeholder = @" 视频标题（必填）";
+    self.titleField.layer.borderColor = [BG_COLOR_GRAY CGColor];
     self.titleField.layer.borderWidth = 1;
     
     self.bodyView = [[UITextView alloc] initWithFrame:self.titleField.frame];
@@ -62,14 +66,38 @@
     
     self.bodyView.layer.borderColor = self.titleField.layer.borderColor;
     self.bodyView.layer.borderWidth = 1;
+    
+    self.bodyView.font = self.titleField.font;
+    
+    self.textViewPlaceholderLabel = AWCreateLabel(self.bodyView.frame,
+                                              @"视频简介",
+                                              NSTextAlignmentLeft,
+                                              nil,
+                                              AWColorFromRGB(201, 201, 201));
+    [self.contentView addSubview:self.textViewPlaceholderLabel];
+    self.textViewPlaceholderLabel.height = 34;
+    self.textViewPlaceholderLabel.left  += 6;
+    
+    self.bodyView.delegate = self;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    self.textViewPlaceholderLabel.hidden = [textView.text length] > 0;
 }
 
 - (void)save
 {
+    NSString *title = [self.titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ( [title length] == 0 ) {
+        [SimpleToast showText:@"视频标题不能为空"];
+        return;
+    }
+    
     [self.titleField resignFirstResponder];
     [self.bodyView resignFirstResponder];
     
-    if ( self.loadService ) {
+    if ( !self.loadService ) {
         self.loadService = [[LoadDataService alloc] init];
     }
     
@@ -79,7 +107,7 @@
     [self.loadService POST:@"/videos"
                     params:@{
                                @"token": token,
-                               @"title": self.titleField.text ?: @"",
+                               @"title": title,
                                @"body": self.bodyView.text ?: @"",
                                @"cover_image": UIImageJPEGRepresentation(self.coverImage, 0.9),
                                @"filename": self.filename ?: @""

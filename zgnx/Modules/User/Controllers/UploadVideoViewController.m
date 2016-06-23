@@ -84,6 +84,9 @@
     
     __weak typeof(self) me = self;
     
+    self.progressView.hidden = NO;
+    self.progressView.progress = 0.0;
+    
     // 生成视频封面图
     [self generateThumbnailFromVideoAtURL:videoURL completion:^(UIImage *image, NSError *error) {
         if ( !error ) {
