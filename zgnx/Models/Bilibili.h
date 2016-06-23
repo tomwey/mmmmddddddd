@@ -19,4 +19,6 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)jsonResult;
 
+- (NSString *)jsonMessage;
+
 @end

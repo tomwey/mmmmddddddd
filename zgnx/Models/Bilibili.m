@@ -23,4 +23,15 @@
     return self;
 }
 
+- (NSString *)jsonMessage
+{
+    NSDictionary *dict = @{
+                           @"nickname": self.nickname ?: @"游客",
+                           @"avatar": self.avatarUrl ?: @"",
+                           @"msg": self.content ?: @"",
+                           };
+    NSData *msgData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
+    return [[NSString alloc] initWithData:msgData encoding:NSUTF8StringEncoding];
+}
+
 @end

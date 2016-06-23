@@ -266,11 +266,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         bili.avatarUrl = user.avatarUrl;
     }
     
-    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
-    [temp insertObject:bili atIndex:0];
-    self.dataSource.dataSource = temp;
-    
-    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+//    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
+//    [temp insertObject:bili atIndex:0];
+//    self.dataSource.dataSource = temp;
+//    
+//    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
     
     [self sendDataToServer:bili];
     
@@ -280,6 +280,25 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)addMessage:(NSString *)msg
 {
     [self internalAddMessage:msg];
+}
+
+- (void)addJSONMessage:(NSString *)jsonMsg
+{
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[jsonMsg dataUsingEncoding:NSUTF8StringEncoding]
+                                                             options:0
+                                                               error:nil];
+    if ( jsonDict ) {
+        Bilibili *bili = [[Bilibili alloc] init];
+        bili.content = jsonDict[@"msg"];
+        bili.nickname = jsonDict[@"nickname"] ?: @"游客";
+        bili.avatarUrl = jsonDict[@"avatar"] ?: @"";
+        
+        NSMutableArray *temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
+        [temp insertObject:bili atIndex:0];
+        self.dataSource.dataSource = temp;
+        
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+    }
 }
 
 - (void)sendDataToServer:(Bilibili *)bili

@@ -17,6 +17,8 @@
 
 - (void)addMessage:(NSString *)msg;
 
+- (void)addJSONMessage:(NSString *)jsonMsg;
+
 - (void)hideKeyboard;
 
 @end

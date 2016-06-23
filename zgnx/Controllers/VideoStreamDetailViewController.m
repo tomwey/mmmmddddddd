@@ -147,6 +147,15 @@
         //        NSLog(@"error:%@", error);
         [[DMSManager sharedInstance] addMessageHandler:^(MQTTMessage *message) {
             NSLog(@"msg: %@", message);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 添加到消息列表
+                [self.biliView addJSONMessage:message.payloadString];
+                
+                // 显示弹幕
+                NSData *jsonData = [message.payloadString dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *jsonMsg = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+                [self.playerView showBilibili:jsonMsg[@"msg"]];
+            });
         }];
         [[DMSManager sharedInstance] subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
             if ( succeed ) {
@@ -334,7 +343,18 @@
         __weak typeof(self) me = self;
         _biliView.didSendBiliBlock = ^(BiliView *view, Bilibili *bili) {
             // 如果开启了弹幕功能，就发送弹幕
-            [me.playerView showBilibili:bili.content];
+//            [me.playerView showBilibili:bili.content];
+            
+            // 广播给其他用户
+            [[DMSManager sharedInstance] sendMessage:[bili jsonMessage]
+                                             toTopic:me.stream.stream_id
+                                          completion:^(int msgId, NSError *error) {
+                if ( !error ) {
+                    NSLog(@"发送成功！");
+                } else {
+                    NSLog(@"发送失败：%@", error);
+                }
+            }];
         };
     }
     
