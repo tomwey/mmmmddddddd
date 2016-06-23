@@ -15,7 +15,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface UploadVideoViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface UploadVideoViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) LoadDataService *uploadInfoService;
 
@@ -38,6 +38,8 @@
 
 @property (nonatomic, strong) UIImage *coverImage;
 
+@property (nonatomic, assign) BOOL uploadingVideo;
+
 @end
 
 @implementation UploadVideoViewController
@@ -45,6 +47,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.uploadingVideo = NO;
     
     self.navBar.title = @"上传视频";
     
@@ -73,14 +77,37 @@
     }];
 }
 
+- (void)back
+{
+    if ( self.uploadingVideo ) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定吗？"
+                                                        message:@"上传还未完成，退出将不会保存数据"
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"确定", @"取消", nil];
+        [alert show];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ( buttonIndex == 0 ) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     NSLog(@"info: %@", info);
     //    UIImagePickerControllerMediaType = "public.movie";
     //    UIImagePickerControllerMediaURL = "file:///private/var/mobile/Applications/CDBCF96C-D0BC-4FF1-A5A7-E72317156F38/tmp/trim.535F682C-B779-482A-A7C9-C1E3CD458CD7.MOV";
     //    UIImagePickerControllerReferenceURL = "assets-library://asset/asset.mp4?id=4D31FDA0-AEED-44DF-AA4C-241F7D8E5CD9&ext=mp4";
-    NSURL *videoURL = info[UIImagePickerControllerMediaURL];
     
+    self.uploadingVideo = YES;
+    
+    NSURL *videoURL = info[UIImagePickerControllerMediaURL];
     
     __weak typeof(self) me = self;
     
