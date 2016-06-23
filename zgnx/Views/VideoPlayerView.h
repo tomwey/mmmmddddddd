@@ -25,8 +25,10 @@ typedef NS_ENUM(NSInteger, VideoPlayerMediaType) {
 @property (nonatomic, assign) VideoPlayerMediaType mediaType;
 @property (nonatomic, assign) VideoPlayerMode playerMode;
 
-@property (nonatomic, copy) void (^didShutdownPlayerBlock)(VideoPlayerView *view);
+@property (nonatomic, copy) void (^didShutdownPlayerBlock)(VideoPlayerView *view, NSTimeInterval playProgress);
 @property (nonatomic, copy) void (^didTogglePlayerModeBlock)(VideoPlayerView *view, VideoPlayerMode playerMode);
+
+@property (nonatomic, assign) NSTimeInterval currentPlaybackTime;
 
 /** 历史弹幕消息 */
 @property (nonatomic, copy) NSArray *bilibiliHistories;

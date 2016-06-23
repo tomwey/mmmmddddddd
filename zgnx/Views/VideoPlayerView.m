@@ -51,6 +51,9 @@
 @end
 
 @implementation VideoPlayerView
+{
+    NSTimeInterval _currentPlaybackTime;
+}
 
 #define kUpdatePlayProgressTimerInterval 0.5
 #define kAutoHideTimerInterval           8.0
@@ -62,6 +65,8 @@
         self.backgroundColor = [UIColor blackColor];
         
         self.playerMode = VideoPlayerModeDefault;
+        
+        _currentPlaybackTime = 0.0;
         
 //        NSURL *url = [NSURL URLWithString:@"rtmp://1.live.126.net/live/047e35c3e9984b3bb929dac3064aa98d"];
         
@@ -247,6 +252,17 @@
                                              selector:@selector(NELivePlayerReleaseSuccess:)
                                                  name:NELivePlayerReleaseSueecssNotification
                                                object:self.livePlayer];
+}
+
+- (NSTimeInterval)currentPlaybackTime
+{
+    NSLog(@"play progress: %f", [self.livePlayer currentPlaybackTime]);
+    return [self.livePlayer currentPlaybackTime];
+}
+
+- (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime
+{
+    _currentPlaybackTime = currentPlaybackTime;
 }
 
 - (void)sliderStartDrag
@@ -447,13 +463,15 @@
             [self.progressTimer invalidate];
             [self.biliTimer invalidate];
             
+            NSTimeInterval progress = [self.livePlayer currentPlaybackTime];
+            
             [self.livePlayer shutdown];
             [self.livePlayer.view removeFromSuperview];
             self.livePlayer = nil;
             
             [[NSNotificationCenter defaultCenter] removeObserver:self];
             
-            self.didShutdownPlayerBlock(self);
+            self.didShutdownPlayerBlock(self, progress);
         }
     } else {
         [self gotoFullscreen];
@@ -503,16 +521,16 @@
     }
 }
 
-- (void)updateProgress
-{
-    if ( self.mediaType == VideoPlayerMediaTypeLive ) {
-        return;
-    }
-    
-    [self.livePlayer setCurrentPlaybackTime:self.progressSlider.value];
-    
-    [self syncUIStatus];
-}
+//- (void)updateProgress
+//{
+//    if ( self.mediaType == VideoPlayerMediaTypeLive ) {
+//        return;
+//    }
+//    
+//    [self.livePlayer setCurrentPlaybackTime:self.progressSlider.value];
+//    
+//    [self syncUIStatus];
+//}
 
 #pragma mark -
 #pragma mark Notification
@@ -520,6 +538,10 @@
 {
     //add some methods
     NSLog(@"NELivePlayerDidPreparedToPlay");
+    
+    [self.livePlayer setCurrentPlaybackTime:_currentPlaybackTime];
+    
+//    self.progressSlider.value = _currentPlaybackTime;
     
     [self syncUIStatus];
     

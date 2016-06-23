@@ -28,9 +28,6 @@
 {
     NSError* error = nil;
     
-//    NSInteger count = [[self.vhTable countWithWhereCondition:@"stream_id = :sid"
-//                                            conditionParams:@{ @"sid": [NSString stringWithFormat:@"'%@'", vh.stream_id] }
-//                                                      error:&error] integerValue];
     Stream *stream = (Stream *)[self.vhTable findFirstRowWithWhereCondition: @"stream_id = :sid"
                                                   conditionParams:@{ @"sid": [NSString stringWithFormat:@"'%@'", vh.stream_id] }
                                                        isDistinct:YES

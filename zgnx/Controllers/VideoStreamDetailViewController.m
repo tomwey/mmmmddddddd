@@ -105,8 +105,11 @@
         self.playerView.mediaType = VideoPlayerMediaTypeVOD;
     }
     
+    self.playerView.currentPlaybackTime = [self.stream.currentPlaybackTime doubleValue];
+    
     __weak typeof(self) me = self;
-    self.playerView.didShutdownPlayerBlock = ^(VideoPlayerView *view) {
+    self.playerView.didShutdownPlayerBlock = ^(VideoPlayerView *view, NSTimeInterval progress) {
+        [me recordViewHistory:progress];
         [me dismissViewControllerAnimated:YES completion:nil];
     };
     
@@ -128,9 +131,9 @@
                                              selector:@selector(biliHistoryDidLoad:)
                                                  name:@"kBiliHistoryDidLoadNotification"
                                                object:nil];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self biliHistoryDidLoad:nil];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self biliHistoryDidLoad:nil];
+//    });
 }
 
 - (void)initTabPage
@@ -471,26 +474,18 @@
     return _payService;
 }
 
-- (void)back
+- (void)recordViewHistory:(NSTimeInterval)progress
 {
-//    if ( self.playerView.fullscreen ) {
-//        [self gotoFullscreen];
-//    } else {
-//        // 记录观看历史
-//        if ( self.stream.fromType == StreamFromTypeDefault &&
-//            [self.stream.type integerValue] == 2) {
-//            if ( !self.vhService ) {
-//                self.vhService = [[ViewHistoryService alloc] init];
-//            }
-//            
-////            self.stream.currentPlaybackTime =
-////            [@(self.playerView.currentPlaybackTime) description];
-//            
-//            [self.vhService saveRecord:self.stream needSyncServer:YES];
-//        }
-//        
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//    }
+    // 记录观看历史
+    if ( [self.stream.type integerValue] == 2 || ([self.stream.video_file length] != 0) ) {
+        // 点播或者直播里面的点播视频都可以记录观看历史
+        self.stream.currentPlaybackTime = [@(progress) description];
+        if ( !self.vhService ) {
+            self.vhService = [[ViewHistoryService alloc] init];
+        }
+
+        [self.vhService saveRecord:self.stream needSyncServer:YES];
+    }
 }
 
 - (NSArray *)extraButtons
