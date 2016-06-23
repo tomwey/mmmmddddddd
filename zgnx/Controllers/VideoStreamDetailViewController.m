@@ -48,6 +48,7 @@
 @property (nonatomic, strong) LoadDataService *likeService;
 @property (nonatomic, strong) LoadDataService *favoriteService;
 @property (nonatomic, strong) LoadDataService *payService;
+@property (nonatomic, strong) LoadDataService *socialStateService;
 
 @property (nonatomic, strong) Stream *stream;
 
@@ -61,6 +62,8 @@
 @property (nonatomic, strong) UIButton *favoriteButton;
 
 @property (nonatomic, assign) BOOL allowRotation;
+
+@property (nonatomic, assign) BOOL needLoadSocialState;
 
 @end
 
@@ -176,17 +179,30 @@
     self.panelView.selectedIndex = 0;
 }
 
-- (void)gotoGrant
+- (BOOL)userLogined
 {
     User* user = [[UserService sharedInstance] currentUser];
     if ( !user ) {
+        self.needLoadSocialState = YES;
         UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
         [self presentViewController:vc animated:YES completion:nil];
+        return NO;
+    }
+    
+    self.needLoadSocialState = NO;
+    return YES;
+}
+
+- (void)gotoGrant
+{
+    if ( [self userLogined] == NO ) {
         return;
     }
     
     self.allowRotation = NO;
     GrantView *gView = [[GrantView alloc] init];
+    
+    User *user = [[UserService sharedInstance] currentUser];
     
     __weak typeof(gView) weakGV = gView;
     __weak typeof(self) me = self;
@@ -321,10 +337,7 @@
 
 - (void)doLike:(UIButton *)sender
 {
-    User* user = [[UserService sharedInstance] currentUser];
-    if ( !user ) {
-        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
-        [self presentViewController:vc animated:YES completion:nil];
+    if ( [self userLogined] == NO ) {
         return;
     }
     
@@ -337,6 +350,7 @@
         uri = API_USER_CANCEL_LIKE;
     }
     
+    User *user = [[UserService sharedInstance] currentUser];
     __weak typeof(self) me = self;
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     [self.likeService POST:uri params:@{ @"token": user.authToken ?: @"",
@@ -367,12 +381,11 @@
 
 - (void)doFavorite:(UIButton *)sender
 {
-    User* user = [[UserService sharedInstance] currentUser];
-    if ( !user ) {
-        UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
-        [self presentViewController:vc animated:YES completion:nil];
+    if ( [self userLogined] == NO ) {
         return;
     }
+    
+    User* user = [[UserService sharedInstance] currentUser];
     
     NSString* uri = nil;
     if ( sender.selected == NO ) {
@@ -472,6 +485,14 @@
         _payService = [[LoadDataService  alloc] init];
     }
     return _payService;
+}
+
+- (LoadDataService *)socialStateService
+{
+    if ( !_socialStateService ) {
+        _socialStateService = [[LoadDataService  alloc] init];
+    }
+    return _socialStateService;
 }
 
 - (void)recordViewHistory:(NSTimeInterval)progress
@@ -627,10 +648,42 @@
     }];
 }
 
+- (void)loadSocialState
+{
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    
+    __weak typeof(self) me = self;
+    NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+    [self.socialStateService GET:@"/user/social_state" params:@{
+                                                                @"token": token,
+                                                                @"type": self.stream.type ?: @(2),
+                                                                @"vid": self.stream.id_,
+                                                                } completion:^(id result, NSError *error) {
+                                                                    [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+                                                                    if ( !error ) {
+                                                                        BOOL liked = [result[@"liked"] boolValue];
+                                                                        BOOL favorited = [result[@"liked"] boolValue];
+                                                                        
+                                                                        me.stream.liked = @(liked);
+                                                                        me.stream.favorited = @(favorited);
+                                                                        
+                                                                        me.likeButton.selected = liked;
+                                                                        me.favoriteButton.selected = favorited;
+                                                                    }
+                                                                }];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+    if ( self.needLoadSocialState ) {
+        User *user = [[UserService sharedInstance] currentUser];
+        if ( user ) {
+            [self loadSocialState];
+        }
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
