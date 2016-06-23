@@ -46,16 +46,21 @@
 {
     [super viewDidLoad];
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    self.navBar.title = @"我的";
+    self.navBar.leftItem = nil;
+    
     self.needReloadUserProfile = NO;
     
-    if ( [self respondsToSelector:@selector(setEdgesForExtendedLayout:)] ) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
+//    if ( [self respondsToSelector:@selector(setEdgesForExtendedLayout:)] ) {
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
 
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds
+    self.tableView = [[UITableView alloc] initWithFrame:self.contentView.bounds
                                                   style:UITableViewStylePlain];
-    [self.view addSubview:self.tableView];
+    [self.contentView addSubview:self.tableView];
+    self.tableView.height -= 49;
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -90,9 +95,9 @@
 {
     [super viewWillAppear:animated];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0);
+//    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0);
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [self loadData];
 }
@@ -101,7 +106,7 @@
 {
     [super viewWillDisappear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)viewDidAppear:(BOOL)animated

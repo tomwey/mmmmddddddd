@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseViewController.h"
+#import "BaseNavBarViewController.h"
 
-@interface UserViewController : BaseViewController
+@interface UserViewController : BaseNavBarViewController
 
 - (instancetype)initWithAuthToken:(NSString *)authToken;
 
