@@ -178,67 +178,6 @@
                          option:option];
 }
 
-- (void)handleVideo2:(NSURL *)videoURL completion:(void (^)(NSURL *outputURL))completion
-{
-    AVURLAsset *videoAsset = [[AVURLAsset alloc] initWithURL:videoURL options:@{
-                                                                                AVURLAssetPreferPreciseDurationAndTimingKey : @(YES)
-                                                                                }];
-    AVAssetTrack *assetVideoTrack = [[videoAsset tracksWithMediaType:AVMediaTypeVideo] firstObject];
-    AVAssetTrack *assetAudioTrack = [[videoAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
-    
-    CMTime insertionPoint = kCMTimeZero;
-    
-    NSError *error = nil;
-    
-    AVMutableComposition *mutableComposition = [AVMutableComposition composition];
-    AVMutableCompositionTrack *compositionVideoTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo
-                                                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
-    [compositionVideoTrack insertTimeRange:CMTimeRangeMake(insertionPoint, assetVideoTrack.timeRange.duration)
-                                   ofTrack:assetVideoTrack
-                                    atTime:kCMTimeZero
-                                     error:&error];
-    if ( error ) {
-        NSLog(@"insert video track error: %@", error);
-    }
-    
-    AVMutableCompositionTrack *compositionAudioTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio
-                                                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
-    [compositionAudioTrack insertTimeRange:CMTimeRangeMake(insertionPoint, assetAudioTrack.timeRange.duration)
-                                   ofTrack:assetAudioTrack
-                                    atTime:kCMTimeZero
-                                     error:&error];
-    if ( error ) {
-        NSLog(@"insert audio track error: %@", error);
-    }
-    
-    AVMutableCompositionTrack *compVideoTrack;
-    AVMutableCompositionTrack *compAudioTrack;
-    
-    for (AVMutableCompositionTrack *track in mutableComposition.tracks) {
-        if ( track.mediaType == AVMediaTypeVideo ) {
-            compVideoTrack = track;
-        } else if ( track.mediaType == AVMediaTypeAudio ) {
-            compAudioTrack = track;
-        }
-    }
-    
-    AVMutableVideoCompositionInstruction *videoInstruction;
-    AVMutableVideoCompositionLayerInstruction * layerVideoInstruction;
-    
-    CGAffineTransform t1 = CGAffineTransformMakeTranslation(assetVideoTrack.naturalSize.height, 0.0);
-    CGAffineTransform t2 = CGAffineTransformRotate(t1, (90.0 / 180.0) * M_PI);
-    
-    AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
-    mutableVideoComposition.renderSize = CGSizeMake(assetVideoTrack.naturalSize.height, assetVideoTrack.naturalSize.width);
-    mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
-    
-    videoInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-    videoInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, mutableComposition.duration);
-    layerVideoInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compVideoTrack];
-    [layerVideoInstruction setTransform:t2 atTime:kCMTimeZero];
-    
-}
-
 - (void)handleVideo:(NSURL *)videoURL completion:(void (^)(NSURL *outputURL, NSError *error))completion
 {
     NSError *error = nil;
@@ -284,10 +223,6 @@
 //    videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width); //select you video size
     // (a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0)
     AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:AVAssetExportPresetMediumQuality];
-    [exportSession addObserver:self
-                    forKeyPath:@"progress"
-                       options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
-                       context:NULL];
     
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = @"yyyyMMddHHmmss";
@@ -342,11 +277,6 @@
             }
         }
     }];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
-    NSLog(@"change: %@", change);
 }
 
 - (void)generateThumbnailFromVideoAtURL:(NSURL *)contentURL completion:(void (^)(UIImage *image, NSError *error))completion

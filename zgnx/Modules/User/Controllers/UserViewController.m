@@ -162,7 +162,7 @@
     cell.textLabel.text = self.dataSource[indexPath.section][indexPath.row];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
-    if ( indexPath.section == 2 ) {
+    if ( indexPath.section == 3 ) {
         cell.textLabel.textColor = [UIColor redColor];
     }
     
@@ -184,13 +184,23 @@
         } else if ( indexPath.section == 0 && indexPath.row == 1 ) {
             UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openGrantsVC];
             [nav pushViewController:vc animated:YES];
-        } else if ( indexPath.section == 2 && indexPath.row == 0 ) {
+        } else if ( indexPath.section == [self.dataSource count] - 1 && indexPath.row == 0 ) {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"您确定吗？"
                                        message:@""
                                       delegate:self
                              cancelButtonTitle:nil
                              otherButtonTitles:@"确定", @"取消", nil];
             [alert show];
+        } else if ( indexPath.section == 1 ) {
+            if ( indexPath.row == 0 ) {
+                // 上传
+                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
+                [nav pushViewController:vc animated:YES];
+            } else if ( indexPath.row == 1 ) {
+                // 我的上传
+                UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadListVCWithAuthToken:nil];
+                [nav pushViewController:vc animated:YES];
+            }
         } else {
             [self didSelectAtIndexPath:indexPath];
         }
@@ -214,41 +224,41 @@
     UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
     
     switch (indexPath.row) {
+//        case 0:
+//        {
+//            // 上传
+//            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
+//            [nav pushViewController:vc animated:YES];
+//        }
+//            break;
         case 0:
-        {
-            // 上传
-            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
-            [nav pushViewController:vc animated:YES];
-        }
-            break;
-        case 1:
         {
             // 收藏
             UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLikesVCForUser:nil];
             [nav pushViewController:vc animated:YES];
         }
             break;
-        case 2:
+        case 1:
         {
             // 播放历史
             UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openViewHistoryVCWithAuthToken:nil];
             [nav pushViewController:vc animated:YES];
         }
             break;
-        case 3:
+        case 2:
         {
             // 清理缓存
-            
+            [SimpleToast showText:@"缓存清理成功"];
         }
             break;
-        case 4:
+        case 3:
         {
             // 意见反馈
             UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openFeedbackVC];
             [self presentViewController:vc animated:YES completion:nil];
         }
             break;
-        case 5:
+        case 4:
         {
             // 关于
             UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openAboutVC];
