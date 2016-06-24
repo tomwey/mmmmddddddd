@@ -6,8 +6,8 @@
 //  Copyright © 2016年 tangwei1. All rights reserved.
 //
 
-#import "BaseNavBarViewController.h"
+#import "CommonVODListViewController.h"
 
-@interface UploadListVideoViewController : BaseNavBarViewController
+@interface UploadListVideoViewController : CommonVODListViewController
 
 @end
