@@ -122,9 +122,13 @@
     
     // 开始处理视频，并上传
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
-    [self handleVideo:videoURL completion:^(NSURL *outputURL) {
+    [self handleVideo:videoURL completion:^(NSURL *outputURL, NSError *error) {
         [MBProgressHUD hideHUDForView:me.contentView animated:YES];
-        [me uploadVideo:outputURL];
+        if ( error ) {
+            [SimpleToast showText:error.domain];
+        } else {
+            [me uploadVideo:outputURL];
+        }
     }];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -235,7 +239,7 @@
     
 }
 
-- (void)handleVideo:(NSURL *)videoURL completion:(void (^)(NSURL *outputURL))completion
+- (void)handleVideo:(NSURL *)videoURL completion:(void (^)(NSURL *outputURL, NSError *error))completion
 {
     NSError *error = nil;
     AVURLAsset *videoAssetURL = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
@@ -245,14 +249,6 @@
     AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
     
     AVAssetTrack *videoTrack = [[videoAssetURL tracksWithMediaType:AVMediaTypeVideo] firstObject];
-    
-    if ( videoTrack.preferredTransform.tx == 0 ) {
-        // 横屏拍摄，不处理
-        if ( completion ) {
-            completion(videoURL);
-            return;
-        }
-    }
     
     AVAssetTrack *audioTrack = [[videoAssetURL tracksWithMediaType:AVMediaTypeAudio] firstObject];
     [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration) ofTrack:videoTrack atTime:kCMTimeZero error:&error];
@@ -271,18 +267,40 @@
     videoComposition.instructions = @[instruction];
     videoComposition.frameDuration = CMTimeMake(1, 30); //select the frames per second
     videoComposition.renderScale = 1.0;
-    videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width); //select you video size
+    
+    NSLog(@"transform: %@", NSStringFromCGAffineTransform(videoTrack.preferredTransform));
+    // [0, 1, -1, 0, 360, 0] home 朝下
+    // [0, -1, 1, 0, 0, 480] home 朝上
+    // [1, 0, 0, 1, 0, 0]    home 朝右
+    // [-1, 0, 0, -1, 480, 360] home 朝左
+    BOOL isLandscape = ( videoTrack.preferredTransform.a == 1 && videoTrack.preferredTransform.b == 0 ) ||
+    ( videoTrack.preferredTransform.a == -1 && videoTrack.preferredTransform.b == 0 );
+    
+    if ( !isLandscape ) {
+        videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width);
+    } else {
+        videoComposition.renderSize = videoTrack.naturalSize;
+    }
+//    videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width); //select you video size
     // (a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0)
     AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:AVAssetExportPresetMediumQuality];
+    [exportSession addObserver:self
+                    forKeyPath:@"progress"
+                       options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                       context:NULL];
     
-    exportSession.outputURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"videoname.MOV"]];
-    exportSession.outputFileType = AVFileTypeMPEG4; //very important select you video format (AVFileTypeQuickTimeMovie, AVFileTypeMPEG4, etc...)
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = @"yyyyMMddHHmmss";
+    NSString *fileName = [NSString stringWithFormat:@"%@.MOV", [df stringFromDate:[NSDate date]]];
+    exportSession.outputURL =
+    [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName]];
+    exportSession.outputFileType = AVFileTypeQuickTimeMovie; //very important select you video format (AVFileTypeQuickTimeMovie, AVFileTypeMPEG4, etc...)
     exportSession.videoComposition = videoComposition;
-    exportSession.shouldOptimizeForNetworkUse = NO;
+    exportSession.shouldOptimizeForNetworkUse = YES;
     exportSession.timeRange = CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration);
     
     [exportSession exportAsynchronouslyWithCompletionHandler:^{
-        
+        NSLog(@"progress: %f", exportSession.progress);
         switch ([exportSession status]) {
                 
             case AVAssetExportSessionStatusCompleted: {
@@ -291,7 +309,7 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if ( completion ) {
-                        completion(exportSession.outputURL);
+                        completion(exportSession.outputURL, nil);
                     }
                 });
                 //generate video thumbnail
@@ -309,11 +327,26 @@
                 
                 break;
             }
+            case AVAssetExportSessionStatusFailed: {
+                NSLog(@"Triming Completed");
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( completion ) {
+                        completion(nil, exportSession.error);
+                    }
+                });
+                break;
+            }
             default: {
                 break;
             }
         }
     }];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    NSLog(@"change: %@", change);
 }
 
 - (void)generateThumbnailFromVideoAtURL:(NSURL *)contentURL completion:(void (^)(UIImage *image, NSError *error))completion
