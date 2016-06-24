@@ -111,9 +111,6 @@
     
     __weak typeof(self) me = self;
     
-    self.progressView.hidden = NO;
-    self.progressView.progress = 0.0;
-    
     // 生成视频封面图
     [self generateThumbnailFromVideoAtURL:videoURL completion:^(UIImage *image, NSError *error) {
         if ( !error ) {
@@ -123,7 +120,22 @@
         }
     }];
     
-    NSData *data = [NSData dataWithContentsOfURL:videoURL];
+    // 开始处理视频，并上传
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    [self handleVideo:videoURL completion:^(NSURL *outputURL) {
+        [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+        [me uploadVideo:outputURL];
+    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)uploadVideo:(NSURL *)outputURL
+{
+    self.progressView.hidden = NO;
+    self.progressView.progress = 0.0;
+    
+    NSData *data = [NSData dataWithContentsOfURL:outputURL];
     
     QNUploadOption *option = [[QNUploadOption alloc] initWithProgressHandler:^(NSString *key, float percent) {
         NSLog(@"percent: %f", percent);
@@ -145,23 +157,163 @@
                             key:self.uploadInfo[@"key"]
                           token:token
                        complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp)
-    {
-        
-        NSLog(@"info: %@, key: %@, resp: %@", info, key, resp);
-//        [me.progressView removeFromSuperview];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            me.nextButton.hidden = NO;
-            
-            me.progressView.hidden = YES;
-            
-            me.videoNameLabel.hidden = NO;
-            me.videoNameLabel.text = @"上传完成，请点击下一步！";//me.uploadInfo[@"filename"];
-        });
-    }
+     {
+         
+         NSLog(@"info: %@, key: %@, resp: %@", info, key, resp);
+         //        [me.progressView removeFromSuperview];
+         
+         dispatch_async(dispatch_get_main_queue(), ^{
+             self.nextButton.hidden = NO;
+             
+             self.progressView.hidden = YES;
+             
+             self.videoNameLabel.hidden = NO;
+             self.videoNameLabel.text = @"上传完成，请点击下一步！";//me.uploadInfo[@"filename"];
+         });
+     }
                          option:option];
+}
+
+- (void)handleVideo2:(NSURL *)videoURL completion:(void (^)(NSURL *outputURL))completion
+{
+    AVURLAsset *videoAsset = [[AVURLAsset alloc] initWithURL:videoURL options:@{
+                                                                                AVURLAssetPreferPreciseDurationAndTimingKey : @(YES)
+                                                                                }];
+    AVAssetTrack *assetVideoTrack = [[videoAsset tracksWithMediaType:AVMediaTypeVideo] firstObject];
+    AVAssetTrack *assetAudioTrack = [[videoAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    CMTime insertionPoint = kCMTimeZero;
+    
+    NSError *error = nil;
+    
+    AVMutableComposition *mutableComposition = [AVMutableComposition composition];
+    AVMutableCompositionTrack *compositionVideoTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
+    [compositionVideoTrack insertTimeRange:CMTimeRangeMake(insertionPoint, assetVideoTrack.timeRange.duration)
+                                   ofTrack:assetVideoTrack
+                                    atTime:kCMTimeZero
+                                     error:&error];
+    if ( error ) {
+        NSLog(@"insert video track error: %@", error);
+    }
+    
+    AVMutableCompositionTrack *compositionAudioTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio
+                                                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
+    [compositionAudioTrack insertTimeRange:CMTimeRangeMake(insertionPoint, assetAudioTrack.timeRange.duration)
+                                   ofTrack:assetAudioTrack
+                                    atTime:kCMTimeZero
+                                     error:&error];
+    if ( error ) {
+        NSLog(@"insert audio track error: %@", error);
+    }
+    
+    AVMutableCompositionTrack *compVideoTrack;
+    AVMutableCompositionTrack *compAudioTrack;
+    
+    for (AVMutableCompositionTrack *track in mutableComposition.tracks) {
+        if ( track.mediaType == AVMediaTypeVideo ) {
+            compVideoTrack = track;
+        } else if ( track.mediaType == AVMediaTypeAudio ) {
+            compAudioTrack = track;
+        }
+    }
+    
+    AVMutableVideoCompositionInstruction *videoInstruction;
+    AVMutableVideoCompositionLayerInstruction * layerVideoInstruction;
+    
+    CGAffineTransform t1 = CGAffineTransformMakeTranslation(assetVideoTrack.naturalSize.height, 0.0);
+    CGAffineTransform t2 = CGAffineTransformRotate(t1, (90.0 / 180.0) * M_PI);
+    
+    AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
+    mutableVideoComposition.renderSize = CGSizeMake(assetVideoTrack.naturalSize.height, assetVideoTrack.naturalSize.width);
+    mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
+    
+    videoInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+    videoInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, mutableComposition.duration);
+    layerVideoInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compVideoTrack];
+    [layerVideoInstruction setTransform:t2 atTime:kCMTimeZero];
+    
+}
+
+- (void)handleVideo:(NSURL *)videoURL completion:(void (^)(NSURL *outputURL))completion
+{
+    NSError *error = nil;
+    AVURLAsset *videoAssetURL = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+    
+    AVMutableComposition *composition = [AVMutableComposition composition];
+    AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    AVAssetTrack *videoTrack = [[videoAssetURL tracksWithMediaType:AVMediaTypeVideo] firstObject];
+    
+    if ( videoTrack.preferredTransform.tx == 0 ) {
+        // 横屏拍摄，不处理
+        if ( completion ) {
+            completion(videoURL);
+            return;
+        }
+    }
+    
+    AVAssetTrack *audioTrack = [[videoAssetURL tracksWithMediaType:AVMediaTypeAudio] firstObject];
+    [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration) ofTrack:videoTrack atTime:kCMTimeZero error:&error];
+    [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration) ofTrack:audioTrack atTime:kCMTimeZero error:&error];
+    
+    CGAffineTransform transformToApply = videoTrack.preferredTransform;
+    AVMutableVideoCompositionLayerInstruction *layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compositionVideoTrack];
+    [layerInstruction setTransform:transformToApply atTime:kCMTimeZero];
+    [layerInstruction setOpacity:0.0 atTime:videoAssetURL.duration];
+    
+    AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+    instruction.timeRange = CMTimeRangeMake( kCMTimeZero, videoAssetURL.duration);
+    instruction.layerInstructions = @[layerInstruction];
+    
+    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
+    videoComposition.instructions = @[instruction];
+    videoComposition.frameDuration = CMTimeMake(1, 30); //select the frames per second
+    videoComposition.renderScale = 1.0;
+    videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width); //select you video size
+    // (a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0)
+    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:AVAssetExportPresetMediumQuality];
+    
+    exportSession.outputURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"videoname.MOV"]];
+    exportSession.outputFileType = AVFileTypeMPEG4; //very important select you video format (AVFileTypeQuickTimeMovie, AVFileTypeMPEG4, etc...)
+    exportSession.videoComposition = videoComposition;
+    exportSession.shouldOptimizeForNetworkUse = NO;
+    exportSession.timeRange = CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration);
+    
+    [exportSession exportAsynchronouslyWithCompletionHandler:^{
+        
+        switch ([exportSession status]) {
+                
+            case AVAssetExportSessionStatusCompleted: {
+                
+                NSLog(@"Triming Completed");
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( completion ) {
+                        completion(exportSession.outputURL);
+                    }
+                });
+                //generate video thumbnail
+//                self.videoUrl = exportSession.outputURL;
+//                AVURLAsset *videoAssetURL = [[AVURLAsset alloc] initWithURL:self.videoUrl options:nil];
+//                AVAssetImageGenerator *genrateAsset = [[AVAssetImageGenerator alloc] initWithAsset:videoAssetURL];
+//                genrateAsset.appliesPreferredTrackTransform = YES;
+//                CMTime time = CMTimeMakeWithSeconds(0.0,600);
+//                NSError *error = nil;
+//                CMTime actualTime;
+//                
+//                CGImageRef cgImage = [genrateAsset copyCGImageAtTime:time actualTime:&actualTime error:&error];
+//                self.videoImage = [[UIImage alloc] initWithCGImage:cgImage];
+//                CGImageRelease(cgImage);
+                
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }];
 }
 
 - (void)generateThumbnailFromVideoAtURL:(NSURL *)contentURL completion:(void (^)(UIImage *image, NSError *error))completion
@@ -211,6 +363,14 @@
         return;
     }
     
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusRestricted
+        || authStatus == AVAuthorizationStatusDenied) {
+        NSLog(@"摄像头已被禁用，您可在设置应用程序中进行开启");
+        [SimpleToast showText:@"摄像头已被禁用，您可在设置应用程序中进行开启"];
+        return;
+    }
+    
     self.videoPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.videoPicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     
@@ -221,6 +381,14 @@
 {
     if ( ![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] ) {
         [self showAlert:@"设备不支持！"];
+        return;
+    }
+    
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusRestricted
+        || authStatus == AVAuthorizationStatusDenied) {
+        NSLog(@"摄像头已被禁用，您可在设置应用程序中进行开启");
+        [SimpleToast showText:@"摄像头已被禁用，您可在设置应用程序中进行开启"];
         return;
     }
     
