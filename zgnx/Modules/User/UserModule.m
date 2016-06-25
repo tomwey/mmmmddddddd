@@ -19,6 +19,7 @@
 #import "UpdatePasswordViewController.h"
 #import "GrantsViewController.h"
 #import "UploadFinalViewController.h"
+#import "UploadListVideoViewController.h"
 
 @implementation CTMediator (UserModule)
 
@@ -78,6 +79,14 @@
         return [[LoginViewController alloc] init];
     }
     return [[UploadVideoViewController alloc] init];
+}
+
+- (UIViewController *)CTMediator_openUploadListVCWithAuthToken:(NSString *)token
+{
+    if ( [[UserService sharedInstance] isLoginedForUser:nil] == NO ) {
+        return [[LoginViewController alloc] init];
+    }
+    return [[UploadListVideoViewController alloc] init];
 }
 
 - (UIViewController *)CTMediator_openUploadFinalVCWithImage:(UIImage *)image filename:(NSString *)filename

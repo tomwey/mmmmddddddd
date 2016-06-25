@@ -111,9 +111,6 @@
     
     __weak typeof(self) me = self;
     
-    self.progressView.hidden = NO;
-    self.progressView.progress = 0.0;
-    
     // 生成视频封面图
     [self generateThumbnailFromVideoAtURL:videoURL completion:^(UIImage *image, NSError *error) {
         if ( !error ) {
@@ -123,7 +120,26 @@
         }
     }];
     
-    NSData *data = [NSData dataWithContentsOfURL:videoURL];
+    // 开始处理视频，并上传
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    [self handleVideo:videoURL completion:^(NSURL *outputURL, NSError *error) {
+        [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+        if ( error ) {
+            [SimpleToast showText:error.domain];
+        } else {
+            [me uploadVideo:outputURL];
+        }
+    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)uploadVideo:(NSURL *)outputURL
+{
+    self.progressView.hidden = NO;
+    self.progressView.progress = 0.0;
+    
+    NSData *data = [NSData dataWithContentsOfURL:outputURL];
     
     QNUploadOption *option = [[QNUploadOption alloc] initWithProgressHandler:^(NSString *key, float percent) {
         NSLog(@"percent: %f", percent);
@@ -145,23 +161,122 @@
                             key:self.uploadInfo[@"key"]
                           token:token
                        complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp)
-    {
-        
-        NSLog(@"info: %@, key: %@, resp: %@", info, key, resp);
-//        [me.progressView removeFromSuperview];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            me.nextButton.hidden = NO;
-            
-            me.progressView.hidden = YES;
-            
-            me.videoNameLabel.hidden = NO;
-            me.videoNameLabel.text = @"上传完成，请点击下一步！";//me.uploadInfo[@"filename"];
-        });
-    }
+     {
+         
+         NSLog(@"info: %@, key: %@, resp: %@", info, key, resp);
+         //        [me.progressView removeFromSuperview];
+         
+         dispatch_async(dispatch_get_main_queue(), ^{
+             self.nextButton.hidden = NO;
+             
+             self.progressView.hidden = YES;
+             
+             self.videoNameLabel.hidden = NO;
+             self.videoNameLabel.text = @"上传完成，请点击下一步！";//me.uploadInfo[@"filename"];
+         });
+     }
                          option:option];
+}
+
+- (void)handleVideo:(NSURL *)videoURL completion:(void (^)(NSURL *outputURL, NSError *error))completion
+{
+    NSError *error = nil;
+    AVURLAsset *videoAssetURL = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    AVMutableComposition *composition = [AVMutableComposition composition];
+    AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    AVAssetTrack *videoTrack = [[videoAssetURL tracksWithMediaType:AVMediaTypeVideo] firstObject];
+    
+    AVAssetTrack *audioTrack = [[videoAssetURL tracksWithMediaType:AVMediaTypeAudio] firstObject];
+    [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration) ofTrack:videoTrack atTime:kCMTimeZero error:&error];
+    [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration) ofTrack:audioTrack atTime:kCMTimeZero error:&error];
+    
+    CGAffineTransform transformToApply = videoTrack.preferredTransform;
+    AVMutableVideoCompositionLayerInstruction *layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compositionVideoTrack];
+    [layerInstruction setTransform:transformToApply atTime:kCMTimeZero];
+    [layerInstruction setOpacity:0.0 atTime:videoAssetURL.duration];
+    
+    AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+    instruction.timeRange = CMTimeRangeMake( kCMTimeZero, videoAssetURL.duration);
+    instruction.layerInstructions = @[layerInstruction];
+    
+    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
+    videoComposition.instructions = @[instruction];
+    videoComposition.frameDuration = CMTimeMake(1, 30); //select the frames per second
+    videoComposition.renderScale = 1.0;
+    
+    NSLog(@"transform: %@", NSStringFromCGAffineTransform(videoTrack.preferredTransform));
+    // [0, 1, -1, 0, 360, 0] home 朝下
+    // [0, -1, 1, 0, 0, 480] home 朝上
+    // [1, 0, 0, 1, 0, 0]    home 朝右
+    // [-1, 0, 0, -1, 480, 360] home 朝左
+    BOOL isLandscape = ( videoTrack.preferredTransform.a == 1 && videoTrack.preferredTransform.b == 0 ) ||
+    ( videoTrack.preferredTransform.a == -1 && videoTrack.preferredTransform.b == 0 );
+    
+    if ( !isLandscape ) {
+        videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width);
+    } else {
+        videoComposition.renderSize = videoTrack.naturalSize;
+    }
+//    videoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width); //select you video size
+    // (a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0)
+    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:AVAssetExportPresetMediumQuality];
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = @"yyyyMMddHHmmss";
+    NSString *fileName = [NSString stringWithFormat:@"%@.MOV", [df stringFromDate:[NSDate date]]];
+    exportSession.outputURL =
+    [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName]];
+    exportSession.outputFileType = AVFileTypeQuickTimeMovie; //very important select you video format (AVFileTypeQuickTimeMovie, AVFileTypeMPEG4, etc...)
+    exportSession.videoComposition = videoComposition;
+    exportSession.shouldOptimizeForNetworkUse = YES;
+    exportSession.timeRange = CMTimeRangeMake(kCMTimeZero, videoAssetURL.duration);
+    
+    [exportSession exportAsynchronouslyWithCompletionHandler:^{
+        NSLog(@"progress: %f", exportSession.progress);
+        switch ([exportSession status]) {
+                
+            case AVAssetExportSessionStatusCompleted: {
+                
+                NSLog(@"Triming Completed");
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( completion ) {
+                        completion(exportSession.outputURL, nil);
+                    }
+                });
+                //generate video thumbnail
+//                self.videoUrl = exportSession.outputURL;
+//                AVURLAsset *videoAssetURL = [[AVURLAsset alloc] initWithURL:self.videoUrl options:nil];
+//                AVAssetImageGenerator *genrateAsset = [[AVAssetImageGenerator alloc] initWithAsset:videoAssetURL];
+//                genrateAsset.appliesPreferredTrackTransform = YES;
+//                CMTime time = CMTimeMakeWithSeconds(0.0,600);
+//                NSError *error = nil;
+//                CMTime actualTime;
+//                
+//                CGImageRef cgImage = [genrateAsset copyCGImageAtTime:time actualTime:&actualTime error:&error];
+//                self.videoImage = [[UIImage alloc] initWithCGImage:cgImage];
+//                CGImageRelease(cgImage);
+                
+                break;
+            }
+            case AVAssetExportSessionStatusFailed: {
+                NSLog(@"Triming Completed");
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( completion ) {
+                        completion(nil, exportSession.error);
+                    }
+                });
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }];
 }
 
 - (void)generateThumbnailFromVideoAtURL:(NSURL *)contentURL completion:(void (^)(UIImage *image, NSError *error))completion
@@ -211,6 +326,14 @@
         return;
     }
     
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusRestricted
+        || authStatus == AVAuthorizationStatusDenied) {
+        NSLog(@"摄像头已被禁用，您可在设置应用程序中进行开启");
+        [SimpleToast showText:@"摄像头已被禁用，您可在设置应用程序中进行开启"];
+        return;
+    }
+    
     self.videoPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.videoPicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     
@@ -221,6 +344,14 @@
 {
     if ( ![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] ) {
         [self showAlert:@"设备不支持！"];
+        return;
+    }
+    
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusRestricted
+        || authStatus == AVAuthorizationStatusDenied) {
+        NSLog(@"摄像头已被禁用，您可在设置应用程序中进行开启");
+        [SimpleToast showText:@"摄像头已被禁用，您可在设置应用程序中进行开启"];
         return;
     }
     

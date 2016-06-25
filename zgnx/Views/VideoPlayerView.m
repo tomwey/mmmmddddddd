@@ -542,6 +542,9 @@
     [self.livePlayer setCurrentPlaybackTime:_currentPlaybackTime];
     
 //    self.progressSlider.value = _currentPlaybackTime;
+    NELPVideoInfo videoInfo;
+    [self.livePlayer getVideoInfo:&videoInfo];
+    NSLog(@"w: %d, h: %d", videoInfo.width, videoInfo.height);
     
     [self syncUIStatus];
     

@@ -143,16 +143,17 @@
 
 - (void)addDMSFunc
 {
+    __weak typeof(self) me = self;
+
     [[DMSManager sharedInstance] addMessageHandler:^(MQTTMessage *message) {
         NSLog(@"msg: %@", message);
         dispatch_async(dispatch_get_main_queue(), ^{
             // 添加到消息列表
-            [self.biliView addJSONMessage:message.payloadString];
-            
+            [me.biliView addJSONMessage:message.payloadString];
             // 显示弹幕
             NSData *jsonData = [message.payloadString dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *jsonMsg = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-            [self.playerView showBilibili:jsonMsg[@"msg"]];
+            [me.playerView showBilibili:jsonMsg[@"msg"]];
         });
     }];
     
@@ -246,7 +247,7 @@
                              otherButtonTitles: nil] show];
             return;
         }
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:me.view animated:YES];
         
         NSString *token = user.authToken ?: @"";
         NSString *pass = [NSString stringWithFormat:@"f765a3873ffafdeeeedad552f6b659881047e1553fd18f34905a7260a547306b459f43d79c7c5529a1de9b4a2719d4248abcc26eb9af446e25e7dd62b53a9394%@", password];
