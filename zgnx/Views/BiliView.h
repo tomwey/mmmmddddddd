@@ -15,10 +15,10 @@
 
 @property (nonatomic, copy) void (^didSendBiliBlock)(BiliView *view, Bilibili *bili);
 
-- (void)addMessage:(NSString *)msg;
+//- (void)addMessage:(NSString *)msg;
 
 - (void)addJSONMessage:(NSString *)jsonMsg;
 
-- (void)hideKeyboard;
+- (void)sendBiliToServer:(Bilibili *)aBilibili;
 
 @end

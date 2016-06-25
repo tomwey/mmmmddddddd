@@ -20,6 +20,8 @@
 @property (nonatomic, copy) NSNumber* sentMoney;
 @property (nonatomic, copy) NSNumber* receiptMoney;
 
+@property (nonatomic, copy, readonly) NSString *hackMobile;
+
 - (instancetype)initWithDictionary:(NSDictionary *)jsonResult;
 
 @end

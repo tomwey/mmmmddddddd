@@ -61,6 +61,11 @@
     return user;
 }
 
+- (NSString *)hackMobile
+{
+    return [self.mobile stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+}
+
 @end
 
 @implementation User (Validation)

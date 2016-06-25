@@ -23,6 +23,7 @@
 #import "GrantView.h"
 #import "Bilibili.h"
 #import "DMSManager.h"
+#import "BiliInputControl.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -66,6 +67,8 @@
 
 @property (nonatomic, assign) BOOL needLoadSocialState;
 
+@property (nonatomic, strong) BiliInputControl *inputControl;
+
 @end
 
 @implementation VideoStreamDetailViewController
@@ -74,7 +77,7 @@
 {
     if ( self = [super init] ) {
         self.stream = aStream;
-        self.allowRotation = YES;
+        self.allowRotation = NO;
     }
     return self;
 }
@@ -333,7 +336,8 @@
         [_introView setBody:self.stream.body];
     }
     
-    [self.biliView hideKeyboard];
+    self.inputControl.hidden = YES;
+    [self.inputControl hideKeyboard];
     
     return _introView;
 }
@@ -343,23 +347,25 @@
     if ( !_biliView ) {
         _biliView = [[BiliView alloc] init];
         _biliView.streamId = self.stream.stream_id;
-        __weak typeof(self) me = self;
-        _biliView.didSendBiliBlock = ^(BiliView *view, Bilibili *bili) {
-            // 如果开启了弹幕功能，就发送弹幕
-//            [me.playerView showBilibili:bili.content];
-            
-            // 广播给其他用户
-            [[DMSManager sharedInstance] sendMessage:[bili jsonMessage]
-                                             toTopic:me.stream.stream_id
-                                          completion:^(int msgId, NSError *error) {
-                if ( !error ) {
-                    NSLog(@"发送成功！");
-                } else {
-                    NSLog(@"发送失败：%@", error);
-                }
-            }];
-        };
+//        __weak typeof(self) me = self;
+//        _biliView.didSendBiliBlock = ^(BiliView *view, Bilibili *bili) {
+//            // 如果开启了弹幕功能，就发送弹幕
+////            [me.playerView showBilibili:bili.content];
+//            
+//            // 广播给其他用户
+//            [[DMSManager sharedInstance] sendMessage:[bili jsonMessage]
+//                                             toTopic:me.stream.stream_id
+//                                          completion:^(int msgId, NSError *error) {
+//                if ( !error ) {
+//                    NSLog(@"发送成功！");
+//                } else {
+//                    NSLog(@"发送失败：%@", error);
+//                }
+//            }];
+//        };
     }
+    
+    self.inputControl.hidden = NO;
     
     return _biliView;
 }
@@ -370,7 +376,8 @@
         _grantView = [[GrantView alloc] init];
     }
     
-    [self.biliView hideKeyboard];
+    self.inputControl.hidden = YES;
+    [self.inputControl hideKeyboard];
     
     return _grantView;
 }
@@ -570,6 +577,49 @@
     return _biliButton;
 }
 
+- (BiliInputControl *)inputControl
+{
+    if ( !_inputControl) {
+        _inputControl = [[BiliInputControl alloc] init];
+        [self.view addSubview:_inputControl];
+        _inputControl.top = self.view.height - _inputControl.height;
+        _inputControl.left = 0;
+        
+        __weak typeof(self) me = self;
+        _inputControl.didSendMessageBlock = ^(NSString *msg) {
+            Bilibili *bili = [[Bilibili alloc] init];
+            
+            User *user = [[UserService sharedInstance] currentUser];
+            if ( !user ) {
+                bili.avatarUrl = @"";
+                bili.nickname  = @"游客";
+            } else {
+                bili.avatarUrl = user.avatarUrl;
+                bili.nickname = user.nickname ?: user.hackMobile;
+            }
+            
+            bili.streamId = [me.stream.stream_id description];
+            bili.content = msg;
+            
+            // 发送到我们自己的服务器
+            [me.biliView sendBiliToServer:bili];
+            
+            // 广播给其他用户
+            [[DMSManager sharedInstance] sendMessage:[bili jsonMessage]
+                                             toTopic:me.stream.stream_id
+                                          completion:^(int msgId, NSError *error) {
+                if ( !error ) {
+                    NSLog(@"发送成功！");
+                } else {
+                    NSLog(@"发送失败：%@", error);
+                }
+            }];
+        };
+    }
+    [self.view bringSubviewToFront:_inputControl];
+    return _inputControl;
+}
+
 - (UIButton *)likeButton
 {
     if ( !_likeButton ) {
@@ -642,10 +692,15 @@
     if ( UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ) {
 //        self.tabsControl.hidden = YES;
         self.buttonGroup.hidden = self.panelView.hidden = YES;
-        [self.biliView hideKeyboard];
+        self.inputControl.hidden = YES;
+        [self.inputControl hideKeyboard];
     } else {
 //        self.tabsControl.hidden = NO;
         self.buttonGroup.hidden = self.panelView.hidden = NO;
+//        self.inputControl.hidden = NO
+        if ( self.panelView.selectedIndex == 0 ) {
+            self.inputControl.hidden = NO;
+        }
     }
     
     self.toolbar.hidden = self.buttonGroup.hidden;
@@ -672,7 +727,12 @@
     self.buttonGroup.hidden = self.panelView.hidden = self.toolbar.hidden;
     
     if ( self.panelView.hidden ) {
-        [self.biliView hideKeyboard];
+        self.inputControl.hidden = YES;
+        [self.inputControl hideKeyboard];
+    } else {
+        if ( self.panelView.selectedIndex == 0 ) {
+            self.inputControl.hidden = NO;
+        }
     }
     
     [self.playerView openBilibili:NO];
@@ -724,6 +784,13 @@
             [self loadSocialState];
         }
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.allowRotation = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
