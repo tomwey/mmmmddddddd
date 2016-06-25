@@ -143,25 +143,27 @@
 
 - (void)addDMSFunc
 {
+    [[DMSManager sharedInstance] addMessageHandler:^(MQTTMessage *message) {
+        NSLog(@"msg: %@", message);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // 添加到消息列表
+            [self.biliView addJSONMessage:message.payloadString];
+            
+            // 显示弹幕
+            NSData *jsonData = [message.payloadString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonMsg = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+            [self.playerView showBilibili:jsonMsg[@"msg"]];
+        });
+    }];
+    
     [[DMSManager sharedInstance] connect:^(BOOL succeed, NSError *error) {
         //        NSLog(@"error:%@", error);
-        [[DMSManager sharedInstance] addMessageHandler:^(MQTTMessage *message) {
-            NSLog(@"msg: %@", message);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // 添加到消息列表
-                [self.biliView addJSONMessage:message.payloadString];
-                
-                // 显示弹幕
-                NSData *jsonData = [message.payloadString dataUsingEncoding:NSUTF8StringEncoding];
-                NSDictionary *jsonMsg = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-                [self.playerView showBilibili:jsonMsg[@"msg"]];
-            });
-        }];
-        [[DMSManager sharedInstance] subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
-            if ( succeed ) {
-                NSLog(@"订阅主题成功");
-            }
-        }];
+    }];
+    
+    [[DMSManager sharedInstance] subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
+        if ( succeed ) {
+            NSLog(@"订阅主题成功");
+        }
     }];
 }
 
