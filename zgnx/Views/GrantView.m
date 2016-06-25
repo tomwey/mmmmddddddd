@@ -9,7 +9,7 @@
 #import "GrantView.h"
 #import "Defines.h"
 
-@interface GrantView ()
+@interface GrantView () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *maskView;
 @property (nonatomic, strong) UIView *contentView;
@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) UIButton    *payButton;
 @property (nonatomic, strong) UIButton    *cancelButton;
+
+@property (nonatomic, strong) UIButton    *dotButton;
 
 @end
 @implementation GrantView
@@ -47,7 +49,7 @@
         self.moneyField = [[CustomTextField alloc] init];
         [self.contentView addSubview:self.moneyField];
         self.moneyField.placeholder = @"输入金额";
-        self.moneyField.keyboardType = UIKeyboardTypeNumberPad;
+        self.moneyField.keyboardType = UIKeyboardTypeDecimalPad;
         
         self.moneyField.layer.cornerRadius = 0;
         self.moneyField.backgroundColor = [UIColor whiteColor];
@@ -57,6 +59,9 @@
         
         self.moneyField.frame = CGRectMake(20, 20, self.contentView.width - 40, 40);
         
+        self.moneyField.delegate = self;
+
+        // 支付密码
         self.payPasswordField = [[CustomTextField alloc] init];
         [self.contentView addSubview:self.payPasswordField];
         self.payPasswordField.placeholder = @"支付密码";
@@ -71,7 +76,6 @@
         self.payPasswordField.frame = self.moneyField.frame;
         
         self.payPasswordField.top = self.moneyField.bottom + 15;
-        
         
         self.cancelButton = AWCreateImageButton(nil, self, @selector(cancel));
         [self.contentView addSubview:self.cancelButton];
@@ -98,6 +102,30 @@
     return self;
 }
 
+- (BOOL)            textField:(UITextField *)textField
+shouldChangeCharactersInRange:(NSRange)range
+            replacementString:(NSString *)string
+{
+    if ( [string isEqualToString:@""] ) {
+        return YES;
+    }
+    
+    if ( [string isEqualToString:@"."] &&
+        [self.moneyField.text rangeOfString:@"."].location != NSNotFound ) {
+        return NO;
+    }
+    
+    if ( [self.moneyField.text length] == 0 && [string isEqualToString:@"."] ) {
+        return NO;
+    }
+    
+    if ( [self.moneyField.text length] == 1 && [self.moneyField.text isEqualToString:@"0"] && [string isEqualToString:@"."] == NO ) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)showInView:(UIView *)view
 {
     if ( self.superview == nil ) {
@@ -110,7 +138,7 @@
                                           -self.contentView.height / 2);
     
     [self.moneyField becomeFirstResponder];
-    
+
     [UIView animateWithDuration:.25 animations:^{
         self.maskView.alpha = 0.6;
         self.contentView.center = CGPointMake(self.width / 2,
@@ -135,6 +163,9 @@
 {
     [self.moneyField resignFirstResponder];
     [self.payPasswordField resignFirstResponder];
+    
+    [self.dotButton removeFromSuperview];
+    self.dotButton = nil;
     
     [UIView animateWithDuration:.25 animations:^{
         self.maskView.alpha = 0.0;
