@@ -69,6 +69,8 @@
 
 @property (nonatomic, strong) BiliInputControl *inputControl;
 
+@property (nonatomic, strong) DMSManager *dmsManager;
+
 @end
 
 @implementation VideoStreamDetailViewController
@@ -87,6 +89,8 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.dmsManager = [[DMSManager alloc] initWithClientId:[[NSProcessInfo processInfo] globallyUniqueString]];
     
     NSString* videoUrl = nil;
     if ( [self.stream.type integerValue] == 1 ) {
@@ -148,7 +152,7 @@
 {
     __weak typeof(self) me = self;
 
-    [[DMSManager sharedInstance] addMessageHandler:^(MQTTMessage *message) {
+    [self.dmsManager addMessageHandler:^(MQTTMessage *message) {
         NSLog(@"msg: %@", message);
         dispatch_async(dispatch_get_main_queue(), ^{
             // 添加到消息列表
@@ -160,11 +164,11 @@
         });
     }];
     
-    [[DMSManager sharedInstance] connect:^(BOOL succeed, NSError *error) {
+    [self.dmsManager connect:^(BOOL succeed, NSError *error) {
         //        NSLog(@"error:%@", error);
     }];
     
-    [[DMSManager sharedInstance] subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
+    [self.dmsManager subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
         if ( succeed ) {
             NSLog(@"订阅主题成功");
         }
@@ -605,7 +609,7 @@
             [me.biliView sendBiliToServer:bili];
             
             // 广播给其他用户
-            [[DMSManager sharedInstance] sendMessage:[bili jsonMessage]
+            [me.dmsManager sendMessage:[bili jsonMessage]
                                              toTopic:me.stream.stream_id
                                           completion:^(int msgId, NSError *error) {
                 if ( !error ) {
@@ -802,10 +806,10 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[DMSManager sharedInstance] unsubscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
+    [self.dmsManager unsubscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
         
     }];
-    [[DMSManager sharedInstance] disconnect:^(BOOL succeed, NSError *error) {
+    [self.dmsManager disconnect:^(BOOL succeed, NSError *error) {
         
     }];
 }

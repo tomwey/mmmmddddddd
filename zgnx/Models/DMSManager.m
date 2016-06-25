@@ -35,6 +35,14 @@
     return instance;
 }
 
+- (instancetype)initWithClientId:(NSString *)clientId
+{
+    if ( self = [super init] ) {
+        self.dmsClient = [DMS dmsWithClientId:clientId];
+    }
+    return self;
+}
+
 - (instancetype)init
 {
     if ( self = [super init] ) {

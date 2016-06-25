@@ -11,7 +11,9 @@
 @class MQTTMessage;
 @interface DMSManager : NSObject
 
-+ (instancetype)sharedInstance;
+//+ (instancetype)sharedInstance;
+
+- (instancetype)initWithClientId:(NSString *)clientId;
 
 - (void)connect:(void (^)(BOOL succeed, NSError *error))completion;
 - (void)disconnect:(void (^)(BOOL succeed, NSError *error))completion;
