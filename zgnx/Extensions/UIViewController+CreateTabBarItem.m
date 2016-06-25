@@ -16,7 +16,7 @@
                titleTextAttributesForNormal:(NSDictionary *)attributes
              titleTextAttributesForSelected:(NSDictionary *)selectedAttributes
 {
-    UITabBarItem* item = [[UITabBarItem alloc] initWithTitle:title image:image selectedImage:selectedImage];
+    UITabBarItem* item = [[UITabBarItem alloc] initWithTitle:title image:image selectedImage:[selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     self.tabBarItem = item;
     
     if ( !image ) {

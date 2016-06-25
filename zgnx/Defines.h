@@ -45,7 +45,7 @@
 #define NAV_BAR_BG_COLOR AWColorFromRGB(40, 182, 238)
 #define MAIN_BLUE_COLOR  NAV_BAR_BG_COLOR
 #define BG_COLOR_GRAY    AWColorFromRGB(240, 240, 240)
-#define TABBAR_TITLE_SELECTED_COLOR AWColorFromRGB(20, 118, 255)
+#define TABBAR_TITLE_SELECTED_COLOR NAV_BAR_BG_COLOR//AWColorFromRGB(20, 118, 255)
 
 #define kThumbLeft 10
 #define kThumbTop kThumbLeft
