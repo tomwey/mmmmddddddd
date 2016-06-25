@@ -293,6 +293,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         bili.nickname = jsonDict[@"nickname"] ?: @"游客";
         bili.avatarUrl = jsonDict[@"avatar"] ?: @"";
         
+        [self.tableView removeErrorOrEmptyTips];
+        self.tableView.hidden = NO;
+        
         NSMutableArray *temp = [NSMutableArray arrayWithArray:self.dataSource.dataSource];
         [temp insertObject:bili atIndex:0];
         self.dataSource.dataSource = temp;

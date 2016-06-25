@@ -35,6 +35,8 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
 
 @property (nonatomic, strong) UIButton *deleteButton;
 
+@property (nonatomic, strong) UILabel *approvedLabel;
+
 @end
 
 @implementation VideoCell
@@ -136,6 +138,12 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     
     self.coverImageView.frame = CGRectInset(self.containerView.bounds, 0, 30);
     
+    if ( [self.stream.type integerValue] == 2 &&
+        [self.stream.approved boolValue] == NO) {
+        self.approvedLabel.frame = CGRectMake(self.coverImageView.right - 60, self.coverImageView.top + 10,
+                                              60, 20);
+    }
+    
     self.playIconView.center = CGPointMake(10 + self.playIconView.width/2,
                                            self.coverImageView.bottom + 15);
     self.viewCountLabel.frame = CGRectMake(self.playIconView.right + 5,
@@ -195,6 +203,18 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         [self.containerView addSubview:_titleLabel];
     }
     return _titleLabel;
+}
+
+- (UILabel *)approvedLabel
+{
+    if ( !_approvedLabel ) {
+        _approvedLabel = AWCreateLabel(CGRectZero, @"等待审核", NSTextAlignmentCenter,
+                                    AWSystemFontWithSize(12, NO),
+                                    [UIColor whiteColor]);
+        _approvedLabel.backgroundColor = NAV_BAR_BG_COLOR;
+        [self.containerView addSubview:_approvedLabel];
+    }
+    return _approvedLabel;
 }
 
 - (UIImageView *)coverImageView

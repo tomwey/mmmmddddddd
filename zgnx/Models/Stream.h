@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger, StreamFromType) {
 @property (nonatomic, copy) NSString *created_on;
 @property (nonatomic, copy) NSNumber *liked;
 @property (nonatomic, copy) NSNumber *favorited;
+@property (nonatomic, copy) NSNumber *approved;
 
 @property (nonatomic, copy) NSString *rtmp_url;
 @property (nonatomic, copy) NSString *hls_url;

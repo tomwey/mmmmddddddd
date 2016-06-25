@@ -616,6 +616,7 @@
 - (void)NELivePlayerReleaseSuccess:(NSNotification*)notification
 {
     NSLog(@"resource release success!");
+    [self.bufferingIndicator stopAnimating];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self
 //                                                    name:NELivePlayerReleaseSueecssNotification
 //                                                  object:self.livePlayer];
