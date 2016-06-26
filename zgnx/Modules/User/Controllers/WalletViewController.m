@@ -58,7 +58,7 @@
     self.tableView.tableHeaderView = tableHeader;
     
     User *user = [[UserService sharedInstance] currentUser];
-    NSMutableAttributedString *balance = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前余额%@元", user.balance ?: @"0"]];
+    NSMutableAttributedString *balance = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前余额 %@ 元", user.balance ?: @"0"]];
     
     balanceLabel.attributedText = balance;
 }
