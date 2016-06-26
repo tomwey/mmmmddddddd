@@ -173,7 +173,7 @@
 
 - (void)updatePassword
 {
-    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openPasswordVC];
+    UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openPasswordVCWithType:2];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

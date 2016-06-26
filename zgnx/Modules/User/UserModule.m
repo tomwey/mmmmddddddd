@@ -123,4 +123,11 @@
     return [[UpdatePasswordViewController alloc] init];
 }
 
+- (UIViewController *)CTMediator_openPasswordVCWithType:(NSInteger)type
+{
+    UpdatePasswordViewController *pvc = [[UpdatePasswordViewController alloc] init];
+    pvc.passwordType = type;
+    return pvc;
+}
+
 @end

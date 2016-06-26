@@ -43,7 +43,7 @@
     
     UIImageView *avatarView = AWCreateImageView(nil);
     [self.contentView addSubview:avatarView];
-    avatarView.frame = CGRectMake(0, 0, 60, 60);
+    avatarView.frame = CGRectMake(0, 0, 80, 80);
     avatarView.layer.cornerRadius = avatarView.height / 2;
     avatarView.clipsToBounds = YES;
     
@@ -80,15 +80,47 @@
     [containerView addSubview:self.nicknameTextField];
     self.nicknameTextField.placeholder = @"输入昵称";
     self.nicknameTextField.text = self.user.nickname;
+    
+    UIView *containerView2 = [[UIView alloc] initWithFrame:CGRectMake(0, containerView.bottom + 1,
+                                                                     self.contentView.width,
+                                                                     50)];
+    [self.contentView addSubview:containerView2];
+    containerView2.backgroundColor = [UIColor whiteColor];
+    
+    // 修改密码
+    UILabel *updatePassword = AWCreateLabel(CGRectMake(15, 8, 150,
+                                                 34),
+                                      @"修改密码",
+                                      NSTextAlignmentLeft,
+                                      nil,
+                                      nil);
+    [containerView2 addSubview:updatePassword];
+    
+    [containerView2 addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
+}
+
+- (void)tap
+{
+    [self.nicknameTextField resignFirstResponder];
+    
+//    UIViewController *vc = [[NSClassFromString(@"UpdatePasswordViewController") alloc] init];
+    UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openPasswordVCWithType:1];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)updateAvatar
 {
+    [self.nicknameTextField resignFirstResponder];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
                                                     cancelButtonTitle:@"取消"
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:@"从相册选择", @"拍照",nil];
     [actionSheet showInView:self.contentView];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.nicknameTextField resignFirstResponder];
 }
 
 - (void)save

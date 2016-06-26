@@ -53,7 +53,8 @@
 
 #define kPageSize 10
 
-#define kAboutPageURL @"http://123.59.129.197/p/about"
+#define kAboutPageURL  @"http://123.59.129.197/p/about"
+#define kChargePageURL @"http://123.59.129.197/p/charge_tip"
 
 // 外部组件
 #import <AWMacros/AWMacros.h>

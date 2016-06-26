@@ -29,6 +29,8 @@
 
 - (UIViewController *)CTMediator_updateProfile:(User *)user;
 
+- (UIViewController *)CTMediator_openPasswordVCWithType:(NSInteger)type;
+
 - (UIViewController *)CTMediator_openWalletVCForUser:(User *)user;
 
 - (UIViewController *)CTMediator_openUploadVCWithAuthToken:(NSString *)token;

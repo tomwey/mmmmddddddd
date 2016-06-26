@@ -8,6 +8,7 @@
 
 #import "UpdatePasswordViewController.h"
 #import "Defines.h"
+#import "LoadDataService.h"
 
 @interface UpdatePasswordViewController ()
 
@@ -20,6 +21,8 @@
 @property (nonatomic, strong) NSTimer* countDownTimer;
 
 @property (nonatomic, assign) NSUInteger totalSeconds;
+
+@property (nonatomic, strong) LoadDataService *dataService;
 
 @end
 
@@ -35,7 +38,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navBar.title = @"修改密码";
+    if ( self.passwordType == PasswordTypePay ) {
+        self.navBar.title = @"设置支付密码";
+        self.dataService = [[LoadDataService alloc] init];
+    } else {
+        self.navBar.title = @"修改密码";
+    }
+    
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -54,6 +63,17 @@
     [scrollView addSubview:self.mobileField];
     self.mobileField.placeholder = @"注册手机号";
     self.mobileField.keyboardType = UIKeyboardTypeNumberPad;
+    
+    if ( self.passwordType == PasswordTypeForget ) {
+        self.mobileField.userInteractionEnabled = YES;
+        self.mobileField.textColor = [UIColor blackColor];
+    } else {
+        self.mobileField.userInteractionEnabled = NO;
+        self.mobileField.textColor = [UIColor lightGrayColor];
+        
+        User *user = [[UserService sharedInstance] currentUser];
+        self.mobileField.text = user.hackMobile;
+    }
     
     // 验证码
     UIButton* codeBtn = AWCreateTextButton(CGRectMake(0, 0, 120, 37),
@@ -75,7 +95,7 @@
                                  self.mobileField.width - codeBtn.width - 8,
                                  37)];
     [scrollView addSubview:self.codeField];
-    self.codeField.placeholder = @"输入手机验证码";
+    self.codeField.placeholder = @"验证码";
     self.codeField.keyboardType = UIKeyboardTypeNumberPad;
     
     self.passwordField = [[CustomTextField alloc] initWithFrame:self.mobileField.frame];
@@ -116,7 +136,8 @@
     
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     
-    [[UserService sharedInstance] fetchCodeWithMobile:self.mobileField.text completion:^(id result, NSError *error) {
+    NSString *mobile = [[UserService sharedInstance] currentUser].mobile ?: self.mobileField.text;
+    [[UserService sharedInstance] fetchCodeWithMobile:mobile completion:^(id result, NSError *error) {
         [MBProgressHUD hideHUDForView:self.contentView animated:YES];
         
         if ( !error ) {
@@ -133,26 +154,52 @@
     
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     
-    [[UserService sharedInstance] updatePassword:self.passwordField.text
-                                          mobile:self.mobileField.text
-                                            code:self.codeField.text
-                                      completion:
-     ^(id result, NSError *error) {
-         
-         [MBProgressHUD hideHUDForView:self.contentView animated:YES];
-         
-         if ( !error ) {
-             [self.navigationController popViewControllerAnimated:YES];
-         } else {
-             [Toast showText:error.domain].backgroundColor = NAV_BAR_BG_COLOR;
-         }
-     }];
+    if ( self.passwordType == PasswordTypePay ) {
+        __weak typeof(self) me = self;
+        NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+        [self.dataService POST:@"/user/update_pay_password"
+                        params:@{
+                                    @"token": token,
+                                    @"code": self.codeField.text ?: @"",
+                                    @"pay_password": self.passwordField.text ?: @""
+                                                                     }
+                    completion:^(id result, NSError *error) {
+                        [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+                        
+                        if ( !error ) {
+                            [SimpleToast showText:@"设置支付密码成功"];
+                            [self.navigationController popViewControllerAnimated:YES];
+                        } else {
+                            [Toast showText:error.domain].backgroundColor = NAV_BAR_BG_COLOR;
+                        }
+                    }];
+    } else {
+        NSString *mobile = [[UserService sharedInstance] currentUser].mobile ?: self.mobileField.text;
+        [[UserService sharedInstance] updatePassword:self.passwordField.text
+                                              mobile:mobile
+                                                code:self.codeField.text
+                                          completion:
+         ^(id result, NSError *error) {
+             
+             [MBProgressHUD hideHUDForView:self.contentView animated:YES];
+             
+             if ( !error ) {
+                 [SimpleToast showText:@"修改密码成功"];
+                 [self.navigationController popViewControllerAnimated:YES];
+             } else {
+                 [Toast showText:error.domain].backgroundColor = NAV_BAR_BG_COLOR;
+             }
+         }];
+    }
 }
 
 - (BOOL)checkMobile
 {
     User* user = [User new];
-    user.mobile = self.mobileField.text;
+    
+    NSString *mobile = [[UserService sharedInstance] currentUser].mobile ?: self.mobileField.text;
+    
+    user.mobile = mobile;//self.mobileField.text;
     if ( ![user validateMobile] ) {
         [Toast showText:@"不正确的手机号"].backgroundColor = NAV_BAR_BG_COLOR;
         return NO;

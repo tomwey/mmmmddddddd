@@ -19,6 +19,7 @@
 @property (nonatomic, copy) NSString* code;
 @property (nonatomic, copy) NSNumber* sentMoney;
 @property (nonatomic, copy) NSNumber* receiptMoney;
+@property (nonatomic, copy) NSNumber* balance;
 
 @property (nonatomic, copy, readonly) NSString *hackMobile;
 

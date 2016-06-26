@@ -230,6 +230,9 @@
 		99AD498C1CF5E73500F7BC6D /* PagerTabStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 99AD498B1CF5E73500F7BC6D /* PagerTabStripper.m */; };
 		99DE49631D1452080027BB7C /* GrantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DE49621D1452080027BB7C /* GrantView.m */; };
 		99DE496B1D1E33A60027BB7C /* BiliInputControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DE496A1D1E33A60027BB7C /* BiliInputControl.m */; };
+		99DE496E1D1FA4460027BB7C /* ChargeTipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DE496D1D1FA4460027BB7C /* ChargeTipViewController.m */; };
+		99DE49711D1FA5440027BB7C /* PayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DE49701D1FA5440027BB7C /* PayoutViewController.m */; };
+		99DE49771D1FA62A0027BB7C /* PayHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DE49761D1FA62A0027BB7C /* PayHistoryViewController.m */; };
 		99FF5EC21D0DA3EC0078B22B /* GrantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */; };
 		99FF5EC51D0DA5600078B22B /* AWModalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC41D0DA5600078B22B /* AWModalAlert.m */; };
 		99FF5EC81D0DBE6B0078B22B /* GrantCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FF5EC71D0DBE6B0078B22B /* GrantCell.m */; };
@@ -563,6 +566,12 @@
 		99DE49621D1452080027BB7C /* GrantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrantView.m; sourceTree = "<group>"; };
 		99DE49691D1E33A60027BB7C /* BiliInputControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliInputControl.h; sourceTree = "<group>"; };
 		99DE496A1D1E33A60027BB7C /* BiliInputControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliInputControl.m; sourceTree = "<group>"; };
+		99DE496C1D1FA4460027BB7C /* ChargeTipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeTipViewController.h; sourceTree = "<group>"; };
+		99DE496D1D1FA4460027BB7C /* ChargeTipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeTipViewController.m; sourceTree = "<group>"; };
+		99DE496F1D1FA5440027BB7C /* PayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayoutViewController.h; sourceTree = "<group>"; };
+		99DE49701D1FA5440027BB7C /* PayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayoutViewController.m; sourceTree = "<group>"; };
+		99DE49751D1FA62A0027BB7C /* PayHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayHistoryViewController.h; sourceTree = "<group>"; };
+		99DE49761D1FA62A0027BB7C /* PayHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayHistoryViewController.m; sourceTree = "<group>"; };
 		99FF5EC01D0DA3EC0078B22B /* GrantsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrantsViewController.h; sourceTree = "<group>"; };
 		99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrantsViewController.m; sourceTree = "<group>"; };
 		99FF5EC31D0DA5600078B22B /* AWModalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWModalAlert.h; sourceTree = "<group>"; };
@@ -709,6 +718,12 @@
 				97A4AA321CFBEB730045A69B /* UpdatePasswordViewController.m */,
 				99FF5EC01D0DA3EC0078B22B /* GrantsViewController.h */,
 				99FF5EC11D0DA3EC0078B22B /* GrantsViewController.m */,
+				99DE496C1D1FA4460027BB7C /* ChargeTipViewController.h */,
+				99DE496D1D1FA4460027BB7C /* ChargeTipViewController.m */,
+				99DE496F1D1FA5440027BB7C /* PayoutViewController.h */,
+				99DE49701D1FA5440027BB7C /* PayoutViewController.m */,
+				99DE49751D1FA62A0027BB7C /* PayHistoryViewController.h */,
+				99DE49761D1FA62A0027BB7C /* PayHistoryViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1580,9 +1595,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				97A4AA331CFBEB730045A69B /* UpdatePasswordViewController.m in Sources */,
+				99DE49771D1FA62A0027BB7C /* PayHistoryViewController.m in Sources */,
 				974EBE671CF57BC9000DE692 /* VODModule.m in Sources */,
 				99754ECE1CFAFC83007FA577 /* LiveService.m in Sources */,
 				97A4AA7E1CFFF5570045A69B /* SearchBar.m in Sources */,
+				99DE49711D1FA5440027BB7C /* PayoutViewController.m in Sources */,
 				99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */,
 				99754EE71CFB406A007FA577 /* SignupViewController.m in Sources */,
 				971A75331D06BB1800DA2D10 /* LikeService.m in Sources */,
@@ -1625,6 +1642,7 @@
 				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,
 				99754EF61CFB46CB007FA577 /* LikesViewController.m in Sources */,
 				99754EE11CFB403E007FA577 /* UserProfileViewController.m in Sources */,
+				99DE496E1D1FA4460027BB7C /* ChargeTipViewController.m in Sources */,
 				97A4AA1C1CFBD46F0045A69B /* PlayerToolbar.m in Sources */,
 				99FF5EC21D0DA3EC0078B22B /* GrantsViewController.m in Sources */,
 				978EF5F81D0E8BF90091B053 /* VideoPlayerView.m in Sources */,
