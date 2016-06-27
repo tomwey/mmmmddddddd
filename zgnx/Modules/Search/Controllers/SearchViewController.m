@@ -14,6 +14,7 @@
 #import "VideoCell.h"
 #import "SearchBar.h"
 #import "SearchResultView.h"
+#import "BannerPageViewController.h"
 
 @interface SearchViewController () <SearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) AWTableViewDataSource* dataSource;
 
 @property (nonatomic, strong) LoadDataService* dataService;
+@property (nonatomic, strong) LoadDataService* loadStreamService;
 @property (nonatomic, strong) LoadDataService* kwDataService;
 
 @property (nonatomic, strong) UILabel* likeTipLabel;
@@ -79,7 +81,6 @@
      __weak typeof(self)weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.bannerView startLoading:^(id selectItem) {
-            // 注意此处不会造成循环引用
             NSLog(@"select item: %@", selectItem);
             [weakSelf openBanner:selectItem];
         }];
@@ -196,7 +197,35 @@
 
 - (void)openBanner:(id)bannerInfo
 {
+    NSString *link = bannerInfo[@"link"];
     
+    if ( [link hasPrefix:@"http"] ) {
+        // 网页广告
+        BannerPageViewController *vc = [[BannerPageViewController alloc] init];
+        vc.adLink = link;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        // 连接到一个视频
+        [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+
+        __weak typeof(self) me = self;
+        NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+        NSString *uri = [NSString stringWithFormat:@"/streams/%@", link];
+        [self.loadStreamService GET:uri
+                             params:@{
+                                      @"token": token
+                                      } completion:^(id result, NSError *error) {
+                                          [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+                                          
+                                          if ( error ) {
+                                              [SimpleToast showText:@"打开视频失败！"];
+                                          } else {
+                                              Stream *stream = [[Stream alloc] initWithDictionary:result[@"data"]];
+                                              UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:stream];
+                                              [me presentViewController:vc animated:YES completion:nil];
+                                          }
+                                      }];
+    }
 }
 
 - (void)startLoadForPage:(NSInteger)page
@@ -269,6 +298,14 @@
     [self.contentView bringSubviewToFront:_searchResultView];
     
     return _searchResultView;
+}
+
+- (LoadDataService *)loadStreamService
+{
+    if ( !_loadStreamService ) {
+        _loadStreamService = [[LoadDataService alloc] init];
+    }
+    return _loadStreamService;
 }
 
 @end

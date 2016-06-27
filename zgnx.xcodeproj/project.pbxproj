@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8E1924CB6785D8D27F8C6CED /* libPods-zgnx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D499CD57F8E3EDC2FFE61F /* libPods-zgnx.a */; };
+		970900D41D21195E00FEE687 /* BannerPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970900D31D21195E00FEE687 /* BannerPageViewController.m */; };
 		971A740A1D015B5E00DA2D10 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74091D015B5E00DA2D10 /* TestViewController.m */; };
 		971A740C1D015CA900DA2D10 /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 971A740B1D015CA900DA2D10 /* test.mp4 */; };
 		971A74171D017F8400DA2D10 /* ButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74161D017F8400DA2D10 /* ButtonGroup.m */; };
@@ -255,6 +256,8 @@
 /* Begin PBXFileReference section */
 		4880867BD34CACE936F52ABC /* Pods-zgnx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zgnx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-zgnx/Pods-zgnx.debug.xcconfig"; sourceTree = "<group>"; };
 		66D499CD57F8E3EDC2FFE61F /* libPods-zgnx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zgnx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		970900D21D21195E00FEE687 /* BannerPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerPageViewController.h; sourceTree = "<group>"; };
+		970900D31D21195E00FEE687 /* BannerPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerPageViewController.m; sourceTree = "<group>"; };
 		971A74081D015B5E00DA2D10 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		971A74091D015B5E00DA2D10 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		971A740B1D015CA900DA2D10 /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
@@ -905,6 +908,8 @@
 				974EBE931CF582C6000DE692 /* SearchViewController.m */,
 				972A24201D00087F0036D166 /* SearchResultsViewController.h */,
 				972A24211D00087F0036D166 /* SearchResultsViewController.m */,
+				970900D21D21195E00FEE687 /* BannerPageViewController.h */,
+				970900D31D21195E00FEE687 /* BannerPageViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1639,6 +1644,7 @@
 				972A243A1D01121E0036D166 /* VideoPlayer.m in Sources */,
 				974EBE7D1CF581FC000DE692 /* VODListViewController.m in Sources */,
 				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,
+				970900D41D21195E00FEE687 /* BannerPageViewController.m in Sources */,
 				99754EF61CFB46CB007FA577 /* LikesViewController.m in Sources */,
 				99754EE11CFB403E007FA577 /* UserProfileViewController.m in Sources */,
 				99DE496E1D1FA4460027BB7C /* ChargeTipViewController.m in Sources */,

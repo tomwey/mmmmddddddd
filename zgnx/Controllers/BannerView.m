@@ -244,7 +244,7 @@ willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewContro
             obj = self.dataSource[self.pageControl.currentPage];
         }
         self.didSelectItem(obj);
-        self.didSelectItem = nil;
+//        self.didSelectItem = nil;
     }
 }
 
