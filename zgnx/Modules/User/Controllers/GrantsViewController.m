@@ -112,13 +112,13 @@
 {
     self.currentPage = 1;
 //    [self loadData];
+    self.tableView.hidden = YES;
     [self loadAllData];
 }
 
 - (void)loadData
 {
     [self.tableView removeErrorOrEmptyTips];
-    self.tableView.hidden = YES;
     
     if ( !self.dataService ) {
         self.dataService = [[LoadDataService alloc] init];

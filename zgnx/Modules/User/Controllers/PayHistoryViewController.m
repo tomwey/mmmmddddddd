@@ -58,9 +58,9 @@
         [self.dataSource removeAllObjects];
         
         [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+        
+        self.tableView.hidden = YES;
     }
-    
-    self.tableView.hidden = YES;
     
     [self.tableView removeErrorOrEmptyTips];
     

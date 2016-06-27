@@ -100,6 +100,10 @@
 //    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     [self loadData];
+    
+    // 每次进入个人中心的时候，获取一次最新的用户数据
+//    NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+//    [[UserService sharedInstance] loadUserProfileForAuthToken:token completion:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -185,6 +189,7 @@
             UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openGrantsVC];
             [nav pushViewController:vc animated:YES];
         } else if ( indexPath.section == [self.dataSource count] - 1 && indexPath.row == 0 ) {
+            // 退出登陆
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"您确定吗？"
                                        message:@""
                                       delegate:self
@@ -202,10 +207,15 @@
                 [nav pushViewController:vc animated:YES];
             }
         } else {
-            [self didSelectAtIndexPath:indexPath];
+            [self didSelectAtIndex:indexPath.row];
         }
     } else {
-        [self didSelectAtIndexPath:indexPath];
+        if ( indexPath.row == 0 ) {
+            UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
+            [nav pushViewController:vc animated:YES];
+        } else {
+            [self didSelectAtIndex:indexPath.row - 1];
+        }
     }
 }
 
@@ -219,11 +229,11 @@
     }
 }
 
-- (void)didSelectAtIndexPath:(NSIndexPath *)indexPath
+- (void)didSelectAtIndex:(NSInteger)index;
 {
     UINavigationController* nav = (UINavigationController *)[AWAppWindow() rootViewController];
     
-    switch (indexPath.row) {
+    switch (index) {
 //        case 0:
 //        {
 //            // 上传

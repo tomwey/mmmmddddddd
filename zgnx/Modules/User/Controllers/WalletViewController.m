@@ -12,7 +12,7 @@
 @interface WalletViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *dataSource;
+@property (nonatomic, strong) NSArray     *dataSource;
 
 @end
 
