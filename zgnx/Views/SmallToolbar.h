@@ -23,6 +23,10 @@ typedef NS_ENUM(NSInteger, ToolbarButtonTag) {
 
 @property (nonatomic, strong) Stream *stream;
 
+@property (nonatomic, strong, readonly) UIButton *bilibiliButton;
+@property (nonatomic, strong, readonly) UIButton *likeButton;
+@property (nonatomic, strong, readonly) UIButton *favoriteButton;
+
 @property (nonatomic, copy) void (^toolbarButtonDidTapBlock)(UIButton* sender);
 
 @end

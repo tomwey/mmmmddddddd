@@ -71,6 +71,8 @@
 
 @property (nonatomic, strong) DMSManager *dmsManager;
 
+@property (nonatomic, assign) BOOL biliOpening;
+
 @end
 
 @implementation VideoStreamDetailViewController
@@ -89,6 +91,8 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.biliOpening = YES;
     
     self.dmsManager = [[DMSManager alloc] initWithClientId:[[NSProcessInfo processInfo] globallyUniqueString]];
     
@@ -413,18 +417,22 @@
             if ( [uri isEqualToString:API_USER_LIKE] ) {
                 me.stream.liked = @(1);
                 sender.selected = YES;
+                me.toolbar.likeButton.selected = YES;
             } else {
                 me.stream.liked = @(0);
                 sender.selected = NO;
+                me.toolbar.likeButton.selected = NO;
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"kNeedReloadDataNotification" object:me.stream];
         } else {
             if ( [uri isEqualToString:API_USER_LIKE] ) {
                 me.stream.liked = @(0);
                 sender.selected = NO;
+                me.toolbar.likeButton.selected = NO;
             } else {
                 me.stream.liked = @(1);
                 sender.selected = YES;
+                me.toolbar.likeButton.selected = YES;
             }
         }
     }];
@@ -458,18 +466,22 @@
              if ( [uri isEqualToString:API_USER_FAVORITE] ) { // 收藏成功
                  me.stream.favorited = @(1);
                  sender.selected = YES;
+                 me.toolbar.favoriteButton.selected = YES;
              } else { // 取消收藏成功
                  me.stream.favorited = @(0);
                  sender.selected = NO;
+                 me.toolbar.favoriteButton.selected = NO;
              }
              [[NSNotificationCenter defaultCenter] postNotificationName:@"kNeedReloadDataNotification" object:me.stream];
          } else {
              if ( [uri isEqualToString:API_USER_FAVORITE] ) { // 收藏失败
                  me.stream.favorited = @(0);
                  sender.selected = NO;
+                 me.toolbar.favoriteButton.selected = NO;
              } else { // 取消收藏失败
                  me.stream.favorited = @(1);
                  sender.selected = YES;
+                 me.toolbar.favoriteButton.selected = YES;
              }
          }
      }];
@@ -478,6 +490,10 @@
 - (void)openOrCloseBili:(UIButton *)sender
 {
     sender.selected = !sender.selected;
+    
+    self.biliOpening = sender.selected;
+    
+    self.toolbar.bilibiliButton.selected = self.biliOpening;
     
     [self.playerView openBilibili:sender.selected];
 }
@@ -565,6 +581,11 @@
     if ( !_extraButtons ) {
         _extraButtons = [[NSArray alloc] initWithObjects:self.biliButton,self.likeButton, self.favoriteButton, nil];
     }
+    
+    self.biliButton.selected = !self.biliOpening;
+    self.likeButton.selected = [self.stream.liked boolValue];
+    self.favoriteButton.selected = [self.stream.favorited boolValue];
+    
     return _extraButtons;
 }
 
@@ -575,7 +596,7 @@
                                           self, @selector(openOrCloseBili:));
         [_biliButton setImage:[UIImage imageNamed:@"btn_bili_close.png"]
                      forState:UIControlStateSelected];
-        _biliButton.selected = NO;
+        _biliButton.selected = !self.biliOpening;
     }
     
     return _biliButton;
