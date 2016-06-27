@@ -18,7 +18,7 @@
 NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
 NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotification";
 
-@interface VideoCell ()
+@interface VideoCell () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIView*      containerView;
 @property (nonatomic, strong) UILabel*     titleLabel;
@@ -84,7 +84,8 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         self.stream = data;
     }
     
-    if ( self.stream.fromType == StreamFromTypeHistory ) {
+    if ( self.stream.fromType == StreamFromTypeHistory ||
+        self.stream.fromType == StreamFromTypeUploaded) {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -174,7 +175,8 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     self.likeCountLabel.frame = CGRectMake(0, 0, size.width, size.height );
     self.likeCountLabel.center = CGPointMake(self.likeIconView.right + 8, self.msgIconView.midY);
     
-    if ( self.stream.fromType == StreamFromTypeHistory ) {
+    if ( self.stream.fromType == StreamFromTypeHistory ||
+        self.stream.fromType == StreamFromTypeUploaded ) {
         self.deleteButton.center = CGPointMake(self.containerView.width / 2,
                                                self.containerView.height / 2);
     }
@@ -322,7 +324,19 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
 
 - (void)delete
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kVideoCellDidDeleteNotification object:self];
+    [[[UIAlertView alloc] initWithTitle:@"您确定吗？"
+                               message:@"删除之后数据无法恢复"
+                              delegate:self
+                     cancelButtonTitle:nil
+                     otherButtonTitles:@"确定", @"取消", nil] show];
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ( buttonIndex == 0 ) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kVideoCellDidDeleteNotification object:self];
+    }
 }
 
 - (void)tap

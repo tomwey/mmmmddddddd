@@ -22,50 +22,20 @@
 
 @implementation UploadListVideoViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if ( self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil] ) {
+        self.fromType = StreamFromTypeUploaded;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navBar.title = @"我的上传";
     
-//    self.editButton = AWCreateTextButton(CGRectMake(0, 0, 40, 40),
-//                                         @"编辑",
-//                                         [UIColor whiteColor],
-//                                         self,
-//                                         @selector(edit));
-//    self.navBar.rightItem = self.editButton;
-    
-    self.fromType = StreamFromTypeUploaded;
 }
-
-- (void)edit
-{
-    if ( [[self.editButton currentTitle] isEqualToString:@"编辑"] ) {
-        [self.editButton setTitle:@"完成" forState:UIControlStateNormal];
-        self.isEditing = YES;
-        [self doEdit];
-    } else {
-        [self.editButton setTitle:@"编辑" forState:UIControlStateNormal];
-        self.isEditing = NO;
-        [self done];
-    }
-}
-
-- (void)doEdit
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kStartEditNotification" object:nil];
-}
-
-- (void)done
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kEndEditNotification" object:nil];
-}
-
-//- (BOOL)removeStream:(Stream *)aStream
-//{
-//    if ( !self.dataService ) {
-//        self.dataService = [[LoadDataService alloc] init];
-//    }
-//}
 
 /**
  * 子类重写，并且需要调用super

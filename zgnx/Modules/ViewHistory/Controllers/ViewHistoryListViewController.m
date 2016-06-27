@@ -14,9 +14,6 @@
 @interface ViewHistoryListViewController ()
 
 @property (nonatomic, strong) ViewHistoryService *vhService;
-@property (nonatomic, strong) UIButton *editButton;
-
-@property (nonatomic, assign) BOOL isEditing;
 
 @end
 @implementation ViewHistoryListViewController
@@ -24,7 +21,7 @@
 - (instancetype)initWithAuthToken:(NSString *)authToken
 {
     if ( self = [super init] ) {
-        
+        self.fromType = StreamFromTypeHistory;
     }
     return self;
 }
@@ -33,16 +30,7 @@
 {
     [super viewDidLoad];
     
-    self.fromType = StreamFromTypeHistory;
-    
     self.navBar.title = @"历史记录";
-    
-    self.editButton = AWCreateTextButton(CGRectMake(0, 0, 40, 40),
-                                         @"编辑",
-                                         [UIColor whiteColor],
-                                         self,
-                                         @selector(edit));
-    self.navBar.rightItem = self.editButton;
 }
 
 - (BOOL)removeStream:(Stream *)aStream
@@ -52,29 +40,6 @@
     }
     
     return [self.vhService deleteRecord:aStream needSyncServer:YES];
-}
-
-- (void)edit
-{
-    if ( [[self.editButton currentTitle] isEqualToString:@"编辑"] ) {
-        [self.editButton setTitle:@"完成" forState:UIControlStateNormal];
-        self.isEditing = YES;
-        [self doEdit];
-    } else {
-        [self.editButton setTitle:@"编辑" forState:UIControlStateNormal];
-        self.isEditing = NO;
-        [self done];
-    }
-}
-
-- (void)doEdit
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kStartEditNotification" object:nil];
-}
-
-- (void)done
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kEndEditNotification" object:nil];
 }
 
 /**

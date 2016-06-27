@@ -10,6 +10,7 @@
 #import "Defines.h"
 #import <AWTableView/AWTableViewDataSource.h>
 #import "VideoCell.h"
+#import "LoadDataService.h"
 
 @interface CommonVODListViewController () <UITableViewDelegate, ReloadDelegate>
 
@@ -23,12 +24,30 @@
 
 @property (nonatomic, weak) UIRefreshControl* refreshControl;
 
+@property (nonatomic, strong) LoadDataService *deleteDataService;
+
+@property (nonatomic, strong) UIButton *editButton;
+
+@property (nonatomic, assign) BOOL isEditing;
+
 @end
 
 @implementation CommonVODListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if ( self.fromType == StreamFromTypeHistory ||
+        self.fromType == StreamFromTypeUploaded) {
+        self.editButton = AWCreateTextButton(CGRectMake(0, 0, 40, 40),
+                                             @"编辑",
+                                             [UIColor whiteColor],
+                                             self,
+                                             @selector(edit));
+        self.navBar.rightItem = self.editButton;
+    } else {
+        self.navBar.rightItem = nil;
+    }
     
     self.hasNextPage = NO;
     self.allowLoading = YES;
@@ -89,17 +108,77 @@
                                                   object:nil];
 }
 
+- (void)edit
+{
+    if ( [[self.editButton currentTitle] isEqualToString:@"编辑"] ) {
+        [self.editButton setTitle:@"完成" forState:UIControlStateNormal];
+        self.isEditing = YES;
+        [self doEdit];
+    } else {
+        [self.editButton setTitle:@"编辑" forState:UIControlStateNormal];
+        self.isEditing = NO;
+        [self done];
+    }
+}
+
+- (void)doEdit
+{
+    [self updateDSState];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kStartEditNotification" object:nil];
+}
+
+- (void)done
+{
+    [self updateDSState];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kEndEditNotification" object:nil];
+}
+
+- (void)updateDSState
+{
+    [self.dataSource.dataSource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        Stream *sObj = nil;
+        if ( [obj isKindOfClass:[Stream class]] ) {
+            sObj = (Stream *)obj;
+            sObj.isEditing = self.isEditing;
+        }
+    }];
+}
+
 - (void)cellDidDelete:(NSNotification *)noti
 {
     Stream *stream = [noti.object stream];
     
-    BOOL flag = [self performSelector:@selector(removeStream:) withObject:stream];
-    
-    if ( !flag ) {
-        [[Toast showText:@"删除失败"] setBackgroundColor: NAV_BAR_BG_COLOR];
-        return;
+    if ( self.fromType == StreamFromTypeUploaded ) {
+        [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+        __weak typeof(self) me = self;
+        NSString *token = [[[UserService sharedInstance] currentUser] authToken] ?: @"";
+        [self.deleteDataService POST:@"/videos/delete"
+                                       params:@{
+                                                @"token": token,
+                                                @"vid": stream.id_ ?: @(0),
+                                                } completion:^(id result, NSError *error) {
+                                                    [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+                                                    
+                                                    if ( error ) {
+                                                        [SimpleToast showText:@"删除失败"];
+                                                    } else {
+                                                        [me reloadDataAndUpdateTable:stream];
+                                                    }
+                                                }];
+    } else {
+        BOOL flag = [self performSelector:@selector(removeStream:) withObject:stream];
+        
+        if ( !flag ) {
+            [[Toast showText:@"删除失败"] setBackgroundColor: NAV_BAR_BG_COLOR];
+            return;
+        }
+        
+        [self reloadDataAndUpdateTable:stream];
     }
-    
+}
+
+- (void)reloadDataAndUpdateTable:(Stream *)stream
+{
     NSMutableArray *temp = [NSMutableArray array];
     [self.dataSource.dataSource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ( [obj isKindOfClass:[Stream class]] ) {
@@ -111,6 +190,14 @@
     }];
     self.dataSource.dataSource = temp;
     [self.tableView reloadData];
+}
+
+- (LoadDataService *)deleteDataService
+{
+    if ( !_deleteDataService ) {
+        _deleteDataService = [[LoadDataService alloc] init];
+    }
+    return _deleteDataService;
 }
 
 - (void)videoDidSelect:(NSNotification *)noti
@@ -128,6 +215,8 @@
         self.tableView.hidden = YES;
         [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     }
+    
+    self.editButton.userInteractionEnabled = NO;
     
     NSLog(@"加载：%d", page);
 }
@@ -165,6 +254,7 @@
                     stream = (Stream *)obj;
                 }
                 stream.fromType = self.fromType;
+                stream.isEditing = self.isEditing;
                 if ( stream ) {
                     [temp addObject:stream];
                 }
@@ -183,6 +273,8 @@
             
             self.tableView.hidden = NO;
             [self.tableView reloadData];
+            
+            self.editButton.userInteractionEnabled = YES;
         }
     }
 }
