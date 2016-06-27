@@ -33,6 +33,8 @@
 //                                         self,
 //                                         @selector(edit));
 //    self.navBar.rightItem = self.editButton;
+    
+    self.fromType = StreamFromTypeUploaded;
 }
 
 - (void)edit

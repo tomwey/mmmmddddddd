@@ -11,9 +11,10 @@
 #import "User.h"
 
 typedef NS_ENUM(NSInteger, StreamFromType) {
-    StreamFromTypeDefault = 1,
-    StreamFromTypeHistory = 2,
-    StreamFromTypeLike    = 3,
+    StreamFromTypeDefault  = 1,
+    StreamFromTypeHistory  = 2,
+    StreamFromTypeLike     = 3,
+    StreamFromTypeUploaded = 4,
 };
 
 @interface Stream : CTPersistanceRecord <CTPersistanceRecordProtocol>

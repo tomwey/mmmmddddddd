@@ -30,6 +30,9 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
 @property (nonatomic, strong) UIImageView* msgIconView;
 @property (nonatomic, strong) UILabel*     msgCountLabel;
 
+@property (nonatomic, strong) UIImageView* likeIconView;
+@property (nonatomic, strong) UILabel*     likeCountLabel;
+
 //@property (nonatomic, strong, readwrite) NSMutableDictionary *cellData;
 @property (nonatomic, strong, readwrite) Stream *stream;
 
@@ -120,6 +123,7 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     
     self.viewCountLabel.text = [self.stream.view_count description];
     self.msgCountLabel.text  = [self.stream.msg_count description];
+    self.likeCountLabel.text = [self.stream.likes_count description];
 //    self.msgCountLabel.hidden = YES;
 }
 
@@ -138,7 +142,8 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     
     self.coverImageView.frame = CGRectInset(self.containerView.bounds, 0, 30);
     
-    if ( [self.stream.type integerValue] == 2 &&
+    if ( self.stream.fromType == StreamFromTypeUploaded &&
+        [self.stream.type integerValue] == 2 &&
         [self.stream.approved boolValue] == NO) {
         self.approvedLabel.frame = CGRectMake(self.coverImageView.right - 60, self.coverImageView.top + 10,
                                               60, 20);
@@ -159,6 +164,15 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     self.msgIconView.center = CGPointMake(self.msgCountLabel.left - 5
                                           - self.msgIconView.width/2,
                                           self.msgCountLabel.midY);
+    
+    self.likeIconView.frame = CGRectMake(0, 0, 16 * 11 / 12.0, 16);
+    self.likeIconView.center = CGPointMake(self.containerView.width / 2 ,
+                                           self.msgIconView.midY);
+    
+    size = [self.likeCountLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.likeCountLabel.font }];
+    
+    self.likeCountLabel.frame = CGRectMake(0, 0, size.width, size.height );
+    self.likeCountLabel.center = CGPointMake(self.likeIconView.right + 8, self.msgIconView.midY);
     
     if ( self.stream.fromType == StreamFromTypeHistory ) {
         self.deleteButton.center = CGPointMake(self.containerView.width / 2,
@@ -271,6 +285,27 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         [self.containerView addSubview:_msgCountLabel];
     }
     return _msgCountLabel;
+}
+
+- (UIImageView *)likeIconView
+{
+    if ( !_likeIconView ) {
+        _likeIconView = AWCreateImageView(@"tags_zan_n.png");
+        //        _msgIconView.backgroundColor = [UIColor grayColor];
+        [self.containerView addSubview:_likeIconView];
+    }
+    return _likeIconView;
+}
+
+- (UILabel *)likeCountLabel
+{
+    if ( !_likeCountLabel ) {
+        _likeCountLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentCenter,
+                                       nil,
+                                       [UIColor grayColor]);
+        [self.containerView addSubview:_likeCountLabel];
+    }
+    return _likeCountLabel;
 }
 
 - (UIButton *)deleteButton
