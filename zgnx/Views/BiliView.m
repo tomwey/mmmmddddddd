@@ -93,7 +93,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)loadData
 {
     [self.tableView removeErrorOrEmptyTips];
-    self.tableView.hidden = YES;
+    
+    if ( self.currentPage == 1 ) {
+        self.tableView.hidden = YES;
+    }
     
     NSLog(@"page: %d", self.currentPage);
     

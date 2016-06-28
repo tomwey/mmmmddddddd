@@ -140,7 +140,9 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         DMSManager *dmsManager = app.dmsManager;
         [dmsManager addMessageHandler:^(MQTTMessage *message) {
             if ( [message.topic isEqualToString:topic] ) {
-                self.viewCountLabel.text = message.payloadString;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.viewCountLabel.text = message.payloadString;
+                });
             }
         }];
         [dmsManager subscribe:topic
