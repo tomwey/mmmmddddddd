@@ -14,6 +14,7 @@
 //#import "ViewHistoryTable.h"
 //#import "Stream.h"
 #import "Defines.h"
+#import "YunBaService.h"
 
 NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
 NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotification";
@@ -126,10 +127,40 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     self.msgCountLabel.text  = [self.stream.msg_count description];
     self.likeCountLabel.text = [self.stream.likes_count description];
 //    self.msgCountLabel.hidden = YES;
+    
+    if ( [self.stream.type integerValue] == 1 &&
+        [self.stream.video_file length] == 0 ) {
+        // 订阅实时用户消息
+        [YunBaService subscribe:self.stream.stream_id resultBlock:^(BOOL succ, NSError *error) {
+            if ( succ ) {
+                NSLog(@"订阅实时用户数消息成功");
+            } else {
+                NSLog(@"yb: %@", error);
+            }
+        }];
+
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:kYBDidReceiveMessageNotification
+                                                      object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(onMessageReceived:)
+                                                     name:kYBDidReceiveMessageNotification
+                                                   object:nil];
+    }
+}
+
+- (void)onMessageReceived:(NSNotification *)noti
+{
+    YBMessage *message = [noti object];
+    if ( [message.topic isEqualToString:self.stream.stream_id] ) {
+        NSString *body = [[NSString alloc] initWithData:message.data encoding:NSUTF8StringEncoding];
+        self.viewCountLabel.text = body;
+    }
 }
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.didSelectItem = nil;
 }
 

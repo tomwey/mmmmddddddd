@@ -125,7 +125,13 @@
     
     __weak typeof(self) me = self;
     self.playerView.didShutdownPlayerBlock = ^(VideoPlayerView *view, NSTimeInterval progress) {
+        
+        // 如果是直播视频，要调用取消操作
+        [[PlayStatManager sharedInstance] cancelPlayStat:me.stream];
+        
+        // 记录观看历史
         [me recordViewHistory:progress];
+        
         [me dismissViewControllerAnimated:YES completion:nil];
     };
     
@@ -811,8 +817,6 @@
 
 - (void)dealloc
 {
-    // 如果是直播视频，要调用取消操作
-    [[PlayStatManager sharedInstance] cancelPlayStat:self.stream];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.dmsManager unsubscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {

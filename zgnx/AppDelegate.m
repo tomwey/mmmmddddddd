@@ -10,6 +10,7 @@
 #import "Defines.h"
 #import "TestViewController.h"
 #import "CustomURLProtocol.h"
+#import "YunBaService.h"
 
 @interface AppDelegate ()
 
@@ -54,6 +55,8 @@
     
     [self.window makeKeyAndVisible];
     
+    // 连接到云巴
+    [YunBaService setupWithAppkey:YB_APP_KEY];
 //    [NSURLProtocol registerClass:[CustomURLProtocol class]];
     
     return YES;

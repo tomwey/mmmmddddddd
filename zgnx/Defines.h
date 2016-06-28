@@ -56,6 +56,9 @@
 #define kAboutPageURL  @"http://123.59.129.197/p/about"
 #define kChargePageURL @"http://123.59.129.197/p/charge_tip"
 
+#define YB_APP_KEY    @"57721c6ba957d5c868455331"
+#define YB_SECRET_KEY @"sec-A1lKpwytYD0wb56iofh4sFx3GyeZQ24uX4kLgSK7P2nilHKu"
+
 // 外部组件
 #import <AWMacros/AWMacros.h>
 #import <AWUITools/AWUITools.h>
