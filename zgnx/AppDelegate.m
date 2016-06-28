@@ -11,8 +11,11 @@
 #import "TestViewController.h"
 #import "CustomURLProtocol.h"
 #import "YunBaService.h"
+#import "DMSManager.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) DMSManager *dmsManager;
 
 @end
 
@@ -55,8 +58,12 @@
     
     [self.window makeKeyAndVisible];
     
-    // 连接到云巴
-    [YunBaService setupWithAppkey:YB_APP_KEY];
+    // 创建一个MQTT连接
+    self.dmsManager = [[DMSManager alloc] initWithClientId:@"online.user.client"];
+    [self.dmsManager connect:^(BOOL succeed, NSError *error) {
+        //        NSLog(@"error:%@", error);
+    }];
+//    [YunBaService setupWithAppkey:YB_APP_KEY];
 //    [NSURLProtocol registerClass:[CustomURLProtocol class]];
     
     return YES;

@@ -10,11 +10,13 @@
 #import "Defines.h"
 #import <UIImageView+AFNetworking.h>
 #import "StaticToolbar.h"
+#import "AppDelegate.h"
 //#import "ViewHistory.h"
 //#import "ViewHistoryTable.h"
 //#import "Stream.h"
 #import "Defines.h"
 #import "YunBaService.h"
+#import "DMSManager.h"
 
 NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
 NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotification";
@@ -130,22 +132,40 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     
     if ( [self.stream.type integerValue] == 1 &&
         [self.stream.video_file length] == 0 ) {
+        
+        NSString *topic = [NSString stringWithFormat:@"u%@", self.stream.stream_id];
+        
         // 订阅实时用户消息
-        [YunBaService subscribe:self.stream.stream_id resultBlock:^(BOOL succ, NSError *error) {
-            if ( succ ) {
-                NSLog(@"订阅实时用户数消息成功");
-            } else {
-                NSLog(@"yb: %@", error);
+        AppDelegate *app = [UIApplication sharedApplication].delegate;
+        DMSManager *dmsManager = app.dmsManager;
+        [dmsManager addMessageHandler:^(MQTTMessage *message) {
+            if ( [message.topic isEqualToString:topic] ) {
+                self.viewCountLabel.text = message.payloadString;
             }
         }];
+        [dmsManager subscribe:topic
+                   completion:^(BOOL succeed, NSError *error) {
+                       if ( succeed ) {
+                           NSLog(@"订阅实时用户数消息成功");
+                       } else {
+                           NSLog(@"ady: %@", error);
+                       }
+                   }];
+//        [YunBaService subscribe:self.stream.stream_id resultBlock:^(BOOL succ, NSError *error) {
+//            if ( succ ) {
+//                NSLog(@"订阅实时用户数消息成功");
+//            } else {
+//                NSLog(@"yb: %@", error);
+//            }
+//        }];
 
-        [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:kYBDidReceiveMessageNotification
-                                                      object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(onMessageReceived:)
-                                                     name:kYBDidReceiveMessageNotification
-                                                   object:nil];
+//        [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                        name:kYBDidReceiveMessageNotification
+//                                                      object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(onMessageReceived:)
+//                                                     name:kYBDidReceiveMessageNotification
+//                                                   object:nil];
     }
 }
 

@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class DMSManager;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-
+@property (nonatomic, strong, readonly) DMSManager *dmsManager;
 @end
 

@@ -175,9 +175,9 @@
         });
     }];
     
-    [self.dmsManager connect:^(BOOL succeed, NSError *error) {
-        //        NSLog(@"error:%@", error);
-    }];
+//    [self.dmsManager connect:^(BOOL succeed, NSError *error) {
+//        //        NSLog(@"error:%@", error);
+//    }];
     
     [self.dmsManager subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
         if ( succeed ) {
