@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8E1924CB6785D8D27F8C6CED /* libPods-zgnx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D499CD57F8E3EDC2FFE61F /* libPods-zgnx.a */; };
 		970900D41D21195E00FEE687 /* BannerPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970900D31D21195E00FEE687 /* BannerPageViewController.m */; };
+		970900D71D22149F00FEE687 /* PlayStatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 970900D61D22149F00FEE687 /* PlayStatManager.m */; };
 		971A740A1D015B5E00DA2D10 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74091D015B5E00DA2D10 /* TestViewController.m */; };
 		971A740C1D015CA900DA2D10 /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 971A740B1D015CA900DA2D10 /* test.mp4 */; };
 		971A74171D017F8400DA2D10 /* ButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74161D017F8400DA2D10 /* ButtonGroup.m */; };
@@ -258,6 +259,8 @@
 		66D499CD57F8E3EDC2FFE61F /* libPods-zgnx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zgnx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		970900D21D21195E00FEE687 /* BannerPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerPageViewController.h; sourceTree = "<group>"; };
 		970900D31D21195E00FEE687 /* BannerPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerPageViewController.m; sourceTree = "<group>"; };
+		970900D51D22149F00FEE687 /* PlayStatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayStatManager.h; sourceTree = "<group>"; };
+		970900D61D22149F00FEE687 /* PlayStatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayStatManager.m; sourceTree = "<group>"; };
 		971A74081D015B5E00DA2D10 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		971A74091D015B5E00DA2D10 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		971A740B1D015CA900DA2D10 /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
@@ -1144,6 +1147,8 @@
 				992998761D0C200700704FBA /* Bilibili.m */,
 				97F28AEB1D1A1BB700F8A02B /* CustomURLProtocol.h */,
 				97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */,
+				970900D51D22149F00FEE687 /* PlayStatManager.h */,
+				970900D61D22149F00FEE687 /* PlayStatManager.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1661,6 +1666,7 @@
 				99754EF91CFB472A007FA577 /* FeedbackViewController.m in Sources */,
 				9929986D1D09B3B600704FBA /* Stream.m in Sources */,
 				974EBE741CF58014000DE692 /* CustomNavBar.m in Sources */,
+				970900D71D22149F00FEE687 /* PlayStatManager.m in Sources */,
 				99FF5EC51D0DA5600078B22B /* AWModalAlert.m in Sources */,
 				9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */,
 				9756E8441CE01D1E0083B90C /* main.m in Sources */,

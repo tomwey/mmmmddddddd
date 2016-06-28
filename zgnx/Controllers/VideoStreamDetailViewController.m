@@ -24,6 +24,7 @@
 #import "Bilibili.h"
 #import "DMSManager.h"
 #import "BiliInputControl.h"
+#import "PlayStatManager.h"
 
 @interface VideoStreamDetailViewController () <PanelViewDataSource>
 
@@ -146,10 +147,10 @@
                                              selector:@selector(biliHistoryDidLoad:)
                                                  name:@"kBiliHistoryDidLoadNotification"
                                                object:nil];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self biliHistoryDidLoad:nil];
-//    });
     [self addDMSFunc];
+    
+    // 统计播放
+    [[PlayStatManager sharedInstance] playStat:self.stream];
 }
 
 - (void)addDMSFunc
@@ -355,22 +356,6 @@
     if ( !_biliView ) {
         _biliView = [[BiliView alloc] init];
         _biliView.streamId = self.stream.stream_id;
-//        __weak typeof(self) me = self;
-//        _biliView.didSendBiliBlock = ^(BiliView *view, Bilibili *bili) {
-//            // 如果开启了弹幕功能，就发送弹幕
-////            [me.playerView showBilibili:bili.content];
-//            
-//            // 广播给其他用户
-//            [[DMSManager sharedInstance] sendMessage:[bili jsonMessage]
-//                                             toTopic:me.stream.stream_id
-//                                          completion:^(int msgId, NSError *error) {
-//                if ( !error ) {
-//                    NSLog(@"发送成功！");
-//                } else {
-//                    NSLog(@"发送失败：%@", error);
-//                }
-//            }];
-//        };
     }
     
     self.inputControl.hidden = NO;
@@ -826,6 +811,9 @@
 
 - (void)dealloc
 {
+    // 如果是直播视频，要调用取消操作
+    [[PlayStatManager sharedInstance] cancelPlayStat:self.stream];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.dmsManager unsubscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
         

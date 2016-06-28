@@ -258,7 +258,15 @@
         case 2:
         {
             // 清理缓存
-            [SimpleToast showText:@"缓存清理成功"];
+            [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [[NSURLCache sharedURLCache] removeAllCachedResponses];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.contentView animated:YES];
+                    
+                    [SimpleToast showText:@"缓存清理成功"];
+                });
+            });
         }
             break;
         case 3:
