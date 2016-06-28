@@ -95,22 +95,11 @@
 {
     [super viewWillAppear:animated];
     
-//    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0);
-    
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-
     [self loadData];
     
-    // 每次进入个人中心的时候，获取一次最新的用户数据
-//    NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
-//    [[UserService sharedInstance] loadUserProfileForAuthToken:token completion:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    // 显示当前缓存控件使用情况
+    NSLog(@"mem: %.2fMB, disk: %.2fMB", [[NSURLCache sharedURLCache] currentMemoryUsage] / 1024.0 / 1024.0,
+          [[NSURLCache sharedURLCache] currentDiskUsage] / 1024.0 / 1024.0);
 }
 
 - (void)viewDidAppear:(BOOL)animated
