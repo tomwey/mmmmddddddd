@@ -85,6 +85,7 @@
 #import "AWModalAlert.h"
 #import <AWRefresh/UIScrollView+AWRefresh.h>
 #import "SimpleToast.h"
+#import "DeleteTipView.h"
 
 #import "CTMediator.h"
 

@@ -11,8 +11,9 @@
 #import <AWTableView/AWTableViewDataSource.h>
 #import "VideoCell.h"
 #import "LoadDataService.h"
+#import "ViewHistoryService.h"
 
-@interface CommonVODListViewController () <UITableViewDelegate, ReloadDelegate>
+@interface CommonVODListViewController () <UITableViewDelegate, ReloadDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView* tableView;
 
@@ -27,8 +28,10 @@
 @property (nonatomic, strong) LoadDataService *deleteDataService;
 
 @property (nonatomic, strong) UIButton *editButton;
+//
+//@property (nonatomic, assign) BOOL isEditing;
 
-@property (nonatomic, assign) BOOL isEditing;
+@property (nonatomic, strong) ViewHistoryService *deleteAllVHService;
 
 @end
 
@@ -40,10 +43,10 @@
     if ( self.fromType == StreamFromTypeHistory ||
         self.fromType == StreamFromTypeUploaded) {
         self.editButton = AWCreateTextButton(CGRectMake(0, 0, 40, 40),
-                                             @"编辑",
+                                             @"删除",
                                              [UIColor whiteColor],
                                              self,
-                                             @selector(edit));
+                                             @selector(deleteAll));
         self.navBar.rightItem = self.editButton;
     } else {
         self.navBar.rightItem = nil;
@@ -72,12 +75,22 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView removeBlankCells];
     
+    if ( self.fromType == StreamFromTypeHistory ||
+         self.fromType == StreamFromTypeUploaded ) {
+        NSString *identifier = self.fromType == StreamFromTypeHistory ? @"history" : @"uploaded";
+        CGRect frame = self.contentView.bounds;
+        frame.origin = CGPointMake(0, self.navBar.bottom);
+        [DeleteTipView showTip:identifier inView:self.view frame:frame];
+    }
+    
     __weak typeof(self) weakSelf = self;
     self.refreshControl = [self.tableView addRefreshControlWithReloadCallback:^(UIRefreshControl *control) {
         weakSelf.currentPage = 1;
         [weakSelf loadDataForPage:weakSelf.currentPage];
     }];
     self.refreshControl.tintColor = NAV_BAR_BG_COLOR;
+    
+    
     
 }
 
@@ -108,29 +121,38 @@
                                                   object:nil];
 }
 
-- (void)edit
+- (void)deleteAll
 {
-    if ( [[self.editButton currentTitle] isEqualToString:@"编辑"] ) {
-        [self.editButton setTitle:@"完成" forState:UIControlStateNormal];
-        self.isEditing = YES;
-        [self doEdit];
-    } else {
-        [self.editButton setTitle:@"编辑" forState:UIControlStateNormal];
-        self.isEditing = NO;
-        [self done];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定删除所有数据吗？"
+                                                    message:@"删除之后不能恢复"
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:@"确定", @"取消", nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ( buttonIndex == 0 ) {
+        // 删除所有的数据
+        if ( self.fromType == StreamFromTypeHistory ) {
+            // 删除观看历史
+            [self.deleteAllVHService deleteAllRecords:YES];
+            self.dataSource.dataSource = nil;
+            [self.tableView reloadData];
+        } else {
+            // 删除所有已经上传的视频
+            [self deleteVideo:nil];
+        }
     }
 }
 
-- (void)doEdit
+- (ViewHistoryService *)deleteAllVHService
 {
-    [self updateDSState];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kStartEditNotification" object:nil];
-}
-
-- (void)done
-{
-    [self updateDSState];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kEndEditNotification" object:nil];
+    if (!_deleteAllVHService) {
+        _deleteAllVHService = [[ViewHistoryService alloc] init];
+    }
+    return _deleteAllVHService;
 }
 
 - (void)updateDSState
@@ -144,27 +166,43 @@
     }];
 }
 
+- (void)deleteVideo:(Stream *)aStream
+{
+    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    __weak typeof(self) me = self;
+    NSString *token = [[[UserService sharedInstance] currentUser] authToken] ?: @"";
+    NSDictionary *params = nil;
+    if (!aStream) {
+        params = @{ @"token" : token };
+    } else {
+        params = @{
+                   @"token": token,
+                   @"vid": aStream.id_ ?: @(0),
+                   };
+    }
+    [self.deleteDataService POST:@"/videos/delete"
+                          params: params completion:^(id result, NSError *error) {
+                                       [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+                                       
+                                       if ( error ) {
+                                           [SimpleToast showText:@"删除失败"];
+                                       } else {
+                                           if ( !aStream ) {
+                                               me.dataSource.dataSource = nil;
+                                               [me.tableView reloadData];
+                                           } else {
+                                               [me reloadDataAndUpdateTable:aStream];
+                                           }
+                                       }
+                                   }];
+}
+
 - (void)cellDidDelete:(NSNotification *)noti
 {
     Stream *stream = [noti.object stream];
     
     if ( self.fromType == StreamFromTypeUploaded ) {
-        [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
-        __weak typeof(self) me = self;
-        NSString *token = [[[UserService sharedInstance] currentUser] authToken] ?: @"";
-        [self.deleteDataService POST:@"/videos/delete"
-                                       params:@{
-                                                @"token": token,
-                                                @"vid": stream.id_ ?: @(0),
-                                                } completion:^(id result, NSError *error) {
-                                                    [MBProgressHUD hideHUDForView:me.contentView animated:YES];
-                                                    
-                                                    if ( error ) {
-                                                        [SimpleToast showText:@"删除失败"];
-                                                    } else {
-                                                        [me reloadDataAndUpdateTable:stream];
-                                                    }
-                                                }];
+        [self deleteVideo:stream];
     } else {
         BOOL flag = [self performSelector:@selector(removeStream:) withObject:stream];
         

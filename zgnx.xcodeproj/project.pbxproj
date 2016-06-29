@@ -11,6 +11,7 @@
 		970900D41D21195E00FEE687 /* BannerPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970900D31D21195E00FEE687 /* BannerPageViewController.m */; };
 		970900D71D22149F00FEE687 /* PlayStatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 970900D61D22149F00FEE687 /* PlayStatManager.m */; };
 		970900DB1D225BF800FEE687 /* libYunBa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 970900D91D225BF800FEE687 /* libYunBa.a */; };
+		970903F21D23B9C000FEE687 /* DeleteTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 970903F11D23B9C000FEE687 /* DeleteTipView.m */; };
 		971A740A1D015B5E00DA2D10 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74091D015B5E00DA2D10 /* TestViewController.m */; };
 		971A740C1D015CA900DA2D10 /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 971A740B1D015CA900DA2D10 /* test.mp4 */; };
 		971A74171D017F8400DA2D10 /* ButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74161D017F8400DA2D10 /* ButtonGroup.m */; };
@@ -264,6 +265,8 @@
 		970900D61D22149F00FEE687 /* PlayStatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayStatManager.m; sourceTree = "<group>"; };
 		970900D91D225BF800FEE687 /* libYunBa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libYunBa.a; sourceTree = "<group>"; };
 		970900DA1D225BF800FEE687 /* YunBaService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YunBaService.h; sourceTree = "<group>"; };
+		970903F01D23B9C000FEE687 /* DeleteTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTipView.h; sourceTree = "<group>"; };
+		970903F11D23B9C000FEE687 /* DeleteTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTipView.m; sourceTree = "<group>"; };
 		971A74081D015B5E00DA2D10 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		971A74091D015B5E00DA2D10 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		971A740B1D015CA900DA2D10 /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
@@ -1346,6 +1349,8 @@
 				99DE49621D1452080027BB7C /* GrantView.m */,
 				99DE49691D1E33A60027BB7C /* BiliInputControl.h */,
 				99DE496A1D1E33A60027BB7C /* BiliInputControl.m */,
+				970903F01D23B9C000FEE687 /* DeleteTipView.h */,
+				970903F11D23B9C000FEE687 /* DeleteTipView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1662,6 +1667,7 @@
 				97F28AFB1D1B6B1E00F8A02B /* SimpleToast.m in Sources */,
 				972A243A1D01121E0036D166 /* VideoPlayer.m in Sources */,
 				974EBE7D1CF581FC000DE692 /* VODListViewController.m in Sources */,
+				970903F21D23B9C000FEE687 /* DeleteTipView.m in Sources */,
 				974EBE701CF57DD3000DE692 /* LiveModule.m in Sources */,
 				970900D41D21195E00FEE687 /* BannerPageViewController.m in Sources */,
 				99754EF61CFB46CB007FA577 /* LikesViewController.m in Sources */,

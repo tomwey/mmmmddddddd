@@ -88,6 +88,27 @@
     return YES;
 }
 
+- (void)deleteAllRecords:(BOOL)needSyncServer
+{
+    NSError* error = nil;
+    [self.vhTable deleteWithSql:@"delete from streams" params:nil error:&error];
+    if ( error ) {
+        NSLog(@"error: %@", error);
+        return;
+    }
+    
+    if ( needSyncServer ) {
+        User *user = [[UserService sharedInstance] currentUser];
+        NSString *token = user.authToken ?: @"";
+        
+        [self.apiManager sendRequest:APIRequestCreate(API_VIEW_HISTORY_DELETE,
+                                                      RequestMethodPost,
+                                                      @{
+                                                        @"token": token,
+                                                        })];
+    }
+}
+
 - (void)loadRecordsForUser:(User *)user page:(NSInteger)page completion:(void (^)(id result, NSError* error))completion
 {
     self.responseCallback = completion;

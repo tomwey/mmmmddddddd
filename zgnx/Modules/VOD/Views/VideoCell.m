@@ -87,21 +87,21 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         self.stream = data;
     }
     
-    if ( self.stream.fromType == StreamFromTypeHistory ||
-        self.stream.fromType == StreamFromTypeUploaded) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    if ( self.stream.fromType == StreamFromTypeHistory ||
+//        self.stream.fromType == StreamFromTypeUploaded) {
+//        [[NSNotificationCenter defaultCenter] removeObserver:self];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(doEdit)
-                                                     name:@"kStartEditNotification"
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(doneEdit)
-                                                     name:@"kEndEditNotification"
-                                                   object:nil];
-        
-        self.deleteButton.hidden = !self.stream.isEditing;
-    }
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(doEdit)
+//                                                     name:@"kStartEditNotification"
+//                                                   object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(doneEdit)
+//                                                     name:@"kEndEditNotification"
+//                                                   object:nil];
+//        
+//        self.deleteButton.hidden = !self.stream.isEditing;
+//    }
     
     NSLog(@"sid: %@", self.stream.stream_id);
     
@@ -258,6 +258,11 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         _containerView = [[UIView alloc] init];
         [self.contentView addSubview:_containerView];
         _containerView.backgroundColor = [UIColor whiteColor];
+        
+        UILongPressGestureRecognizer *longPress =
+        [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlePress:)];
+        longPress.minimumPressDuration = 0.3;
+        [_containerView addGestureRecognizer:longPress];
     }
     return _containerView;
 }
@@ -363,26 +368,27 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     return _likeCountLabel;
 }
 
-- (UIButton *)deleteButton
-{
-    if ( !_deleteButton ) {
-        _deleteButton = AWCreateImageButton(@"his_delete.png", self, @selector(delete));
-        [self.containerView addSubview:_deleteButton];
-    }
-    
-    [self.containerView bringSubviewToFront:_deleteButton];
-    
-    return _deleteButton;
-}
+//- (UIButton *)deleteButton
+//{
+//    if ( !_deleteButton ) {
+//        _deleteButton = AWCreateImageButton(@"his_delete.png", self, @selector(delete));
+//        [self.containerView addSubview:_deleteButton];
+//    }
+//    
+//    [self.containerView bringSubviewToFront:_deleteButton];
+//    
+//    return _deleteButton;
+//}
 
-- (void)delete
+- (void)handlePress:(UILongPressGestureRecognizer *)gesture
 {
-    [[[UIAlertView alloc] initWithTitle:@"您确定吗？"
-                               message:@"删除之后数据无法恢复"
-                              delegate:self
-                     cancelButtonTitle:nil
-                     otherButtonTitles:@"确定", @"取消", nil] show];
-    
+    if ( gesture.state == UIGestureRecognizerStateBegan ) {
+        [[[UIAlertView alloc] initWithTitle:@"您确定吗？"
+                                    message:@"删除之后数据无法恢复"
+                                   delegate:self
+                          cancelButtonTitle:nil
+                          otherButtonTitles:@"确定", @"取消", nil] show];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

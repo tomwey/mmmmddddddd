@@ -18,6 +18,8 @@
 
 - (BOOL)deleteRecord:(Stream *)vh needSyncServer:(BOOL)flag;
 
+- (void)deleteAllRecords:(BOOL)needSyncServer;
+
 - (void)loadRecordsForUser:(User *)user page:(NSInteger)page completion:(void (^)(id result, NSError* error))completion;
 
 - (void)syncRecordsToServer:(void (^)(id result, NSError* error))completion;
