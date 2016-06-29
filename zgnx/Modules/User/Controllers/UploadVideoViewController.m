@@ -40,6 +40,8 @@
 
 @property (nonatomic, assign) BOOL uploadingVideo;
 
+@property (nonatomic, strong) UIWebView *uploadIntroView;
+
 @end
 
 @implementation UploadVideoViewController
@@ -67,6 +69,9 @@
         if ( !error ) {
             me.captureVideoButton.enabled = YES;
             me.selectVideoButton.enabled = YES;
+            
+            // 加载视频简介
+            [me.uploadIntroView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kUploadIntroURL]]];
             
             me.uploadInfo = result;
         } else {
@@ -136,6 +141,8 @@
 
 - (void)uploadVideo:(NSURL *)outputURL
 {
+    self.uploadIntroView.hidden = YES;
+    
     self.progressView.hidden = NO;
     self.progressView.progress = 0.0;
     
@@ -157,6 +164,7 @@
     
     NSString *token = self.uploadInfo[@"token"];
     
+    __weak typeof(self) me = self;
     [self.uploadManager putData:data
                             key:self.uploadInfo[@"key"]
                           token:token
@@ -167,12 +175,12 @@
          //        [me.progressView removeFromSuperview];
          
          dispatch_async(dispatch_get_main_queue(), ^{
-             self.nextButton.hidden = NO;
+             me.nextButton.hidden = NO;
              
-             self.progressView.hidden = YES;
+             me.progressView.hidden = YES;
              
-             self.videoNameLabel.hidden = NO;
-             self.videoNameLabel.text = @"上传完成，请点击下一步！";//me.uploadInfo[@"filename"];
+             me.videoNameLabel.hidden = NO;
+             me.videoNameLabel.text = @"上传完成，请点击下一步！";//me.uploadInfo[@"filename"];
          });
      }
                          option:option];
@@ -473,6 +481,20 @@
         _nextButton.layer.borderWidth = 1;
     }
     return _nextButton;
+}
+
+- (UIWebView *)uploadIntroView
+{
+    if ( !_uploadIntroView ) {
+        _uploadIntroView = [[UIWebView alloc] init];
+        [self.contentView addSubview:_uploadIntroView];
+        _uploadIntroView.scalesPageToFit = YES;
+        _uploadIntroView.backgroundColor = BG_COLOR_GRAY;
+        _uploadIntroView.frame = CGRectMake(0, self.selectVideoButton.bottom + 20,
+                                            self.contentView.width,
+                                            self.contentView.height - self.selectVideoButton.bottom - 20);
+    }
+    return _uploadIntroView;
 }
 
 @end

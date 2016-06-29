@@ -53,8 +53,9 @@
 
 #define kPageSize 10
 
-#define kAboutPageURL  @"http://123.59.129.197/p/about"
-#define kChargePageURL @"http://123.59.129.197/p/charge_tip"
+#define kAboutPageURL   @"http://123.59.129.197/p/about"
+#define kChargePageURL  @"http://123.59.129.197/p/charge_tip"
+#define kUploadIntroURL @"http://123.59.129.197/p/upload_intro"
 
 #define YB_APP_KEY    @"57721c6ba957d5c868455331"
 #define YB_SECRET_KEY @"sec-A1lKpwytYD0wb56iofh4sFx3GyeZQ24uX4kLgSK7P2nilHKu"
