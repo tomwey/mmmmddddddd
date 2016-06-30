@@ -157,7 +157,12 @@
                                            
                                            if (!error) {
                                                [SimpleToast showText:@"登录成功"];
-                                               [self.navigationController popViewControllerAnimated:YES];
+                                               if ( self.navigationController ) {
+                                                   [self.navigationController popViewControllerAnimated:YES];
+                                               } else {
+                                                   [self dismissViewControllerAnimated:YES completion:nil];
+                                               }
+                                               
                                            } else {
                                                [Toast showText:error.domain].backgroundColor = NAV_BAR_BG_COLOR;
                                            }

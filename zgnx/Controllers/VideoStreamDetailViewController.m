@@ -770,23 +770,29 @@
     
     __weak typeof(self) me = self;
     NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
-    [self.socialStateService GET:@"/user/social_state" params:@{
-                                                                @"token": token,
-                                                                @"type": self.stream.type ?: @(2),
-                                                                @"vid": self.stream.id_,
-                                                                } completion:^(id result, NSError *error) {
-                                                                    [MBProgressHUD hideHUDForView:me.contentView animated:YES];
-                                                                    if ( !error ) {
-                                                                        BOOL liked = [result[@"liked"] boolValue];
-                                                                        BOOL favorited = [result[@"liked"] boolValue];
-                                                                        
-                                                                        me.stream.liked = @(liked);
-                                                                        me.stream.favorited = @(favorited);
-                                                                        
-                                                                        me.likeButton.selected = liked;
-                                                                        me.favoriteButton.selected = favorited;
-                                                                    }
-                                                                }];
+    [self.socialStateService GET:@"/user/social_state"
+                          params:@{
+                                    @"token": token,
+                                    @"type": self.stream.type ?: @(2),
+                                    @"vid": self.stream.id_,
+                                  }
+                      completion:^(id result, NSError *error)
+     {
+        [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+        if ( !error ) {
+            BOOL liked = [result[@"liked"] boolValue];
+            BOOL favorited = [result[@"liked"] boolValue];
+            
+            me.stream.liked = @(liked);
+            me.stream.favorited = @(favorited);
+            
+            me.likeButton.selected = liked;
+            me.favoriteButton.selected = favorited;
+            
+            me.toolbar.likeButton.selected = liked;
+            me.toolbar.favoriteButton.selected = favorited;
+        }
+     }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
