@@ -15,7 +15,6 @@
 //#import "ViewHistoryTable.h"
 //#import "Stream.h"
 #import "Defines.h"
-#import "YunBaService.h"
 #import "DMSManager.h"
 
 NSString * const kVideoCellDidSelectNotification = @"kVideoCellDidSelectNotification";
@@ -171,14 +170,14 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     }
 }
 
-- (void)onMessageReceived:(NSNotification *)noti
-{
-    YBMessage *message = [noti object];
-    if ( [message.topic isEqualToString:self.stream.stream_id] ) {
-        NSString *body = [[NSString alloc] initWithData:message.data encoding:NSUTF8StringEncoding];
-        self.viewCountLabel.text = body;
-    }
-}
+//- (void)onMessageReceived:(NSNotification *)noti
+//{
+//    YBMessage *message = [noti object];
+//    if ( [message.topic isEqualToString:self.stream.stream_id] ) {
+//        NSString *body = [[NSString alloc] initWithData:message.data encoding:NSUTF8StringEncoding];
+//        self.viewCountLabel.text = body;
+//    }
+//}
 
 - (void)dealloc
 {

@@ -10,7 +10,6 @@
 		8E1924CB6785D8D27F8C6CED /* libPods-zgnx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D499CD57F8E3EDC2FFE61F /* libPods-zgnx.a */; };
 		970900D41D21195E00FEE687 /* BannerPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 970900D31D21195E00FEE687 /* BannerPageViewController.m */; };
 		970900D71D22149F00FEE687 /* PlayStatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 970900D61D22149F00FEE687 /* PlayStatManager.m */; };
-		970900DB1D225BF800FEE687 /* libYunBa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 970900D91D225BF800FEE687 /* libYunBa.a */; };
 		970903F21D23B9C000FEE687 /* DeleteTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 970903F11D23B9C000FEE687 /* DeleteTipView.m */; };
 		971A740A1D015B5E00DA2D10 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 971A74091D015B5E00DA2D10 /* TestViewController.m */; };
 		971A740C1D015CA900DA2D10 /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 971A740B1D015CA900DA2D10 /* test.mp4 */; };
@@ -263,8 +262,6 @@
 		970900D31D21195E00FEE687 /* BannerPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerPageViewController.m; sourceTree = "<group>"; };
 		970900D51D22149F00FEE687 /* PlayStatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayStatManager.h; sourceTree = "<group>"; };
 		970900D61D22149F00FEE687 /* PlayStatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayStatManager.m; sourceTree = "<group>"; };
-		970900D91D225BF800FEE687 /* libYunBa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libYunBa.a; sourceTree = "<group>"; };
-		970900DA1D225BF800FEE687 /* YunBaService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YunBaService.h; sourceTree = "<group>"; };
 		970903F01D23B9C000FEE687 /* DeleteTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTipView.h; sourceTree = "<group>"; };
 		970903F11D23B9C000FEE687 /* DeleteTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTipView.m; sourceTree = "<group>"; };
 		971A74081D015B5E00DA2D10 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
@@ -615,7 +612,6 @@
 				9756E8811CE04BFF0083B90C /* AssetsLibrary.framework in Frameworks */,
 				97F28AF21D1A6C8800F8A02B /* MobileCoreServices.framework in Frameworks */,
 				978EF5F51D0E8B2F0091B053 /* AudioToolbox.framework in Frameworks */,
-				970900DB1D225BF800FEE687 /* libYunBa.a in Frameworks */,
 				978EF5F31D0E8B270091B053 /* VideoToolbox.framework in Frameworks */,
 				978EF5F11D0E8B200091B053 /* CoreVideo.framework in Frameworks */,
 				978EF5EF1D0E8B170091B053 /* AVFoundation.framework in Frameworks */,
@@ -658,15 +654,6 @@
 				A1D32B9AF838FF0721BFC625 /* Pods-zgnx.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		970900D81D225BF800FEE687 /* YunBaSDK */ = {
-			isa = PBXGroup;
-			children = (
-				970900D91D225BF800FEE687 /* libYunBa.a */,
-				970900DA1D225BF800FEE687 /* YunBaService.h */,
-			);
-			path = YunBaSDK;
 			sourceTree = "<group>";
 		};
 		974EBE201CF55DE6000DE692 /* CTMediator */ = {
@@ -1017,7 +1004,6 @@
 		9756E8411CE01D1E0083B90C /* zgnx */ = {
 			isa = PBXGroup;
 			children = (
-				970900D81D225BF800FEE687 /* YunBaSDK */,
 				978EF5B81D0E89860091B053 /* LivePlayer_iOS_SDK */,
 				9929987B1D0C6F2B00704FBA /* MQTTSDK */,
 				974EBE711CF58008000DE692 /* CustomNavBar */,
@@ -1840,9 +1826,9 @@
 					"\"UIKit\"",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testd.zgnx;
+				PRODUCT_BUNDLE_IDENTIFIER = tv.yaying.zglytv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a5dc1ba1-4a96-4770-9b97-d9be1bacf11b";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -1865,9 +1851,9 @@
 					"$(PROJECT_DIR)/zgnx/LivePlayer_iOS_SDK/libs",
 					"$(PROJECT_DIR)/zgnx/YunBaSDK",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testd.zgnx;
+				PRODUCT_BUNDLE_IDENTIFIER = tv.yaying.zglytv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a5dc1ba1-4a96-4770-9b97-d9be1bacf11b";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;

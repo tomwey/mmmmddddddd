@@ -10,7 +10,6 @@
 #import "Defines.h"
 #import "TestViewController.h"
 #import "CustomURLProtocol.h"
-#import "YunBaService.h"
 #import "DMSManager.h"
 
 @interface AppDelegate ()
