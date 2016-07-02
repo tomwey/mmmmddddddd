@@ -430,6 +430,7 @@
         self.progressSlider.value = 0.0f;
     }
     
+    NSLog(@"playback state: %d", [self.livePlayer playbackState]);
     if ( [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
         [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
     } else {
@@ -564,11 +565,13 @@
     {
         NSLog(@"finish buffering");
         [self.bufferingIndicator stopAnimating];
+        [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
     }
     else if (nelpLoadState == NELPMovieLoadStateStalled)
     {
         NSLog(@"begin buffering");
         [self.bufferingIndicator startAnimating];
+        [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -611,6 +614,12 @@
 - (void)NELivePlayerFirstVideoDisplayed:(NSNotification*)notification
 {
     NSLog(@"first video frame rendered!");
+    
+//    if ( [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
+//        [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
+//    } else {
+//        [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
+//    }
 }
 
 - (void)NELivePlayerReleaseSuccess:(NSNotification*)notification

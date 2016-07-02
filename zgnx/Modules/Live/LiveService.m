@@ -8,6 +8,7 @@
 
 #import "LiveService.h"
 #import "Defines.h"
+#import "UserService.h"
 
 @interface LiveService () <APIManagerDelegate>
 
@@ -40,7 +41,8 @@
         self.livingVideoAPIManager = [[APIManager alloc] initWithDelegate:self];
     }
     
-    [self.livingVideoAPIManager sendRequest:APIRequestCreate(API_LIVING_VIDOES, RequestMethodGet, nil )];
+    NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+    [self.livingVideoAPIManager sendRequest:APIRequestCreate(API_LIVING_VIDOES, RequestMethodGet, @{ @"token": token } )];
 }
 
 - (void)loadHotLivedVideosForPage:(NSInteger)pageNo
