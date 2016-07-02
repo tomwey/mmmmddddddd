@@ -124,9 +124,19 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
                                             
     }];
     
-    self.viewCountLabel.text = [self.stream.view_count description];
-    self.msgCountLabel.text  = [self.stream.msg_count description];
-    self.likeCountLabel.text = [self.stream.likes_count description];
+    NSInteger viewCount = [self.stream.view_count integerValue];
+    NSInteger msgCount  = [self.stream.msg_count integerValue];
+    NSInteger likeCount = [self.stream.likes_count integerValue];
+    
+    NSString* viewCountText = viewCount >= 10000 ? [NSString stringWithFormat:@"%.1f万", viewCount / 10000.0] : [self.stream.view_count description];
+    
+    NSString* msgCountText = msgCount >= 10000 ? [NSString stringWithFormat:@"%.1f万", msgCount / 10000.0] : [self.stream.msg_count description];
+    
+    NSString* likeCountText = likeCount >= 10000 ? [NSString stringWithFormat:@"%.1f万", likeCount / 10000.0] : [self.stream.likes_count description];
+    
+    self.viewCountLabel.text = viewCountText;
+    self.msgCountLabel.text  = msgCountText;
+    self.likeCountLabel.text = likeCountText;
 //    self.msgCountLabel.hidden = YES;
     
     NSLog(@"type: %@, video_file: %@, sid: %@", self.stream.type,
@@ -212,7 +222,9 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     size = [self.likeCountLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.likeCountLabel.font }];
     
     self.likeCountLabel.frame = CGRectMake(0, 0, size.width, size.height );
-    self.likeCountLabel.center = CGPointMake(self.likeIconView.right + 8, self.msgIconView.midY);
+    self.likeCountLabel.center = CGPointMake(self.containerView.width / 2 + 8 + self.likeIconView.width, self.msgIconView.midY);
+    
+    self.likeIconView.left = self.likeCountLabel.left - 8 - self.likeIconView.width;
     
     if ( self.stream.fromType == StreamFromTypeHistory ||
         self.stream.fromType == StreamFromTypeUploaded ) {
@@ -346,7 +358,7 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
 - (UILabel *)likeCountLabel
 {
     if ( !_likeCountLabel ) {
-        _likeCountLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentCenter,
+        _likeCountLabel = AWCreateLabel(CGRectZero, nil, NSTextAlignmentLeft,
                                        nil,
                                        [UIColor grayColor]);
         [self.containerView addSubview:_likeCountLabel];
