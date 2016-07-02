@@ -573,7 +573,7 @@
         _extraButtons = [[NSArray alloc] initWithObjects:self.biliButton,self.likeButton, self.favoriteButton, nil];
     }
     
-    self.biliButton.selected = !self.biliOpening;
+    self.biliButton.selected = self.biliOpening;
     self.likeButton.selected = [self.stream.liked boolValue];
     self.favoriteButton.selected = [self.stream.favorited boolValue];
     
@@ -583,11 +583,11 @@
 - (UIButton *)biliButton
 {
     if ( !_biliButton ) {
-        _biliButton = AWCreateImageButton(@"btn_bili_open.png",
+        _biliButton = AWCreateImageButton(@"btn_bili_close.png",
                                           self, @selector(openOrCloseBili:));
-        [_biliButton setImage:[UIImage imageNamed:@"btn_bili_close.png"]
+        [_biliButton setImage:[UIImage imageNamed:@"btn_bili_open.png"]
                      forState:UIControlStateSelected];
-        _biliButton.selected = !self.biliOpening;
+        _biliButton.selected = self.biliOpening;
     }
     
     return _biliButton;

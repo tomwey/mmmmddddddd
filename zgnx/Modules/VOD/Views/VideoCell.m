@@ -129,6 +129,8 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     self.likeCountLabel.text = [self.stream.likes_count description];
 //    self.msgCountLabel.hidden = YES;
     
+    NSLog(@"type: %@, video_file: %@, sid: %@", self.stream.type,
+          self.stream.video_file, self.stream.stream_id);
     if ( [self.stream.type integerValue] == 1 &&
         [self.stream.video_file length] == 0 ) {
         
@@ -152,21 +154,6 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
                            NSLog(@"ady: %@", error);
                        }
                    }];
-//        [YunBaService subscribe:self.stream.stream_id resultBlock:^(BOOL succ, NSError *error) {
-//            if ( succ ) {
-//                NSLog(@"订阅实时用户数消息成功");
-//            } else {
-//                NSLog(@"yb: %@", error);
-//            }
-//        }];
-
-//        [[NSNotificationCenter defaultCenter] removeObserver:self
-//                                                        name:kYBDidReceiveMessageNotification
-//                                                      object:nil];
-//        [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                 selector:@selector(onMessageReceived:)
-//                                                     name:kYBDidReceiveMessageNotification
-//                                                   object:nil];
     }
 }
 

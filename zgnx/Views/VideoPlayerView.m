@@ -430,7 +430,7 @@
         self.progressSlider.value = 0.0f;
     }
     
-    NSLog(@"playback state: %d", [self.livePlayer playbackState]);
+//    NSLog(@"playback state: %d", [self.livePlayer playbackState]);
     if ( [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
         [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
     } else {
@@ -551,10 +551,10 @@
     
     self.controlOverlay.hidden = NO;
     
-    if ( self.mediaType == VideoPlayerMediaTypeVOD ) {
+//    if ( self.mediaType == VideoPlayerMediaTypeVOD ) {
         [self.progressTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kUpdatePlayProgressTimerInterval]];
         [self.autoHideTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoHideTimerInterval]];
-    }
+//    }
 }
 
 - (void)NeLivePlayerloadStateChanged:(NSNotification*)notification
