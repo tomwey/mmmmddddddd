@@ -82,7 +82,7 @@
 
 - (void)setup
 {
-    self.frame = CGRectMake(0, 0, AWFullScreenWidth(),AWFullScreenWidth() * 0.382);
+    self.frame = CGRectMake(0, 0, AWFullScreenWidth(),AWFullScreenWidth() * 0.537);
     
     // 分页视图
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
