@@ -23,7 +23,7 @@
 
 @property (nonatomic, assign) BOOL hasNextPage;
 @property (nonatomic, assign) BOOL allowLoading;
-@property (nonatomic, assign) BOOL currentPage;
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 @implementation BiliView
