@@ -105,16 +105,14 @@
 
 - (void)backToLastPage
 {
-    if ( self.fromLogin ) {
-        NSUInteger count = [self.navigationController.viewControllers count];
-        if ( count - 3 > 0 ) {
-            // count - 2 是Login页面
-            UIViewController *vc = self.navigationController.viewControllers[count - 3];
-            [self.navigationController popToViewController:vc animated:YES];
-        }
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
+    NSUInteger count = [self.navigationController.viewControllers count];
+    NSInteger index = count - 2;
+    UIViewController *vc = self.navigationController.viewControllers[index];
+    if ( [NSStringFromClass([vc class]) isEqualToString:@"LoginViewController"] ) {
+        vc = self.navigationController.viewControllers[index - 1];
     }
+    
+    [self.navigationController popToViewController:vc animated:YES];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info

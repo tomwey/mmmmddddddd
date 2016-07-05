@@ -10,6 +10,4 @@
 
 @interface UploadVideoViewController : BaseNavBarViewController
 
-@property (nonatomic, assign) BOOL fromLogin;
-
 @end
