@@ -577,6 +577,7 @@
 
 - (void)NELivePlayerPlayBackFinished:(NSNotification*)notification
 {
+    NSLog(@"finished: %@", [[notification userInfo] objectForKey:NELivePlayerPlaybackDidFinishReasonUserInfoKey]);
     switch ([[[notification userInfo] valueForKey:NELivePlayerPlaybackDidFinishReasonUserInfoKey] intValue])
     {
         case NELPMovieFinishReasonPlaybackEnded:
@@ -596,8 +597,14 @@
         case NELPMovieFinishReasonPlaybackError:
             [self.bufferingIndicator stopAnimating];
             
+            NSString *msg = nil;
+            if ( self.mediaType == VideoPlayerMediaTypeLive ) {
+                msg = @"直播失败或者直播未开始";
+            } else {
+                msg = @"播放失败或者视频文件不存在";
+            }
             [[[UIAlertView alloc] initWithTitle:@"注意"
-                                        message:@"播放失败"
+                                        message:msg
                                        delegate:nil
                               cancelButtonTitle:nil
                               otherButtonTitles:@"OK", nil] show];

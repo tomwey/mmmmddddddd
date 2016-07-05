@@ -231,6 +231,7 @@
     User* user = [[UserService sharedInstance] currentUser];
     if ( !user ) {
         self.needLoadSocialState = YES;
+        [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
         UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
         [self presentViewController:vc animated:YES completion:nil];
         return NO;
@@ -812,7 +813,7 @@
 {
     [super viewDidAppear:animated];
     
-    self.allowRotation = YES;
+//    self.allowRotation = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -838,6 +839,7 @@
     if ( UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]) ) {
         [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
     } else {
+        self.allowRotation = YES;
         [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
     }
 }
