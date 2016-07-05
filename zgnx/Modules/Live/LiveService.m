@@ -42,7 +42,7 @@
     }
     
     NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
-    [self.livingVideoAPIManager sendRequest:APIRequestCreate(API_LIVING_VIDOES, RequestMethodGet, @{ @"token": token } )];
+    [self.livingVideoAPIManager sendRequest:APIRequestCreate(API_LIVING_VIDOES, RequestMethodGet, @{ @"token": token, @"pl": @"iOS" } )];
 }
 
 - (void)loadHotLivedVideosForPage:(NSInteger)pageNo
