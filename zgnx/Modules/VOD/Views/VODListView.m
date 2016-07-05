@@ -102,6 +102,8 @@
     
     if ( pageNo == 1 ) {
 //        [MBProgressHUD showHUDAddedTo:self animated:YES];
+        self.tableView.hidden = YES;
+        
         __weak typeof(self) weakSelf = self;
         
         self.bannerView.categoryId = self.catalogID;
@@ -144,6 +146,7 @@
                 self.dataSource.dataSource = results[@"data"];
             }
             
+            self.tableView.hidden = NO;
             [self.tableView reloadData];
             
             if ( [results[@"data"] count] < kPageSize ) {
