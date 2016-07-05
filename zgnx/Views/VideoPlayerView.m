@@ -581,6 +581,7 @@
     switch ([[[notification userInfo] valueForKey:NELivePlayerPlaybackDidFinishReasonUserInfoKey] intValue])
     {
         case NELPMovieFinishReasonPlaybackEnded:
+        {
             if (self.mediaType == VideoPlayerMediaTypeLive) {
                 [[[UIAlertView alloc] initWithTitle:@"提示"
                                            message:@"直播结束"
@@ -592,9 +593,11 @@
                 
                 [self.progressTimer setFireDate:[NSDate distantFuture]];
             }
+        }
             break;
             
         case NELPMovieFinishReasonPlaybackError:
+        {
             [self.bufferingIndicator stopAnimating];
             
             NSString *msg = nil;
@@ -608,6 +611,7 @@
                                        delegate:nil
                               cancelButtonTitle:nil
                               otherButtonTitles:@"OK", nil] show];
+        }
             break;
             
         case NELPMovieFinishReasonUserExited:
