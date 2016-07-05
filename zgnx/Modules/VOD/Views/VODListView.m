@@ -13,6 +13,7 @@
 #import <AWTableView/UITableView+LoadEmptyOrErrorHandle.h>
 #import "Defines.h"
 #import "VideoCell.h"
+#import "BannerView.h"
 
 @interface VODListView () <ReloadDelegate, UITableViewDelegate>
 
@@ -25,6 +26,8 @@
 
 @property (nonatomic, assign) BOOL hasNextPage;
 @property (nonatomic, assign) BOOL allowLoading;
+
+@property (nonatomic, strong) BannerView *bannerView;
 
 @end
 @implementation VODListView
@@ -68,6 +71,9 @@
     self.tableView.rowHeight = [VideoCell cellHeight];
     self.tableView.showsVerticalScrollIndicator = NO;
     
+    self.bannerView = [[BannerView alloc] init];
+    self.tableView.tableHeaderView = self.bannerView;
+    
     __weak typeof(self)weakSelf = self;
     self.refreshControl = [self.tableView addRefreshControlWithReloadCallback:^(UIRefreshControl *control) {
         if ( control ) {
@@ -84,8 +90,9 @@
     }
     
     self.currentPage = 1;
+    __weak typeof(self)weakSelf = self;
     [self startLoadForPage:self.currentPage completion:^(BOOL succeed) {
-        [self.refreshControl endRefreshing];
+        [weakSelf.refreshControl endRefreshing];
     }];
 }
 
@@ -95,6 +102,20 @@
     
     if ( pageNo == 1 ) {
 //        [MBProgressHUD showHUDAddedTo:self animated:YES];
+        __weak typeof(self) weakSelf = self;
+        
+        self.bannerView.categoryId = self.catalogID;
+        [self.bannerView startLoading:^(id selectItem) {
+            if ( weakSelf.didClickBannerBlock ) {
+                weakSelf.didClickBannerBlock(selectItem);
+            }
+        } completionCallback:^(NSArray *result, NSError *error) {
+            if ( [result count] == 0 ) {
+                weakSelf.tableView.tableHeaderView = nil;
+            } else {
+                weakSelf.tableView.tableHeaderView = self.bannerView;
+            }
+        }];
     }
     
     [[VODService sharedInstance] loadWithCatalogID:_catalogID
@@ -149,10 +170,12 @@
         self.reloadBlock(NO);
     }
     
+    __weak typeof(self) weakSelf = self;
+    
     self.currentPage = 1;
     [self startLoadForPage:self.currentPage completion:^(BOOL succeed) {
-        if ( self.reloadBlock ) {
-            self.reloadBlock(succeed);
+        if ( weakSelf.reloadBlock ) {
+            weakSelf.reloadBlock(succeed);
         }
     }];
 }

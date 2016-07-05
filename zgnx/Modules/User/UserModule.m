@@ -76,7 +76,9 @@
 - (UIViewController *)CTMediator_openUploadVCWithAuthToken:(NSString *)token
 {
     if ( [[UserService sharedInstance] isLoginedForUser:nil] == NO ) {
-        return [[LoginViewController alloc] init];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.returnTo = @"upload.page";
+        return lvc;
     }
     return [[UploadVideoViewController alloc] init];
 }

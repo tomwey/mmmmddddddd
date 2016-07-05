@@ -12,4 +12,9 @@
 
 - (void)startLoading:(void (^)(id selectItem))selectCallback;
 
+- (void)startLoading:(void (^)(id selectItem))selectCallback
+  completionCallback:(void (^)(NSArray *result, NSError *error))completion;
+
+@property (nonatomic, copy) NSString *categoryId;
+
 @end

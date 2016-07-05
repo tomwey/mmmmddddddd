@@ -64,6 +64,7 @@
 @property (nonatomic, strong) NSTimer*              scrollTimer;
 
 @property (nonatomic, copy)   void (^didSelectItem)(id selectItem);
+@property (nonatomic, copy)   void (^completionBlock)(NSArray *result, NSError *error);
 
 @property (nonatomic, strong) UIActivityIndicatorView* spinner;
 
@@ -129,16 +130,30 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)startLoading:(void (^)(id selectItem))callback
 {
-    self.didSelectItem = callback;
+    [self startLoading:callback completionCallback:nil];
+}
+
+- (void)startLoading:(void (^)(id selectItem))selectCallback
+  completionCallback:(void (^)(NSArray *result, NSError *error))completion
+{
+    self.didSelectItem = selectCallback;
+    self.completionBlock = completion;
     
     if ( !self.apiManager ) {
         self.apiManager = [[APIManager alloc] initWithDelegate:self];
     }
     
     if ([self.spinner isAnimating] == NO) {
-        [self.spinner startAnimating];
+        if ( !self.categoryId ) {
+            [self.spinner startAnimating];
+        }
     }
-    [self.apiManager sendRequest:APIRequestCreate(API_BANNERS, RequestMethodGet, nil)];
+    
+    if ( self.categoryId ) {
+        [self.apiManager sendRequest:APIRequestCreate([NSString stringWithFormat:@"/banners/category/%@", self.categoryId], RequestMethodGet, nil)];
+    } else {
+        [self.apiManager sendRequest:APIRequestCreate(API_BANNERS, RequestMethodGet, nil)];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,6 +162,10 @@
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController
                viewControllerBeforeViewController:(BannerViewController *)viewController
 {
+    if ( [self.dataSource count] == 1 ) {
+        return nil;
+    }
+    
     NSInteger index = viewController.pageIndex - 1;
     if ( index < 0 ) {
         index = [self.dataSource count] - 1;
@@ -159,6 +178,10 @@
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController
                 viewControllerAfterViewController:(BannerViewController *)viewController
 {
+    if ( [self.dataSource count] == 1 ) {
+        return nil;
+    }
+    
     NSInteger index = viewController.pageIndex + 1;
     if ( index > [self.dataSource count] - 1 ) {
         index = 0;
@@ -185,7 +208,9 @@ willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewContro
 {
     if ( completed ) {
         // 启动自动滚动
-        [self.scrollTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoScrollInterval]];
+        if ( [self.dataSource count] > 1 ) {
+            [self.scrollTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoScrollInterval]];
+        }
         
         BannerViewController* bvc = [pageViewController.viewControllers firstObject];
         self.pageControl.currentPage = bvc.pageIndex;
@@ -200,11 +225,17 @@ willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewContro
 {
     self.dataSource = [[manager fetchDataWithReformer:nil] objectForKey:@"data"];
     
+    if ( self.completionBlock ) {
+        self.completionBlock([NSArray arrayWithArray:self.dataSource], nil);
+    }
+    
     if ( [self.dataSource count] > 0 ) {
         self.pageViewController.dataSource = self;
         
         // 3。0后启动定时器
-        [self.scrollTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoScrollInterval]];
+        if ( [self.dataSource count] > 1 ) { // 超过1张图片才自动滚动
+            [self.scrollTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kAutoScrollInterval]];
+        }
         
         // 滚动到第一页
         [self scrollToPage:0 animated:NO];
@@ -216,6 +247,11 @@ willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewContro
 - (void)apiManagerDidFailure:(APIManager *)manager
 {
     NSLog(@"Error: %@", manager.apiError);
+    if ( self.completionBlock ) {
+        self.completionBlock(nil, [NSError errorWithDomain:manager.apiError.message
+                                                      code:manager.apiError.code
+                                                  userInfo:nil]);
+    }
 }
 
 - (void)apiManagerDidFinish:(APIManager *)manager

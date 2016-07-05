@@ -44,4 +44,27 @@
     [[Toast showText:@"Oops, 加载失败了！"] setBackgroundColor:NAV_BAR_BG_COLOR];
 }
 
+- (BOOL)           webView:(UIWebView *)webView
+shouldStartLoadWithRequest:(NSURLRequest *)request
+            navigationType:(UIWebViewNavigationType)navigationType
+{
+    if ( navigationType == UIWebViewNavigationTypeLinkClicked ) {
+        NSString *url = [request.URL absoluteString];
+        if ( [url hasPrefix:@"zglytv://upload"] ) {
+            // 打开上传页面
+            NSString *cidPair = [[url componentsSeparatedByString:@"?"] lastObject];
+            NSString *cid = [[cidPair componentsSeparatedByString:@"="] lastObject];
+            
+            if ( cid ) {
+                [[NSUserDefaults standardUserDefaults] setObject:cid forKey:@"upload.cid"];
+            }
+            
+            UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
+            [self.navigationController pushViewController:vc animated:YES];
+            return NO;
+        }
+    }
+    return YES;
+}
+
 @end

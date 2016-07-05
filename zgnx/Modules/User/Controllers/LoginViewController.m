@@ -158,7 +158,12 @@
                                            if (!error) {
                                                [SimpleToast showText:@"登录成功"];
                                                if ( self.navigationController ) {
-                                                   [self.navigationController popViewControllerAnimated:YES];
+                                                   if ( [self.returnTo isEqualToString:@"upload.page"] ) {
+                                                       UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
+                                                       [self.navigationController pushViewController:vc animated:YES];
+                                                   } else {
+                                                       [self.navigationController popViewControllerAnimated:YES];
+                                                   }
                                                } else {
                                                    [self dismissViewControllerAnimated:YES completion:nil];
                                                }

@@ -92,13 +92,27 @@
                                               otherButtonTitles:@"确定", @"取消", nil];
         [alert show];
     } else {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self backToLastPage];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if ( buttonIndex == 0 ) {
+        [self backToLastPage];
+    }
+}
+
+- (void)backToLastPage
+{
+    if ( self.fromLogin ) {
+        NSUInteger count = [self.navigationController.viewControllers count];
+        if ( count - 3 > 0 ) {
+            // count - 2 是Login页面
+            UIViewController *vc = self.navigationController.viewControllers[count - 3];
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    } else {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

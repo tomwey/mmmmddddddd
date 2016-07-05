@@ -110,7 +110,8 @@
                                @"title": title,
                                @"body": self.bodyView.text ?: @"",
                                @"cover_image": UIImageJPEGRepresentation(self.coverImage, 0.9),
-                               @"filename": self.filename ?: @""
+                               @"filename": self.filename ?: @"",
+                               @"category_id": [[NSUserDefaults standardUserDefaults] objectForKey:@"upload.cid"] ?: @(-1),
                             }
                 completion:^(id result, NSError *error)
     {

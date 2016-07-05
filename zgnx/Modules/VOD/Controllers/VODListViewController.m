@@ -13,12 +13,16 @@
 #import "SwipeView.h"
 #import "VODListView.h"
 #import "VideoCell.h"
+#import "BannerPageViewController.h"
+#import "LoadDataService.h"
 
 @interface VODListViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
 @property (nonatomic, copy) NSArray*          catalogs;
 @property (nonatomic, weak) PagerTabStripper* tabStripper;
 @property (nonatomic, strong) SwipeView*      swipeView;
+
+@property (nonatomic, strong) LoadDataService *loadStreamService;
 
 @end
 
@@ -161,6 +165,11 @@
         }
     };
     
+    listView.didClickBannerBlock = ^(id bannerInfo) {
+//        NSLog(@"banner info: %@", bannerInfo);
+        [self openBanner:bannerInfo];
+    };
+    
     return listView;
 }
 
@@ -172,6 +181,47 @@
         [self swipeStartLoad];
     });
     
+}
+
+- (void)openBanner:(id)bannerInfo
+{
+    NSString *link = bannerInfo[@"link"];
+    
+    if ( [link hasPrefix:@"http"] ) {
+        // 网页广告
+        BannerPageViewController *vc = [[BannerPageViewController alloc] init];
+        vc.adLink = link;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        // 连接到一个视频
+        [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+        
+        __weak typeof(self) me = self;
+        NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+        NSString *uri = [NSString stringWithFormat:@"/streams/%@", link];
+        [self.loadStreamService GET:uri
+                             params:@{
+                                      @"token": token
+                                      } completion:^(id result, NSError *error) {
+                                          [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+                                          
+                                          if ( error ) {
+                                              [SimpleToast showText:@"打开视频失败！"];
+                                          } else {
+                                              Stream *stream = [[Stream alloc] initWithDictionary:result[@"data"]];
+                                              UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:stream];
+                                              [me presentViewController:vc animated:YES completion:nil];
+                                          }
+                                      }];
+    }
+}
+
+- (LoadDataService *)loadStreamService
+{
+    if ( !_loadStreamService ) {
+        _loadStreamService = [[LoadDataService alloc] init];
+    }
+    return _loadStreamService;
 }
 
 @end

@@ -13,6 +13,7 @@
 @property (nonatomic, copy) NSString* catalogID;
 
 @property (nonatomic, copy) void (^reloadBlock)(BOOL succeed);
+@property (nonatomic, copy) void (^didClickBannerBlock)(id bannerInfo);
 
 - (void)startLoadForPage:(NSUInteger)pageNo completion:( void (^)(BOOL succeed) )completion;
 

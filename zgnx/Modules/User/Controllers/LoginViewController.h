@@ -10,4 +10,6 @@
 
 @interface LoginViewController : BaseNavBarViewController
 
+@property (nonatomic, copy) NSString *returnTo;
+
 @end
