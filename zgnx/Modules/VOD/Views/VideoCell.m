@@ -86,22 +86,6 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         self.stream = data;
     }
     
-//    if ( self.stream.fromType == StreamFromTypeHistory ||
-//        self.stream.fromType == StreamFromTypeUploaded) {
-//        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        
-//        [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                 selector:@selector(doEdit)
-//                                                     name:@"kStartEditNotification"
-//                                                   object:nil];
-//        [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                 selector:@selector(doneEdit)
-//                                                     name:@"kEndEditNotification"
-//                                                   object:nil];
-//        
-//        self.deleteButton.hidden = !self.stream.isEditing;
-//    }
-    
     NSLog(@"sid: %@", self.stream.stream_id);
     
     self.titleLabel.text = self.stream.title;
@@ -166,15 +150,6 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
                    }];
     }
 }
-
-//- (void)onMessageReceived:(NSNotification *)noti
-//{
-//    YBMessage *message = [noti object];
-//    if ( [message.topic isEqualToString:self.stream.stream_id] ) {
-//        NSString *body = [[NSString alloc] initWithData:message.data encoding:NSUTF8StringEncoding];
-//        self.viewCountLabel.text = body;
-//    }
-//}
 
 - (void)dealloc
 {
@@ -365,18 +340,6 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     }
     return _likeCountLabel;
 }
-
-//- (UIButton *)deleteButton
-//{
-//    if ( !_deleteButton ) {
-//        _deleteButton = AWCreateImageButton(@"his_delete.png", self, @selector(delete));
-//        [self.containerView addSubview:_deleteButton];
-//    }
-//    
-//    [self.containerView bringSubviewToFront:_deleteButton];
-//    
-//    return _deleteButton;
-//}
 
 - (void)handlePress:(UILongPressGestureRecognizer *)gesture
 {
