@@ -15,6 +15,8 @@
 - (void)startLoading:(void (^)(id selectItem))selectCallback
   completionCallback:(void (^)(NSArray *result, NSError *error))completion;
 
+- (void)invalidateTimer;
+
 @property (nonatomic, copy) NSString *categoryId;
 
 @end

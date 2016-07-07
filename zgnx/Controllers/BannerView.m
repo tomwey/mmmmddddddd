@@ -121,6 +121,7 @@
 
 - (void)dealloc
 {
+    NSLog(@"dealloc");
     [self.scrollTimer invalidate];
     self.scrollTimer = nil;
     self.didSelectItem = nil;
@@ -155,6 +156,12 @@
     } else {
         [self.apiManager sendRequest:APIRequestCreate(API_BANNERS, RequestMethodGet, nil)];
     }
+}
+
+- (void)invalidateTimer
+{
+    [self.scrollTimer invalidate];
+    self.scrollTimer = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

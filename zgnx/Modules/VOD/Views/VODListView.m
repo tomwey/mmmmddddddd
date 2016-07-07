@@ -83,6 +83,12 @@
     self.refreshControl.tintColor = NAV_BAR_BG_COLOR;
 }
 
+- (void)dealloc
+{
+    NSLog(@"dealloc");
+    [self.bannerView invalidateTimer];
+}
+
 - (void)startLoad
 {
     if ( !self.refreshControl.isRefreshing ) {
@@ -102,7 +108,7 @@
     
     if ( pageNo == 1 ) {
 //        [MBProgressHUD showHUDAddedTo:self animated:YES];
-        self.tableView.hidden = YES;
+//        self.tableView.hidden = YES;
         
         __weak typeof(self) weakSelf = self;
         
@@ -176,6 +182,7 @@
     __weak typeof(self) weakSelf = self;
     
     self.currentPage = 1;
+    self.tableView.hidden = YES;
     [self startLoadForPage:self.currentPage completion:^(BOOL succeed) {
         if ( weakSelf.reloadBlock ) {
             weakSelf.reloadBlock(succeed);
