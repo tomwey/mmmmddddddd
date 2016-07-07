@@ -45,7 +45,8 @@
     
     UIImageView* imageView = AWCreateImageView(nil);
     [self.view addSubview:imageView];
-    imageView.frame = self.view.bounds;
+    imageView.frame = CGRectMake(0, 0, AWFullScreenWidth(),
+                                 AWFullScreenWidth() * 0.537);
     imageView.backgroundColor = [UIColor grayColor];
     
     imageView.image = nil;
@@ -172,7 +173,11 @@
     }
 
     NSString* url = [[self.dataSource objectAtIndex:index] objectForKey:@"image"];
-    return [BannerViewController viewControllerWithPageIndex:index imageUrl:url];
+    BannerViewController *bvc = [BannerViewController viewControllerWithPageIndex:index imageUrl:url];
+    
+    bvc.view.frame = self.pageViewController.view.bounds;
+    
+    return bvc;
 }
 
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController
@@ -188,7 +193,11 @@
     }
     
     NSString* url = [[self.dataSource objectAtIndex:index] objectForKey:@"image"];
-    return [BannerViewController viewControllerWithPageIndex:index imageUrl:url];
+    
+    BannerViewController *bvc = [BannerViewController viewControllerWithPageIndex:index imageUrl:url];
+    bvc.view.frame = self.pageViewController.view.bounds;
+    
+    return bvc;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
