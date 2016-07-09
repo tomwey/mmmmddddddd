@@ -11,6 +11,7 @@
 #import "TestViewController.h"
 #import "CustomURLProtocol.h"
 #import "DMSManager.h"
+#import "MyImageCache.h"
 
 @interface AppDelegate ()
 
@@ -29,6 +30,9 @@
                                                          diskCapacity:100 * 1024 * 1024
                                                              diskPath:@"zgnx-assets"];
     [NSURLCache setSharedURLCache:urlCache];
+    
+    // 设置图片缓存
+    [UIImageView setSharedImageCache:[[MyImageCache alloc] init]];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

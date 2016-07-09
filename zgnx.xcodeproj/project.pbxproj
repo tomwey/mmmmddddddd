@@ -141,6 +141,7 @@
 		9957F3851CFAA766003C8B96 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3841CFAA766003C8B96 /* UserService.m */; };
 		9957F3881CFAA9B3003C8B96 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F3871CFAA9B3003C8B96 /* User.m */; };
 		9957F38B1CFAB1CC003C8B96 /* UserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */; };
+		996B1F3C1D30E8F60086E46B /* MyImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 996B1F3B1D30E8F60086E46B /* MyImageCache.m */; };
 		99754E811CFADBB8007FA577 /* tab_live_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754E6F1CFADBB8007FA577 /* tab_live_n.png */; };
 		99754E821CFADBB8007FA577 /* tab_live_n@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754E701CFADBB8007FA577 /* tab_live_n@2x.png */; };
 		99754E831CFADBB8007FA577 /* tab_live_n@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 99754E711CFADBB8007FA577 /* tab_live_n@3x.png */; };
@@ -462,6 +463,8 @@
 		9957F3871CFAA9B3003C8B96 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = zgnx/Modules/User/User.m; sourceTree = SOURCE_ROOT; };
 		9957F3891CFAB1CC003C8B96 /* UserProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserProfileView.h; path = zgnx/Modules/User/UserProfileView.h; sourceTree = SOURCE_ROOT; };
 		9957F38A1CFAB1CC003C8B96 /* UserProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserProfileView.m; path = zgnx/Modules/User/UserProfileView.m; sourceTree = SOURCE_ROOT; };
+		996B1F3A1D30E8F60086E46B /* MyImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyImageCache.h; sourceTree = "<group>"; };
+		996B1F3B1D30E8F60086E46B /* MyImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyImageCache.m; sourceTree = "<group>"; };
 		99754E6F1CFADBB8007FA577 /* tab_live_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_live_n.png; sourceTree = "<group>"; };
 		99754E701CFADBB8007FA577 /* tab_live_n@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_live_n@2x.png"; sourceTree = "<group>"; };
 		99754E711CFADBB8007FA577 /* tab_live_n@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_live_n@3x.png"; sourceTree = "<group>"; };
@@ -1152,6 +1155,8 @@
 				97F28AEC1D1A1BB700F8A02B /* CustomURLProtocol.m */,
 				970900D51D22149F00FEE687 /* PlayStatManager.h */,
 				970900D61D22149F00FEE687 /* PlayStatManager.m */,
+				996B1F3A1D30E8F60086E46B /* MyImageCache.h */,
+				996B1F3B1D30E8F60086E46B /* MyImageCache.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1614,6 +1619,7 @@
 				99754ECE1CFAFC83007FA577 /* LiveService.m in Sources */,
 				97A4AA7E1CFFF5570045A69B /* SearchBar.m in Sources */,
 				99DE49711D1FA5440027BB7C /* PayoutViewController.m in Sources */,
+				996B1F3C1D30E8F60086E46B /* MyImageCache.m in Sources */,
 				99754ED11CFB0350007FA577 /* LiveThumbView.m in Sources */,
 				99754EE71CFB406A007FA577 /* SignupViewController.m in Sources */,
 				971A75331D06BB1800DA2D10 /* LikeService.m in Sources */,

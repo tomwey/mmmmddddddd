@@ -95,6 +95,8 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     self.coverImageView.backgroundColor = [UIColor grayColor];
     
     NSURL *url = [NSURL URLWithString:self.stream.cover_image];
+    NSLog(@"url: %@", url);
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     __weak typeof(self) weakSelf = self;
     [self.coverImageView setImageWithURLRequest:request
@@ -123,8 +125,8 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
     self.likeCountLabel.text = likeCountText;
 //    self.msgCountLabel.hidden = YES;
     
-    NSLog(@"type: %@, video_file: %@, sid: %@", self.stream.type,
-          self.stream.video_file, self.stream.stream_id);
+//    NSLog(@"type: %@, video_file: %@, sid: %@", self.stream.type,
+//          self.stream.video_file, self.stream.stream_id);
     if ( [self.stream.type integerValue] == 1 &&
         [self.stream.video_file length] == 0 ) {
         
