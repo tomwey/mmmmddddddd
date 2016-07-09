@@ -61,6 +61,15 @@
                                                @selector(send));
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.bodyView resignFirstResponder];
+    
+    [self.authorField resignFirstResponder];
+}
+
 - (void)textViewDidChange:(UITextView *)textView
 {
     self.textViewPlaceholder.hidden = [textView.text length] > 0;

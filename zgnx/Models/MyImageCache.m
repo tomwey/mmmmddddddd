@@ -14,7 +14,7 @@
 static inline NSString * MyImageCacheKeyFromURLRequest(NSURLRequest *request) {
     NSString *url = [[request URL] absoluteString];
     NSString *key = [[[url componentsSeparatedByString:@"?"] firstObject] description];
-    NSLog(@"key: %@", key);
+//    NSLog(@"key: %@", key);
     return key;
 }
 

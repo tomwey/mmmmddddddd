@@ -10,7 +10,7 @@
 #import "Defines.h"
 #import "LoadDataService.h"
 
-@interface UploadFinalViewController () <UITextViewDelegate>
+@interface UploadFinalViewController () <UITextViewDelegate, UIWebViewDelegate>
 
 @property (nonatomic, strong) UIImage *coverImage;
 @property (nonatomic, strong) NSString *filename;
@@ -21,6 +21,8 @@
 @property (nonatomic, strong) UILabel     *textViewPlaceholderLabel;
 
 @property (nonatomic, strong) LoadDataService *loadService;
+
+@property (nonatomic, strong) UIWebView *uploadIntroView;
 
 @end
 
@@ -41,7 +43,7 @@
     
     self.navBar.title = @"视频简介";
     
-    self.contentView.backgroundColor = [UIColor whiteColor];
+    self.contentView.backgroundColor = BG_COLOR_GRAY;//[UIColor whiteColor];
     
     self.navBar.rightItem = AWCreateTextButton(CGRectMake(0, 0, 40, 40),
                                                @"保存",
@@ -54,7 +56,7 @@
                                                                     self.contentView.width - 40, 34)];
     [self.contentView addSubview:self.titleField];
     self.titleField.placeholder = @" 视频标题（必填）";
-    self.titleField.layer.borderColor = [BG_COLOR_GRAY CGColor];
+    self.titleField.layer.borderColor = [AWColorFromRGB(201, 201, 201) CGColor];
     self.titleField.layer.borderWidth = 1;
     
     self.bodyView = [[UITextView alloc] initWithFrame:self.titleField.frame];
@@ -79,11 +81,21 @@
     self.textViewPlaceholderLabel.left  += 6;
     
     self.bodyView.delegate = self;
+    
+    [self.uploadIntroView loadRequest:[NSURLRequest requestWithURL:
+                                       [NSURL URLWithString:@"http://123.59.129.197/p/upload_detail"]]];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
 {
     self.textViewPlaceholderLabel.hidden = [textView.text length] > 0;
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
+{
+    [self.titleField resignFirstResponder];
+    
+    [self.bodyView resignFirstResponder];
 }
 
 - (void)save
@@ -122,6 +134,20 @@
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
     }];
+}
+
+- (UIWebView *)uploadIntroView
+{
+    if ( !_uploadIntroView ) {
+        _uploadIntroView = [[UIWebView alloc] init];
+        [self.contentView addSubview:_uploadIntroView];
+        _uploadIntroView.scalesPageToFit = YES;
+        _uploadIntroView.backgroundColor = BG_COLOR_GRAY;
+        _uploadIntroView.frame = CGRectMake(0, self.bodyView.bottom + 20,
+                                            self.contentView.width,
+                                            self.contentView.height - self.bodyView.bottom - 20);
+    }
+    return _uploadIntroView;
 }
 
 
