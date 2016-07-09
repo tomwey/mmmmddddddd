@@ -125,7 +125,7 @@
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您确定删除所有数据吗？"
                                                     message:@"删除之后不能恢复"
-                                                   delegate:nil
+                                                   delegate:self
                                           cancelButtonTitle:nil
                                           otherButtonTitles:@"确定", @"取消", nil];
     [alert show];
@@ -139,6 +139,7 @@
             // 删除观看历史
             [self.deleteAllVHService deleteAllRecords:YES];
             self.dataSource.dataSource = nil;
+            [self.tableView showErrorOrEmptyMessage:@"Oops,没有数据!" reloadDelegate:nil];
             [self.tableView reloadData];
         } else {
             // 删除所有已经上传的视频
