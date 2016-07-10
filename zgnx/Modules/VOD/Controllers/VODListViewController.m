@@ -209,8 +209,13 @@
                                               [SimpleToast showText:@"打开视频失败！"];
                                           } else {
                                               Stream *stream = [[Stream alloc] initWithDictionary:result[@"data"]];
-                                              UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:stream];
-                                              [me presentViewController:vc animated:YES completion:nil];
+                                              
+                                              if ( [stream.stream_id length] == 0 ) {
+                                                  [SimpleToast showText:@"没有该视频！"];
+                                              } else {
+                                                  UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:stream];
+                                                  [me presentViewController:vc animated:YES completion:nil];
+                                              }
                                           }
                                       }];
     }

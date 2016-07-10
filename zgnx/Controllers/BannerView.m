@@ -295,8 +295,10 @@ willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewContro
         if ( self.pageControl.currentPage < [self.dataSource count] ) {
             obj = self.dataSource[self.pageControl.currentPage];
         }
-        self.didSelectItem(obj);
-//        self.didSelectItem = nil;
+        
+        if ( [[[obj valueForKey:@"link"] description] length] > 0 ) {
+            self.didSelectItem(obj);
+        }
     }
 }
 

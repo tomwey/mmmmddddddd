@@ -84,6 +84,11 @@
 {
     if ( !self.requestManager ) {
         self.requestManager = [AFHTTPRequestOperationManager manager];
+        
+        // 设置超时时间
+        [self.requestManager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+        self.requestManager.requestSerializer.timeoutInterval = 15.f;
+        [self.requestManager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     }
     
     // 取消所有请求

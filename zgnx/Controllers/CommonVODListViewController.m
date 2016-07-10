@@ -77,10 +77,11 @@
     
     if ( self.fromType == StreamFromTypeHistory ||
          self.fromType == StreamFromTypeUploaded ) {
-        NSString *identifier = self.fromType == StreamFromTypeHistory ? @"history" : @"uploaded";
-        CGRect frame = self.contentView.bounds;
-        frame.origin = CGPointMake(0, self.navBar.bottom);
-        [DeleteTipView showTip:identifier inView:self.view frame:frame];
+//        NSString *identifier = self.fromType == StreamFromTypeHistory ? @"history" : @"uploaded";
+//        CGRect frame = self.contentView.bounds;
+//        frame.origin = CGPointMake(0, self.navBar.bottom);
+//        [DeleteTipView showTip:identifier inView:self.view frame:frame];
+        [SimpleToast showText:@"长按每个视频，可以删除"];
     }
     
     __weak typeof(self) weakSelf = self;

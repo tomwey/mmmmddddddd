@@ -179,11 +179,14 @@
         //        NSLog(@"error:%@", error);
     }];
     
-    [self.dmsManager subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
-        if ( succeed ) {
-            NSLog(@"订阅主题成功");
-        }
-    }];
+    if ( self.stream.stream_id ) {
+        [self.dmsManager subscribe:self.stream.stream_id completion:^(BOOL succeed, NSError *error) {
+            if ( succeed ) {
+                NSLog(@"订阅主题成功");
+            }
+        }];
+    }
+    
 }
 
 - (void)initTabPage
