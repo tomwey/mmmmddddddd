@@ -839,7 +839,7 @@
 
 - (void)gotoFullscreen
 {
-    if ( UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]) ) {
+    if ( UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) ) {
         [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
     } else {
         self.allowRotation = YES;

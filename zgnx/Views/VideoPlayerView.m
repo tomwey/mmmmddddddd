@@ -244,11 +244,6 @@
                                                object:self.livePlayer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(NELivePlayerFirstVideoDisplayed:)
-                                                 name:NELivePlayerFirstVideoDisplayedNotification
-                                               object:self.livePlayer];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(NELivePlayerReleaseSuccess:)
                                                  name:NELivePlayerReleaseSueecssNotification
                                                object:self.livePlayer];
@@ -368,12 +363,6 @@
     [self.autoHideTimer setFireDate:[NSDate distantFuture]];
 }
 
-//- (void)dealloc
-//{
-//    [self.livePlayer shutdown];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//}
-
 - (void)addExtraItemsAtBottomControl:(NSArray<UIView *> *)items
 {
     if ( items == nil ) {
@@ -424,14 +413,21 @@
                                     (int) ( inDuration / 3600 ),
                                     (int) ( inDuration / 60 ),
                                     (int) ( inDuration % 60 )];
+        
+        if ( currentPos >= duration ) {
+            self.currentTimeLabel.text = self.totalTimeLabel.text;
+        }
+        
         self.progressSlider.value = currentPos;
         self.progressSlider.maximumValue = duration;
     } else {
         self.progressSlider.value = 0.0f;
+        self.progressSlider.maximumValue = 0.0f;
     }
     
-//    NSLog(@"playback state: %d", [self.livePlayer playbackState]);
-    if ( [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
+    NSLog(@"playback state: %d", [self.livePlayer playbackState]);
+    if ( self.livePlayer.loadState == NELPMovieLoadStatePlaythroughOK &&
+        [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
         [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
     } else {
         [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
@@ -486,6 +482,8 @@
         
         [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
         
+        [self.progressTimer setFireDate:[NSDate distantFuture]];
+        
         [self syncUIStatus];
     } else {
         [self.livePlayer play];
@@ -522,17 +520,6 @@
     }
 }
 
-//- (void)updateProgress
-//{
-//    if ( self.mediaType == VideoPlayerMediaTypeLive ) {
-//        return;
-//    }
-//    
-//    [self.livePlayer setCurrentPlaybackTime:self.progressSlider.value];
-//    
-//    [self syncUIStatus];
-//}
-
 #pragma mark -
 #pragma mark Notification
 - (void)NELivePlayerDidPreparedToPlay:(NSNotification*)notification
@@ -541,11 +528,6 @@
     NSLog(@"NELivePlayerDidPreparedToPlay");
     
     [self.livePlayer setCurrentPlaybackTime:_currentPlaybackTime];
-    
-//    self.progressSlider.value = _currentPlaybackTime;
-    NELPVideoInfo videoInfo;
-    [self.livePlayer getVideoInfo:&videoInfo];
-    NSLog(@"w: %d, h: %d", videoInfo.width, videoInfo.height);
     
     [self syncUIStatus];
     
@@ -564,14 +546,24 @@
     if (nelpLoadState == NELPMovieLoadStatePlaythroughOK)
     {
         NSLog(@"finish buffering");
+        
+        [self.progressTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:kUpdatePlayProgressTimerInterval]];
+        
         [self.bufferingIndicator stopAnimating];
-        [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
+        
+        [self syncUIStatus];
+//        [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
     }
     else if (nelpLoadState == NELPMovieLoadStateStalled)
     {
         NSLog(@"begin buffering");
+        
+        [self.progressTimer setFireDate:[NSDate distantFuture]];
+        
         [self.bufferingIndicator startAnimating];
-        [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
+        
+        [self syncUIStatus];
+//        [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -591,7 +583,13 @@
             } else {
                 [self syncUIStatus];
                 
-                [self.progressTimer setFireDate:[NSDate distantFuture]];
+                NSTimeInterval duration = [self.livePlayer duration];
+                self.progressSlider.value = duration;
+                
+//                [self.progressTimer setFireDate:[NSDate distantFuture]];
+                [self.progressTimer invalidate];
+                
+                [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
             }
         }
             break;
@@ -622,24 +620,10 @@
     }
 }
 
-- (void)NELivePlayerFirstVideoDisplayed:(NSNotification*)notification
-{
-    NSLog(@"first video frame rendered!");
-    
-//    if ( [self.livePlayer playbackState] == NELPMoviePlaybackStatePlaying ) {
-//        [self.playButton setImage:[UIImage imageNamed:@"btn_player_play.png"] forState:UIControlStateNormal];
-//    } else {
-//        [self.playButton setImage:[UIImage imageNamed:@"btn_player_pause.png"] forState:UIControlStateNormal];
-//    }
-}
-
 - (void)NELivePlayerReleaseSuccess:(NSNotification*)notification
 {
     NSLog(@"resource release success!");
     [self.bufferingIndicator stopAnimating];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self
-//                                                    name:NELivePlayerReleaseSueecssNotification
-//                                                  object:self.livePlayer];
 }
 
 #pragma mark -
