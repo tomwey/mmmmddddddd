@@ -137,16 +137,18 @@
         }
     }];
     
-    // 开始处理视频，并上传
-    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
-    [self handleVideo:videoURL completion:^(NSURL *outputURL, NSError *error) {
-        [MBProgressHUD hideHUDForView:me.contentView animated:YES];
-        if ( error ) {
-            [SimpleToast showText:error.domain];
-        } else {
-            [me uploadVideo:outputURL];
-        }
-    }];
+     //开始处理视频，并上传
+//    [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+//    [self handleVideo:videoURL completion:^(NSURL *outputURL, NSError *error) {
+//        [MBProgressHUD hideHUDForView:me.contentView animated:YES];
+//        if ( error ) {
+//            [SimpleToast showText:error.domain];
+//        } else {
+//            [me uploadVideo:outputURL];
+//        }
+//    }];
+    // 此处不用处理，上传七牛后台编码会自动帮我们纠正方向
+    [self uploadVideo:videoURL];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
