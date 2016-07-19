@@ -83,7 +83,7 @@
     self.bodyView.delegate = self;
     
     [self.uploadIntroView loadRequest:[NSURLRequest requestWithURL:
-                                       [NSURL URLWithString:@"http://123.59.129.197/p/upload_detail"]]];
+                                       [NSURL URLWithString:@"http://yaying.tv/p/upload_detail"]]];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
