@@ -504,7 +504,8 @@
         } else if ( [obj isKindOfClass:[Bilibili class]] ) {
             bili = [obj content];
         }
-        [tempArr insertObject:bili atIndex:0];
+        [tempArr addObject:bili];
+//        [tempArr insertObject:bili atIndex:0];
     }];
     
     // 加入测试数据
