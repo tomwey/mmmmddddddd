@@ -138,7 +138,9 @@ NSString * const kVideoCellDidDeleteNotification = @"kVideoCellDidDeleteNotifica
         [dmsManager addMessageHandler:^(MQTTMessage *message) {
             if ( [message.topic isEqualToString:topic] ) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.viewCountLabel.text = message.payloadString;
+                    NSInteger count = [message.payloadString integerValue];
+                    NSString* viewCountText2 = count >= 10000 ? [NSString stringWithFormat:@"%.1f万", count / 10000.0] : message.payloadString;
+                    self.viewCountLabel.text = viewCountText2;
                 });
             }
         }];

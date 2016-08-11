@@ -79,7 +79,7 @@
                                    self.mobileField.width - codeBtn.width - 8,
                                    37)];
     [scrollView addSubview:self.codeField];
-    self.codeField.placeholder = @"输入手机验证码";
+    self.codeField.placeholder = @"验证码";
     self.codeField.keyboardType = UIKeyboardTypeNumberPad;
     
     self.passwordField = [[CustomTextField alloc] initWithFrame:self.mobileField.frame];
@@ -107,6 +107,15 @@
     [[NSRunLoop currentRunLoop] addTimer:self.countDownTimer
                                  forMode:NSRunLoopCommonModes];
     [self.countDownTimer setFireDate:[NSDate distantFuture]];
+    
+    [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)]];
+}
+
+- (void)hideKeyboard
+{
+    [self.mobileField resignFirstResponder];
+    [self.codeField resignFirstResponder];
+    [self.passwordField resignFirstResponder];
 }
 
 - (void)fetchCode:(UIButton *)sender
@@ -115,7 +124,7 @@
     
     self.totalSeconds = 59;
     [self.countDownTimer setFireDate:[NSDate date]];
-    self.fetchCodeButton.enabled = NO;
+    self.fetchCodeButton.userInteractionEnabled = NO;
     self.fetchCodeButton.backgroundColor = AWColorFromRGBA(40, 182, 238, 0.7);
     
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
@@ -182,7 +191,7 @@
 {
     [self.countDownTimer
      setFireDate:[NSDate distantFuture]];
-    self.fetchCodeButton.enabled = YES;
+    self.fetchCodeButton.userInteractionEnabled = YES;
     [self.fetchCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
     self.fetchCodeButton.backgroundColor = NAV_BAR_BG_COLOR;
 }
