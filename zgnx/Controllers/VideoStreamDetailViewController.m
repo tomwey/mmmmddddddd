@@ -708,7 +708,7 @@
         self.playerView.frame = frame;
         self.backButton.position = CGPointMake(10, 10);
     } completion:^(BOOL finished) {
-        [self.playerView openBilibili:YES];
+        [self.playerView openBilibili:self.biliOpening];
     }];
     
     if ( UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ) {
@@ -766,7 +766,7 @@
         
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         //
-        [self.playerView openBilibili:YES];
+        [self.playerView openBilibili:self.biliOpening];
     }];
 }
 
