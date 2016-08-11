@@ -94,6 +94,8 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)]];
 }
 
 - (void)keyboardWillShow:(NSNotification *)noti
@@ -162,7 +164,11 @@
                                                        UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openUploadVCWithAuthToken:nil];
                                                        [self.navigationController pushViewController:vc animated:YES];
                                                    } else {
-                                                       [self.navigationController popViewControllerAnimated:YES];
+                                                       if ( [[self.navigationController viewControllers] count] == 1 ) {
+                                                           [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                       } else {
+                                                           [self.navigationController popViewControllerAnimated:YES];
+                                                       }
                                                    }
                                                } else {
                                                    [self dismissViewControllerAnimated:YES completion:nil];
@@ -175,7 +181,7 @@
                                        }];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+- (void)hideKeyboard
 {
     [self.mobileField resignFirstResponder];
     [self.passwordField resignFirstResponder];

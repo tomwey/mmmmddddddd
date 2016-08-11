@@ -236,7 +236,8 @@
         self.needLoadSocialState = YES;
         [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
         UIViewController* vc = [[CTMediator sharedInstance] CTMediator_openLoginVC];
-        [self presentViewController:vc animated:YES completion:nil];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
         return NO;
     }
     
@@ -504,7 +505,8 @@
         } else if ( [obj isKindOfClass:[Bilibili class]] ) {
             bili = [obj content];
         }
-        [tempArr insertObject:bili atIndex:0];
+        [tempArr addObject:bili];
+//        [tempArr insertObject:bili atIndex:0];
     }];
     
     // 加入测试数据
@@ -770,10 +772,15 @@
 
 - (void)loadSocialState
 {
+    NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
+    
+    if ([token length] == 0) {
+        return;
+    }
+    
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
     
     __weak typeof(self) me = self;
-    NSString *token = [[UserService sharedInstance] currentUser].authToken ?: @"";
     [self.socialStateService GET:@"/user/social_state"
                           params:@{
                                     @"token": token,
@@ -804,12 +811,12 @@
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
-    if ( self.needLoadSocialState ) {
+//    if ( self.needLoadSocialState ) {
         User *user = [[UserService sharedInstance] currentUser];
         if ( user ) {
             [self loadSocialState];
         }
-    }
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

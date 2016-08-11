@@ -66,7 +66,7 @@
     BOOL statusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
-    CGSize size = [text sizeWithAttributes:@{ NSFontAttributeName: _label.font }];
+    CGSize size = [text isEqual:[NSNull null]] ? CGSizeZero : [text sizeWithAttributes:@{ NSFontAttributeName: _label.font }];
     _label.frame = CGRectMake(0, 0, size.width, size.height);
     _label.center = CGPointMake(CGRectGetWidth(self.bounds) / 2,
                                 CGRectGetHeight(self.bounds) / 2);

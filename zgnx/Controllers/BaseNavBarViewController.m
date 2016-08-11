@@ -29,7 +29,11 @@
 - (void)back
 {
     if ( self.navigationController ) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if ( [[self.navigationController viewControllers] count] == 1 ) {
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }

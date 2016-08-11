@@ -193,6 +193,11 @@
         vc.adLink = link;
         [self.navigationController pushViewController:vc animated:YES];
     } else {
+        
+        if ( [link length] == 0 ) {
+            return;
+        }
+        
         // 连接到一个视频
         [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
         
@@ -211,7 +216,7 @@
                                               Stream *stream = [[Stream alloc] initWithDictionary:result[@"data"]];
                                               
                                               if ( [stream.stream_id length] == 0 ) {
-                                                  [SimpleToast showText:@"没有该视频！"];
+                                                  [SimpleToast showText:@"Oops,未找到数据！"];
                                               } else {
                                                   UIViewController *vc = [[CTMediator sharedInstance] CTMediator_openVideoStreamVCWithStream:stream];
                                                   [me presentViewController:vc animated:YES completion:nil];

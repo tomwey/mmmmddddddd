@@ -131,7 +131,8 @@
     
     self.totalSeconds = 59;
     [self.countDownTimer setFireDate:[NSDate date]];
-    self.fetchCodeButton.enabled = NO;
+//    self.fetchCodeButton.enabled = NO;
+    self.fetchCodeButton.userInteractionEnabled = NO;
     self.fetchCodeButton.backgroundColor = AWColorFromRGBA(40, 182, 238, 0.7);
     
     [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
@@ -215,8 +216,12 @@
         return;
     }
     
-    [self.fetchCodeButton setTitle:[@(self.totalSeconds--) description]
+    NSString *title = [@(self.totalSeconds) description];
+    [self.fetchCodeButton setTitle:title
                           forState:UIControlStateNormal];
+    
+    self.totalSeconds --;
+//    NSLog(@"%d", self.totalSeconds);
     //    NSLog(@"%d", self.totalSeconds);
     
 }
@@ -225,7 +230,7 @@
 {
     [self.countDownTimer
      setFireDate:[NSDate distantFuture]];
-    self.fetchCodeButton.enabled = YES;
+    self.fetchCodeButton.userInteractionEnabled = YES;
     [self.fetchCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
     self.fetchCodeButton.backgroundColor = NAV_BAR_BG_COLOR;
 }

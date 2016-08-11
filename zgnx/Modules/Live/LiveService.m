@@ -53,10 +53,22 @@
         self.hotLivedVideoAPIManager = [[APIManager alloc] initWithDelegate:self];
     }
     
-    NSDictionary* params = nil;
+//    NSDictionary* params = nil;
+//    if ( pageNo > 0 ) {
+//        params = @{ @"page" : @(pageNo), @"size": @(kPageSize) };
+//    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ( pageNo > 0 ) {
-        params = @{ @"page" : @(pageNo), @"size": @(kPageSize) };
+        [params setObject:@(pageNo) forKey:@"page"];
+        [params setObject:@(kPageSize) forKey:@"size"];
     }
+    
+    User *loginedUser = [[UserService sharedInstance] currentUser];
+    if ( loginedUser && [loginedUser.authToken length] > 0 ) {
+        [params setObject:loginedUser.authToken forKey:@"token"];
+    }
+    
     [self.hotLivedVideoAPIManager sendRequest:APIRequestCreate(API_HOT_LIVED_VIDEOS, RequestMethodGet, params )];
 }
 
